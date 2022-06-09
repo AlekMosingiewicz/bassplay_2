@@ -6,8 +6,7 @@
 #define BASSPLAY_2_PLAYER_H
 
 #include "Song.h"
-#include <wx/string.h>
-#include <wx/file.h>
+
 
 namespace Bassplay::Play {
 
@@ -16,7 +15,9 @@ namespace Bassplay::Play {
         Song* SongBeingPlayed;
         bool  replay;
     public:
+        Player(bool doreplay = false) : replay(doreplay) {}
         Player(Song* song, bool doreplay = false) : SongBeingPlayed(song), replay(doreplay) {}
+        ~Player() { if (SongBeingPlayed != nullptr) { delete SongBeingPlayed; } }
         void LoadSong(std::string* path);
         void PlaySong(std::string* path = nullptr);
         void StopSong() { BASS_ChannelStop(SongBeingPlayed->GetMusicHandle()); }

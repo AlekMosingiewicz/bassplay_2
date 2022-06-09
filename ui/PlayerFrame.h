@@ -11,15 +11,21 @@
 #include <wx/gdicmn.h>
 #include <wx/msgdlg.h>
 #include <wx/menu.h>
+#include <wx/gtk/filedlg.h>
+#include "../play/Player.h"
 
 namespace Bassplay::Ui {
 
     class PlayerFrame: public wxFrame {
     public:
-        PlayerFrame(const wxString& title, const wxPoint& pos, const wxSize& size);
+        PlayerFrame(const wxString& title, const wxPoint& pos, const wxSize& size, Bassplay::Play::Player* musicPlayer);
     private:
+        //dependencies
+        Bassplay::Play::Player* player;
+        //events
         void OnExit(wxCommandEvent& event);
         void OnAbout(wxCommandEvent& event);
+        void OnOpen(wxCommandEvent& event);
         wxDECLARE_EVENT_TABLE();
     };
 

@@ -8,6 +8,7 @@
 #include <bass/bass.h>
 #include <string>
 #include <vector>
+#include "../exception/BassException.h"
 
 namespace Bassplay::Play {
 

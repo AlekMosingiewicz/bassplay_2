@@ -12,12 +12,16 @@
 #include <wx/wx.h>
 #endif
 
+#include "../play/Player.h"
 #include "../ui/PlayerFrame.h"
 
 namespace Bassplay::App {
     class BassplayApp : public wxApp {
     public:
         virtual bool OnInit();
+        virtual int OnExit();
+    private:
+        Play::Player* player;
     };
 } // Bassplay::App
 
