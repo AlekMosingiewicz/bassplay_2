@@ -30,24 +30,26 @@ namespace Bassplay::Ui {
         }
 
     }
-    PlayerFrame::PlayerFrame(const wxString &title, const wxPoint &pos, const wxSize &size, Bassplay::Play::Player* musicPlayer)
-    : wxFrame(NULL, wxID_ANY, title, pos, size) {
-        player = musicPlayer;
-
-        wxMenu* menuFile = new wxMenu;
+    void PlayerFrame::BuildMainMenu() {
+        menuFile = new wxMenu;
         menuFile->Append(wxID_OPEN);
         menuFile->AppendSeparator();
         menuFile->Append(wxID_EXIT);
 
-        wxMenu *menuHelp = new wxMenu;
+        menuHelp = new wxMenu;
         menuHelp->Append(wxID_ABOUT);
 
-        wxMenuBar *menuBar = new wxMenuBar;
-        menuBar->Append( menuFile, "&File" );
-        menuBar->Append( menuHelp, "&Help" );
+        mainMenuBar = new wxMenuBar;
+        mainMenuBar->Append(menuFile, "&File" );
+        mainMenuBar->Append(menuHelp, "&Help" );
 
-        SetMenuBar( menuBar );
+        SetMenuBar(mainMenuBar);
         CreateStatusBar();
         SetStatusText( "Bassplay 2.0" );
+    }
+    PlayerFrame::PlayerFrame(const wxString &title, const wxPoint &pos, const wxSize &size, Bassplay::Play::Player* musicPlayer)
+    : wxFrame(NULL, wxID_ANY, title, pos, size) {
+        player = musicPlayer;
+        BuildMainMenu();
     }
 } // Bassplay

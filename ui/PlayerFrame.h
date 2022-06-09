@@ -22,6 +22,12 @@ namespace Bassplay::Ui {
     private:
         //dependencies
         Bassplay::Play::Player* player;
+        //ui elements
+        wxMenuBar* mainMenuBar;
+        wxMenu* menuFile;
+        wxMenu* menuHelp;
+        //ui building
+        void BuildMainMenu();
         //events
         void OnExit(wxCommandEvent& event);
         void OnAbout(wxCommandEvent& event);
