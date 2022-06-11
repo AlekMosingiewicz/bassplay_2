@@ -13,15 +13,25 @@ namespace Bassplay::Play {
     }
 
     void Song::PopulateSamples() {
-        int n = -1;
         const char* original_sample = BASS_ChannelGetTags(hmusic, BASS_TAG_MUSIC_SAMPLE);
         while (*original_sample) {
             size_t original_sample_size = strlen(original_sample);
             char *sample = (char *) malloc(original_sample_size + 1);
-            std::memset(sample, 0, original_sample_size + 1);
-            std::memcpy(sample, original_sample, original_sample_size);
+            strcpy(sample, original_sample);
             samples.push_back(sample);
             original_sample += original_sample_size + 1;
+        }
+    }
+
+    void Song::PopulateInstruments() {
+        const char* original_instrument = BASS_ChannelGetTags(hmusic, BASS_TAG_MUSIC_INST);
+        if (original_instrument == NULL) return;
+        while (*original_instrument) {
+            size_t original_instrument_size = strlen(original_instrument);
+            char *instrument = (char*) malloc(original_instrument_size + 1);
+            strcpy(instrument, original_instrument);
+            instruments.push_back(instrument);
+            original_instrument += original_instrument_size +1;
         }
     }
 
@@ -49,8 +59,7 @@ namespace Bassplay::Play {
         }
         size_t original_message_size = strlen(original_message);
         char *local_message = (char *) malloc(original_message_size + 1);
-        std::memset(local_message, 0, original_message_size + 1);
-        std::memcpy(local_message, original_message, original_message_size);
+        strcpy(local_message, original_message);
         message = local_message;
     }
 

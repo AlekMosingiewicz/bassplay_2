@@ -17,6 +17,7 @@ namespace Bassplay::Play {
         HMUSIC hmusic = 0;
         BASS_CHANNELINFO *info = nullptr;
         std::vector<char *> samples;
+        std::vector<char *> instruments;
         char *message = nullptr;
         const char *name = nullptr;
 
@@ -24,6 +25,7 @@ namespace Bassplay::Play {
         void PopulateSamples();
         void CleanupSamples();
         void PopulateMessage();
+        void PopulateInstruments();
         void SetTitle();
 
     public:
@@ -34,6 +36,7 @@ namespace Bassplay::Play {
             SetTitle();
             PopulateSamples();
             PopulateMessage();
+            PopulateInstruments();
         };
 
         ~Song() {
