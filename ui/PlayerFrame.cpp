@@ -12,7 +12,7 @@ namespace Bassplay::Ui {
 
     void PlayerFrame::OnAbout(wxCommandEvent &event) {
         wxMessageBox("Bassplay 2.0",
-                     "This is a Bass-based mod music player", wxOK | wxICON_INFORMATION);
+                     "This is a Bass-based mod music player created by Alek Mosingiewicz", wxOK | wxICON_INFORMATION);
     }
 
     void PlayerFrame::OnOpen(wxCommandEvent &event) {
@@ -26,8 +26,8 @@ namespace Bassplay::Ui {
             player->LoadSong(&stdPath);
             wxString name = wxString(player->GetSong()->GetTitle());
             GetStatusBar()->PushStatusText(name);
-            songNameLabel->SetLabel(wxString("Playing: " + name));
             player->PlaySong();
+            UpdatePlayLabel();
         } catch (BassplayException &exception) {
             wxMessageBox(wxString::Format("Error code %d", exception.GetCode()),
                          "Error loading song!",
@@ -88,13 +88,36 @@ namespace Bassplay::Ui {
 
     void PlayerFrame::OnPlay(wxCommandEvent &event) {
         player->PlaySong();
+        UpdatePlayLabel();
     }
 
     void PlayerFrame::OnPause(wxCommandEvent &event) {
         player->PauseSong();
+        UpdatePlayLabel();
     }
 
     void PlayerFrame::OnStop(wxCommandEvent &event) {
         player->StopSong();
+        UpdatePlayLabel();
+    }
+
+    void PlayerFrame::UpdatePlayLabel() {
+        wxString stateLabel;
+        wxString titleLabel;
+
+        switch (player->GetState()) {
+            case Play::player_state::player_state_stopped:
+                stateLabel = wxString("Stopped");
+                break;
+            case Play::player_state::player_state_playing:
+                stateLabel = wxString("Playing");
+                break;
+            case Play::player_state::player_state_paused:
+                stateLabel = wxString("Paused");
+                break;
+        }
+
+        titleLabel = wxString(this->player->GetSong()->GetTitle());
+        songNameLabel->SetLabel(wxString(stateLabel + ":" + titleLabel));
     }
 } // Bassplay

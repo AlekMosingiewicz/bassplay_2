@@ -49,6 +49,8 @@ namespace Bassplay::Ui {
         void OnPlay(wxCommandEvent& event);
         void OnPause(wxCommandEvent& event);
         void OnStop(wxCommandEvent& event);
+        //helper methods
+        void UpdatePlayLabel();
         wxDECLARE_EVENT_TABLE();
     };
 

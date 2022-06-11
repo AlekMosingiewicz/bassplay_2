@@ -10,11 +10,18 @@
 
 namespace Bassplay::Play {
 
+    enum player_state {
+        player_state_stopped,
+        player_state_playing,
+        player_state_paused
+    };
+
     class Player {
     private:
         //fields
         Song* songBeingPlayed = nullptr;
         bool  replay;
+        int state = player_state_stopped;
         //methods
         void PlayCurrentSong();
     public:
@@ -23,8 +30,9 @@ namespace Bassplay::Play {
         ~Player() { if (songBeingPlayed != nullptr) { delete songBeingPlayed; } }
         void LoadSong(std::string* path);
         void PlaySong();
-        void StopSong() { if (songBeingPlayed != nullptr) BASS_ChannelStop(songBeingPlayed->GetMusicHandle()); }
-        void PauseSong() { if (songBeingPlayed != nullptr) BASS_ChannelPause(songBeingPlayed->GetMusicHandle()); }
+        void PauseSong();
+        void StopSong();
+        int GetState() { return state; }
         bool HasSong() { return songBeingPlayed != nullptr; }
         Song* GetSong() { return songBeingPlayed; }
         void SetReplay(bool doReplay) { replay = doReplay; }
