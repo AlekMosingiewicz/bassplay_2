@@ -14,7 +14,7 @@ namespace Bassplay::Play {
 
     class Song {
     private:
-        HMUSIC hmusic;
+        HMUSIC hmusic = 0;
         BASS_CHANNELINFO *info = nullptr;
         std::vector<char *> samples;
         char *message = nullptr;

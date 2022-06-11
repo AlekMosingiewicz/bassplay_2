@@ -26,7 +26,7 @@ namespace Bassplay::Ui {
             player->LoadSong(&stdPath);
             wxString name = wxString(player->GetSong()->GetTitle());
             GetStatusBar()->PushStatusText(name);
-            songNameLabel->SetLabel(wxString(wxString("Playing: " + name)));
+            songNameLabel->SetLabel(wxString("Playing: " + name));
             player->PlaySong();
         } catch (BassplayException &exception) {
             wxMessageBox(wxString::Format("Error code %d", exception.GetCode()),
@@ -34,7 +34,6 @@ namespace Bassplay::Ui {
                          wxOK | wxICON_ERROR
             );
         }
-
     }
 
     void PlayerFrame::BuildMainMenu() {
