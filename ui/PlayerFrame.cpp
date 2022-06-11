@@ -24,8 +24,9 @@ namespace Bassplay::Ui {
         std::string stdPath = std::string(path.mb_str());
         try {
             player->LoadSong(&stdPath);
-            const char* name = player->GetSong()->GetTitle();
-            GetStatusBar()->PushStatusText(wxString(name));
+            wxString name = wxString(player->GetSong()->GetTitle());
+            GetStatusBar()->PushStatusText(name);
+            songNameLabel->SetLabel(wxString(wxString("Playing: " + name)));
             player->PlaySong();
         } catch (BassplayException &exception) {
             wxMessageBox(wxString::Format("Error code %d", exception.GetCode()),
@@ -56,18 +57,24 @@ namespace Bassplay::Ui {
 
     void PlayerFrame::BuildPlayerPanel() {
         playerPanel = new wxPanel(this, wxID_ANY, wxPoint(0,0), wxSize(150, 100));
-        wxSizer* sizer = new wxBoxSizer(wxHORIZONTAL);
+        wxSizer* horizontalSizer = new wxBoxSizer(wxHORIZONTAL);
+        wxSizer* verticalSizer = new wxBoxSizer(wxVERTICAL);
+        songNameLabel = new wxStaticText(this, wxID_ANY, wxString("No song loaded"));
+
         playButton = new wxButton(this, playerButtonPlay, "Play");
         pauseButton = new wxButton(this, playerButtonPause, "Pause");
         stopButton = new wxButton(this, playerButtonStop, "Stop");
 
-        sizer->Add(playButton, 3, wxALIGN_LEFT);
-        sizer->Add(pauseButton, 3, wxALIGN_CENTER);
-        sizer->Add(stopButton, 3, wxALIGN_RIGHT);
-        sizer->AddSpacer(3);
-        sizer->RecalcSizes();
+        horizontalSizer->Add(playButton, 3, wxALL, 5);
+        horizontalSizer->Add(pauseButton, 3, wxALL, 5);
+        horizontalSizer->Add(stopButton, 3, wxALL, 5);
+        horizontalSizer->AddSpacer(3);
+        horizontalSizer->RecalcSizes();
 
-        playerPanel->SetSizerAndFit(sizer);
+        verticalSizer->Add(songNameLabel, 3, wxALIGN_CENTER, 3);
+        verticalSizer->Add(horizontalSizer);
+
+        playerPanel->SetSizerAndFit(verticalSizer);
 
         playerPanel->Show(true);
     }
