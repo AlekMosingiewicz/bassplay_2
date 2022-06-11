@@ -17,14 +17,17 @@ namespace Bassplay::Ui {
 
     void PlayerFrame::OnOpen(wxCommandEvent &event) {
         wxFileDialog fileDialog(this, "Open music file", "", "",
-                                "Mod files (*.it)|*.it", wxFD_OPEN | wxFD_FILE_MUST_EXIST);
+                                "Mod files (*.it,*.xm,*.mod)|*.it;*.xm", wxFD_OPEN | wxFD_FILE_MUST_EXIST);
         if (fileDialog.ShowModal() == wxID_CANCEL)
             return;
         wxString path = fileDialog.GetPath();
         std::string stdPath = std::string(path.mb_str());
         try {
             player->LoadSong(&stdPath);
-        } catch (BassException exception) {
+            const char* name = player->GetSong()->GetTitle();
+            GetStatusBar()->PushStatusText(wxString(name));
+            player->PlaySong();
+        } catch (BassplayException &exception) {
             wxMessageBox(wxString::Format("Error code %d", exception.GetCode()),
                          "Error loading song!",
                          wxOK | wxICON_ERROR
@@ -52,15 +55,17 @@ namespace Bassplay::Ui {
     }
 
     void PlayerFrame::BuildPlayerPanel() {
-        playerPanel = new wxPanel(this, wxID_ANY, wxPoint(0,0), wxSize(150, 150));
+        playerPanel = new wxPanel(this, wxID_ANY, wxPoint(0,0), wxSize(150, 100));
         wxSizer* sizer = new wxBoxSizer(wxHORIZONTAL);
         playButton = new wxButton(this, playerButtonPlay, "Play");
         pauseButton = new wxButton(this, playerButtonPause, "Pause");
         stopButton = new wxButton(this, playerButtonStop, "Stop");
 
-        sizer->Add(playButton);
-        sizer->Add(pauseButton);
-        sizer->Add(stopButton);
+        sizer->Add(playButton, 3, wxALIGN_LEFT);
+        sizer->Add(pauseButton, 3, wxALIGN_CENTER);
+        sizer->Add(stopButton, 3, wxALIGN_RIGHT);
+        sizer->AddSpacer(3);
+        sizer->RecalcSizes();
 
         playerPanel->SetSizerAndFit(sizer);
 

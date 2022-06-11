@@ -10,7 +10,7 @@ namespace Bassplay::Play {
         if (hmusic != 0) {
             songBeingPlayed = new Song(hmusic);
         } else {
-            throw BassException(BASS_ErrorGetCode());
+            throw BassplayException(BASS_ErrorGetCode());
         }
     }
     void Player::PlaySong() {

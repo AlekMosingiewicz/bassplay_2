@@ -25,6 +25,7 @@ namespace Bassplay::Play {
         void PlaySong();
         void StopSong() { BASS_ChannelStop(songBeingPlayed->GetMusicHandle()); }
         void PauseSong() { BASS_ChannelPause(songBeingPlayed->GetMusicHandle()); }
+        Song* GetSong() { return songBeingPlayed; }
         void SetReplay(bool doReplay) { replay = doReplay; }
     };
 } // Play

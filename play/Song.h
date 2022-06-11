@@ -8,14 +8,14 @@
 #include <bass/bass.h>
 #include <string>
 #include <vector>
-#include "../exception/BassException.h"
+#include "../exception/BassplayException.h"
 
 namespace Bassplay::Play {
 
     class Song {
     private:
         HMUSIC hmusic;
-        BASS_CHANNELINFO *info;
+        BASS_CHANNELINFO *info = nullptr;
         std::vector<char *> samples;
         char *message = nullptr;
         const char *name = nullptr;
