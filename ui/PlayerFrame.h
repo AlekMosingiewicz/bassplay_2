@@ -14,6 +14,13 @@
 #include <wx/gtk/filedlg.h>
 #include "../play/Player.h"
 
+enum playerButtons {
+    playerButtonsMinimum = 100,
+    playerButtonPlay,
+    playerButtonPause,
+    playerButtonStop
+};
+
 namespace Bassplay::Ui {
 
     class PlayerFrame: public wxFrame {
@@ -26,12 +33,21 @@ namespace Bassplay::Ui {
         wxMenuBar* mainMenuBar;
         wxMenu* menuFile;
         wxMenu* menuHelp;
+        wxPanel* playerPanel;
+        wxButton* playButton;
+        wxButton* pauseButton;
+        wxButton* stopButton;
         //ui building
         void BuildMainMenu();
+        void BuildPlayerPanel();
         //events
         void OnExit(wxCommandEvent& event);
         void OnAbout(wxCommandEvent& event);
         void OnOpen(wxCommandEvent& event);
+        //play controls
+        void OnPlay(wxCommandEvent& event);
+        void OnPause(wxCommandEvent& event);
+        void OnStop(wxCommandEvent& event);
         wxDECLARE_EVENT_TABLE();
     };
 

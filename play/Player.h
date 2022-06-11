@@ -12,16 +12,19 @@ namespace Bassplay::Play {
 
     class Player {
     private:
-        Song* SongBeingPlayed;
+        //fields
+        Song* songBeingPlayed;
         bool  replay;
+        //methods
+        void PlayCurrentSong();
     public:
-        Player(bool doreplay = false) : replay(doreplay) {}
-        Player(Song* song, bool doreplay = false) : SongBeingPlayed(song), replay(doreplay) {}
-        ~Player() { if (SongBeingPlayed != nullptr) { delete SongBeingPlayed; } }
+        Player(bool doreplay = false) : replay(doreplay), songBeingPlayed(nullptr) {}
+        Player(Song* song, bool doreplay = false) : songBeingPlayed(song), replay(doreplay) {}
+        ~Player() { if (songBeingPlayed != nullptr) { delete songBeingPlayed; } }
         void LoadSong(std::string* path);
-        void PlaySong(std::string* path = nullptr);
-        void StopSong() { BASS_ChannelStop(SongBeingPlayed->GetMusicHandle()); }
-        void PauseSong() { BASS_ChannelPause(SongBeingPlayed->GetMusicHandle()); }
+        void PlaySong();
+        void StopSong() { BASS_ChannelStop(songBeingPlayed->GetMusicHandle()); }
+        void PauseSong() { BASS_ChannelPause(songBeingPlayed->GetMusicHandle()); }
         void SetReplay(bool doReplay) { replay = doReplay; }
     };
 } // Play

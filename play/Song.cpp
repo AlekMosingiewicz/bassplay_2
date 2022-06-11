@@ -30,6 +30,18 @@ namespace Bassplay::Play {
         samples.clear();
     }
 
+    void Song::CleanupBaseData() {
+        if (message != nullptr) {
+            delete(message);
+        }
+        if (name != nullptr) {
+            delete(name);
+        }
+        if (info != nullptr) {
+            delete(info);
+        }
+    }
+
     void Song::PopulateMessage() {
         const char *original_message = BASS_ChannelGetTags(hmusic, BASS_TAG_MUSIC_MESSAGE);
         if (original_message == NULL) {
@@ -40,6 +52,15 @@ namespace Bassplay::Play {
         std::memset(local_message, 0, original_message_size + 1);
         std::memcpy(local_message, original_message, original_message_size);
         message = local_message;
+    }
+
+    void Song::SetTitle() {
+        const char *original_title = BASS_ChannelGetTags(hmusic, BASS_TAG_MUSIC_NAME);
+        if (*original_title) {
+            name = original_title;
+        } else {
+            name = info->filename;
+        }
     }
 } // Play
 
