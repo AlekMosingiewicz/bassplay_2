@@ -1,7 +1,14 @@
 #include <iostream>
-#include "play/Song.h"
+#define wxUSE_UNICODE_WCHAR 1
+#include "app/BassplayApp.h"
 
-int main() {
-    std::cout << "Hello, World!" << std::endl;
-    return 0;
-}
+wxBEGIN_EVENT_TABLE(Bassplay::Ui::PlayerFrame, wxFrame)
+                EVT_MENU(wxID_EXIT,  Bassplay::Ui::PlayerFrame::OnExit)
+                EVT_MENU(wxID_ABOUT, Bassplay::Ui::PlayerFrame::OnAbout)
+                EVT_MENU(wxID_OPEN,  Bassplay::Ui::PlayerFrame::OnOpen)
+                EVT_BUTTON(playerButtonPlay, Bassplay::Ui::PlayerFrame::OnPlay)
+                EVT_BUTTON(playerButtonPause, Bassplay::Ui::PlayerFrame::OnPause)
+                EVT_BUTTON(playerButtonStop, Bassplay::Ui::PlayerFrame::OnStop)
+wxEND_EVENT_TABLE()
+
+IMPLEMENT_APP(Bassplay::App::BassplayApp)
