@@ -51,6 +51,10 @@ namespace Bassplay::Play {
         const char* GetFilename() { return info->filename; }
         const char* GetTitle() { return name; }
 
+        double GetCurrentPlaybackTime() {
+            return BASS_ChannelBytes2Seconds(hmusic, BASS_ChannelGetPosition(hmusic,BASS_POS_BYTE));
+        }
+
         HMUSIC GetMusicHandle() { return hmusic; }
     };
 } // Play

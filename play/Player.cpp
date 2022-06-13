@@ -38,4 +38,16 @@ namespace Bassplay::Play {
             BASS_ChannelPlay(songBeingPlayed->GetMusicHandle(), replay);
         }
     }
+
+    std::string* Player::GetCurrentPlaybackTime() {
+        if (songBeingPlayed != nullptr) {
+            double rawPlaybackTime = songBeingPlayed->GetCurrentPlaybackTime();
+            int mins = (int)rawPlaybackTime/60;
+            int secs = (int)rawPlaybackTime%60;
+            auto playbackLabel = new std::string(std::to_string(mins) + "/" + std::to_string(secs));
+            return playbackLabel;
+        }
+        auto noTime = new std::string("No song loaded");
+        return noTime;
+    }
 } // Play
