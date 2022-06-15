@@ -28,7 +28,7 @@ namespace Bassplay::Play {
         Player(bool doreplay = false) : replay(doreplay), songBeingPlayed(nullptr) {}
         Player(Song* song, bool doreplay = false) : songBeingPlayed(song), replay(doreplay) {}
         ~Player() { if (songBeingPlayed != nullptr) { delete songBeingPlayed; } }
-        void LoadSong(std::string* path);
+        void LoadSong(std::string& path);
         void PlaySong();
         void PauseSong();
         void StopSong();

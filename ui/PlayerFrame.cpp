@@ -23,7 +23,7 @@ namespace Bassplay::Ui {
         wxString path = fileDialog.GetPath();
         std::string stdPath = std::string(path.mb_str());
         try {
-            player->LoadSong(&stdPath);
+            player->LoadSong(stdPath);
             wxString name = wxString(player->GetSong()->GetTitle());
             GetStatusBar()->PushStatusText(name);
             player->PlaySong();
