@@ -14,6 +14,8 @@ namespace Bassplay::App {
     }
     int BassplayApp::OnExit() {
         delete player;
+        BASS_Free();
+        BASS_Stop();
         return 0;
     }
 
