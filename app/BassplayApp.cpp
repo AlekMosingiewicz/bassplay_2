@@ -26,11 +26,7 @@ namespace Bassplay::App {
             std::string errorMessage = "Problem deleting thread " + std::to_string(thread->GetId());
             wxLogError(wxString(errorMessage));
         }
-        while (true) {
-            wxCriticalSectionLocker enter(m_pThreadCS);
-            if (!thread) break;
-            wxThread::This()->Sleep(1);
-        }
+        wxCriticalSectionLocker enter(m_pThreadCS);
     }
 
     void BassplayApp::StopThreads() {

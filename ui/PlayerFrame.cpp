@@ -59,7 +59,7 @@ namespace Bassplay::Ui {
         m_playerPanel = new wxPanel(this, wxID_ANY, wxPoint(0, 0), wxSize(150, 100));
         wxSizer* horizontalSizer = new wxBoxSizer(wxHORIZONTAL);
         wxSizer* verticalSizer = new wxBoxSizer(wxVERTICAL);
-        m_timeLabel = new wxStaticText(this, wxID_ANY, wxString("00:00"), wxDefaultPosition, wxDefaultSize, wxST_NO_AUTORESIZE);
+        m_timeLabel = new wxStaticText(this, wxID_ANY, wxString("00:00/00:00"), wxDefaultPosition, wxDefaultSize, wxST_NO_AUTORESIZE);
         m_songNameLabel = new wxStaticText(this, wxID_ANY, wxString("No song loaded"));
 
         m_playButton = new wxButton(this, playerButtonPlay, "Play");
