@@ -6,13 +6,14 @@
 #include "PlayerFrame.h"
 
 namespace Bassplay::Ui {
+
     void PlayerFrame::OnExit(wxCommandEvent &event) {
         Close(true);
     }
 
     void PlayerFrame::OnAbout(wxCommandEvent &event) {
         wxMessageBox("Bassplay 2.0",
-                     "This is a Bass-based mod music player created by Alek Mosingiewicz", wxOK | wxICON_INFORMATION);
+                     "This is a Bass-based mod music m_player created by Alek Mosingiewicz", wxOK | wxICON_INFORMATION);
     }
 
     void PlayerFrame::OnOpen(wxCommandEvent &event) {
@@ -23,10 +24,10 @@ namespace Bassplay::Ui {
         wxString path = fileDialog.GetPath();
         std::string stdPath = std::string(path.mb_str());
         try {
-            player->LoadSong(stdPath);
-            wxString name = wxString(player->GetSong()->GetTitle());
+            m_player->LoadSong(stdPath);
+            wxString name = wxString(m_player->GetSong()->GetTitle());
             GetStatusBar()->PushStatusText(name);
-            player->PlaySong();
+            m_player->PlaySong();
             UpdatePlayLabel();
         } catch (BassplayException &exception) {
             wxMessageBox(wxString::Format("Error code %d", exception.GetCode()),
@@ -37,75 +38,90 @@ namespace Bassplay::Ui {
     }
 
     void PlayerFrame::BuildMainMenu() {
-        menuFile = new wxMenu;
-        menuFile->Append(wxID_OPEN);
-        menuFile->AppendSeparator();
-        menuFile->Append(wxID_EXIT);
+        m_menuFile = new wxMenu;
+        m_menuFile->Append(wxID_OPEN);
+        m_menuFile->AppendSeparator();
+        m_menuFile->Append(wxID_EXIT);
 
-        menuHelp = new wxMenu;
-        menuHelp->Append(wxID_ABOUT);
+        m_menuHelp = new wxMenu;
+        m_menuHelp->Append(wxID_ABOUT);
 
-        mainMenuBar = new wxMenuBar;
-        mainMenuBar->Append(menuFile, "&File");
-        mainMenuBar->Append(menuHelp, "&Help");
+        m_mainMenuBar = new wxMenuBar;
+        m_mainMenuBar->Append(m_menuFile, "&File");
+        m_mainMenuBar->Append(m_menuHelp, "&Help");
 
-        SetMenuBar(mainMenuBar);
+        SetMenuBar(m_mainMenuBar);
         CreateStatusBar();
         SetStatusText("Bassplay 2.0");
     }
 
     void PlayerFrame::BuildPlayerPanel() {
-        playerPanel = new wxPanel(this, wxID_ANY, wxPoint(0,0), wxSize(150, 100));
+        m_playerPanel = new wxPanel(this, wxID_ANY, wxPoint(0, 0), wxSize(150, 100));
         wxSizer* horizontalSizer = new wxBoxSizer(wxHORIZONTAL);
         wxSizer* verticalSizer = new wxBoxSizer(wxVERTICAL);
-        songNameLabel = new wxStaticText(this, wxID_ANY, wxString("No song loaded"));
+        m_timeLabel = new wxStaticText(this, wxID_ANY, wxString("00:00"), wxDefaultPosition, wxDefaultSize, wxST_NO_AUTORESIZE);
+        m_songNameLabel = new wxStaticText(this, wxID_ANY, wxString("No song loaded"));
 
-        playButton = new wxButton(this, playerButtonPlay, "Play");
-        pauseButton = new wxButton(this, playerButtonPause, "Pause");
-        stopButton = new wxButton(this, playerButtonStop, "Stop");
+        m_playButton = new wxButton(this, playerButtonPlay, "Play");
+        m_pauseButton = new wxButton(this, playerButtonPause, "Pause");
+        m_stopButton = new wxButton(this, playerButtonStop, "Stop");
 
-        horizontalSizer->Add(playButton, 3, wxALL, 5);
-        horizontalSizer->Add(pauseButton, 3, wxALL, 5);
-        horizontalSizer->Add(stopButton, 3, wxALL, 5);
+        horizontalSizer->Add(m_playButton, 3, wxALL, 5);
+        horizontalSizer->Add(m_pauseButton, 3, wxALL, 5);
+        horizontalSizer->Add(m_stopButton, 3, wxALL, 5);
         horizontalSizer->AddSpacer(3);
         horizontalSizer->RecalcSizes();
 
-        verticalSizer->Add(songNameLabel, 3, wxALIGN_CENTER, 3);
+        verticalSizer->Add(m_songNameLabel, 3, wxALIGN_CENTER, 3);
+        verticalSizer->Add(m_timeLabel, 3, wxALIGN_CENTER_HORIZONTAL | wxALIGN_CENTER_VERTICAL, 10);
         verticalSizer->Add(horizontalSizer);
 
-        playerPanel->SetSizerAndFit(verticalSizer);
+        m_playerPanel->SetSizerAndFit(verticalSizer);
 
-        playerPanel->Show(true);
+        m_playerPanel->Show(true);
     }
 
     PlayerFrame::PlayerFrame(const wxString &title, const wxPoint &pos, const wxSize &size,
                              Bassplay::Play::Player *musicPlayer)
             : wxFrame(NULL, wxID_ANY, title, pos, size) {
-        player = musicPlayer;
+        m_player = musicPlayer;
         BuildMainMenu();
         BuildPlayerPanel();
     }
 
+    void PlayerFrame::UpdateGUI() {
+        if (m_player->GetState() == Play::player_state_playing) {
+            UpdateTimeLabel();
+        }
+    }
+
     void PlayerFrame::OnPlay(wxCommandEvent &event) {
-        player->PlaySong();
+        m_player->PlaySong();
         UpdatePlayLabel();
     }
 
     void PlayerFrame::OnPause(wxCommandEvent &event) {
-        player->PauseSong();
+        m_player->PauseSong();
         UpdatePlayLabel();
     }
 
     void PlayerFrame::OnStop(wxCommandEvent &event) {
-        player->StopSong();
+        m_player->StopSong();
         UpdatePlayLabel();
+    }
+
+    void PlayerFrame::UpdateTimeLabel() {
+        wxString timeLabel = wxString(m_player->GetCurrentPlaybackTime());
+        if (m_timeLabel->GetLabel() != timeLabel) {
+            m_timeLabel->SetLabel(timeLabel);
+        }
     }
 
     void PlayerFrame::UpdatePlayLabel() {
         wxString stateLabel;
         wxString titleLabel;
 
-        switch (player->GetState()) {
+        switch (m_player->GetState()) {
             case Play::player_state::player_state_stopped:
                 stateLabel = wxString("Stopped");
                 break;
@@ -117,7 +133,8 @@ namespace Bassplay::Ui {
                 break;
         }
 
-        titleLabel = wxString(this->player->GetSong()->GetTitle());
-        songNameLabel->SetLabel(wxString(stateLabel + ":" + titleLabel));
+        titleLabel = m_player->GetSong() != nullptr ? wxString(m_player->GetSong()->GetTitle()) : "No song loaded";
+        m_songNameLabel->SetLabel(wxString(stateLabel + ":" + titleLabel));
     }
+
 } // Bassplay

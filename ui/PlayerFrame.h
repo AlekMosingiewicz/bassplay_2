@@ -1,17 +1,13 @@
 //
 // Created by aleksander on 09.06.22.
 //
+#pragma once
 
 #ifndef BASSPLAY_2_PLAYERFRAME_H
 #define BASSPLAY_2_PLAYERFRAME_H
 
 
-#include <wx/frame.h>
-#include <wx/string.h>
-#include <wx/gdicmn.h>
-#include <wx/msgdlg.h>
-#include <wx/menu.h>
-#include <wx/gtk/filedlg.h>
+#include <wx/wx.h>
 #include "../play/Player.h"
 
 enum playerButtons {
@@ -21,23 +17,30 @@ enum playerButtons {
     playerButtonStop
 };
 
+
+
 namespace Bassplay::Ui {
 
-    class PlayerFrame: public wxFrame {
+    class UiThread;
+
+    class PlayerFrame: public wxFrame  {
     public:
         PlayerFrame(const wxString& title, const wxPoint& pos, const wxSize& size, Bassplay::Play::Player* musicPlayer);
+        void UpdateGUI();
     private:
         //dependencies
-        Bassplay::Play::Player* player;
+        Bassplay::Play::Player* m_player;
         //ui elements
-        wxMenuBar* mainMenuBar;
-        wxMenu* menuFile;
-        wxMenu* menuHelp;
-        wxPanel* playerPanel;
-        wxStaticText* songNameLabel = nullptr;
-        wxButton* playButton;
-        wxButton* pauseButton;
-        wxButton* stopButton;
+        wxMenuBar* m_mainMenuBar;
+        wxMenu* m_menuFile;
+        wxMenu* m_menuHelp;
+        wxPanel* m_playerPanel;
+        wxStaticText* m_songNameLabel = nullptr;
+        wxStaticText* m_timeLabel = nullptr;
+        wxButton* m_playButton;
+        wxButton* m_pauseButton;
+        wxButton* m_stopButton;
+
         //ui building
         void BuildMainMenu();
         void BuildPlayerPanel();
@@ -51,9 +54,12 @@ namespace Bassplay::Ui {
         void OnStop(wxCommandEvent& event);
         //helper methods
         void UpdatePlayLabel();
+        void UpdateTimeLabel();
         wxDECLARE_EVENT_TABLE();
     };
 
 } // Bassplay
+
+
 
 #endif //BASSPLAY_2_PLAYERFRAME_H

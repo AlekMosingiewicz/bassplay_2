@@ -42,15 +42,17 @@ namespace Bassplay::Play {
         }
     }
 
-    std::string* Player::GetCurrentPlaybackTime() {
+    std::string Player::GetCurrentPlaybackTime() {
         if (songBeingPlayed != nullptr) {
             double rawPlaybackTime = songBeingPlayed->GetCurrentPlaybackTime();
             int mins = (int)rawPlaybackTime/60;
             int secs = (int)rawPlaybackTime%60;
-            auto playbackLabel = new std::string(std::to_string(mins) + "/" + std::to_string(secs));
+            char temp[6];
+            sprintf(temp, "%02d:%02d", mins, secs);
+            auto playbackLabel = std::string(temp);
             return playbackLabel;
         }
-        auto noTime = new std::string("No song loaded");
+        auto noTime = std::string("No song loaded");
         return noTime;
     }
 } // Play

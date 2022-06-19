@@ -35,7 +35,7 @@ namespace Bassplay::Play {
         int GetState() { return state; }
         bool HasSong() { return songBeingPlayed != nullptr; }
         Song* GetSong() { return songBeingPlayed; }
-        std::string* GetCurrentPlaybackTime();
+        std::string GetCurrentPlaybackTime();
         void SetReplay(bool doReplay) { replay = doReplay; }
     };
 } // Play
