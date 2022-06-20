@@ -19,24 +19,27 @@ namespace Bassplay::Play {
     class Player {
     private:
         //fields
-        Song* songBeingPlayed = nullptr;
+        Song* m_songBeingPlayed = nullptr;
         bool  replay;
         int state = player_state_stopped;
+        std::string m_currentDirectory;
         //methods
         void PlayCurrentSong();
+        void SetCurrentDirectory(std::string &path);
     public:
-        Player(bool doreplay = false) : replay(doreplay), songBeingPlayed(nullptr) {}
-        Player(Song* song, bool doreplay = false) : songBeingPlayed(song), replay(doreplay) {}
-        ~Player() { if (songBeingPlayed != nullptr) { delete songBeingPlayed; } }
+        Player(bool doreplay = false) : replay(doreplay), m_songBeingPlayed(nullptr) {}
+        Player(Song* song, bool doreplay = false) : m_songBeingPlayed(song), replay(doreplay) {}
+        ~Player() { if (m_songBeingPlayed != nullptr) { delete m_songBeingPlayed; } }
         void LoadSong(std::string& path);
         void PlaySong();
         void PauseSong();
         void StopSong();
         int GetState() { return state; }
-        bool HasSong() { return songBeingPlayed != nullptr; }
-        Song* GetSong() { return songBeingPlayed; }
+        bool HasSong() { return m_songBeingPlayed != nullptr; }
+        Song* GetSong() { return m_songBeingPlayed; }
         std::string GetCurrentPlaybackTime();
         void SetReplay(bool doReplay) { replay = doReplay; }
+        std::string GetCurrentDirectory() { return m_currentDirectory; }
     };
 } // Play
 
