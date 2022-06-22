@@ -12,8 +12,8 @@ namespace Bassplay::Ui {
     }
 
     void PlayerFrame::OnAbout(wxCommandEvent &event) {
-        wxMessageBox("Bassplay 2.0",
-                     "This is a Bass-based mod music m_player created by Alek Mosingiewicz", wxOK | wxICON_INFORMATION);
+        wxMessageBox("This is a Bass-based mod music player created by Alek Mosingiewicz",
+                     "Bassplay 2.0", wxOK | wxICON_INFORMATION);
     }
 
     void PlayerFrame::OnOpen(wxCommandEvent &event) {
