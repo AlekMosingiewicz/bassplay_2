@@ -16,6 +16,8 @@ namespace Bassplay::Play {
         player_state_paused
     };
 
+    void CALLBACK on_playback_end(HSYNC hmusic, DWORD channel, DWORD data, void *user);
+
     class Player {
     private:
         //fields
@@ -39,6 +41,7 @@ namespace Bassplay::Play {
         Song* GetSong() { return m_songBeingPlayed; }
         std::string GetCurrentPlaybackTime();
         void SetReplay(bool doReplay) { replay = doReplay; }
+        void CALLBACK OnPlaybackEnd(HSYNC hmusic, DWORD channel, DWORD data, void *user) {  state = player_state_stopped; };
         std::string GetCurrentDirectory() { return m_currentDirectory; }
     };
 } // Play

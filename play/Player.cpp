@@ -5,6 +5,11 @@
 #include "Player.h"
 
 namespace Bassplay::Play {
+    void CALLBACK on_playback_end(HSYNC hmusic, DWORD channel, DWORD data, void *user) {
+        auto player = static_cast<Player*>(user);
+        player->StopSong();
+    }
+
     void Player::LoadSong(std::string &path) {
         if (m_songBeingPlayed != nullptr) {
             m_songBeingPlayed->UnloadSong();
@@ -34,12 +39,14 @@ namespace Bassplay::Play {
         if (m_songBeingPlayed != nullptr) {
             BASS_ChannelStop(m_songBeingPlayed->GetMusicHandle());
             state = player_state_stopped;
+            m_songBeingPlayed->Rewind();
         }
     }
 
     void Player::PlayCurrentSong() {
         if (m_songBeingPlayed != nullptr) {
             BASS_ChannelPlay(m_songBeingPlayed->GetMusicHandle(), replay);
+            BASS_ChannelSetSync(m_songBeingPlayed->GetMusicHandle(), BASS_SYNC_END, 0, &on_playback_end, this);
         }
     }
 

@@ -26,10 +26,8 @@ namespace Bassplay::Ui {
         std::string stdPath = std::string(path.mb_str());
         try {
             m_player->LoadSong(stdPath);
-            wxString name = wxString(m_player->GetSong()->GetTitle());
-            GetStatusBar()->PushStatusText(name);
             m_player->PlaySong();
-            UpdatePlayLabel();
+            UpdateGUI();
         } catch (BassplayException &exception) {
             wxMessageBox(wxString::Format("Error code %d", exception.GetCode()),
                          "Error loading song!",
@@ -40,7 +38,7 @@ namespace Bassplay::Ui {
 
     void PlayerFrame::BuildMainMenu() {
         m_menuFile = new wxMenu;
-        m_menuFile->Append(wxID_OPEN);
+        m_menuFile->Append(wxID_OPEN, wxEmptyString, wxString("Load music module"));
         m_menuFile->AppendSeparator();
         m_menuFile->Append(wxID_EXIT);
 
@@ -61,7 +59,7 @@ namespace Bassplay::Ui {
         wxSizer* horizontalSizer = new wxBoxSizer(wxHORIZONTAL);
         wxSizer* verticalSizer = new wxBoxSizer(wxVERTICAL);
         m_timeLabel = new wxStaticText(this, wxID_ANY, wxString("00:00/00:00"), wxDefaultPosition, wxDefaultSize, wxST_NO_AUTORESIZE);
-        m_songNameLabel = new wxStaticText(this, wxID_ANY, wxString("No song loaded"));
+        m_songNameLabel = new wxStaticText(this, wxID_ANY, wxString("No song loaded"), wxDefaultPosition, wxSize(300,0), wxST_NO_AUTORESIZE|wxALIGN_CENTRE_HORIZONTAL);
 
         m_playButton = new wxButton(this, playerButtonPlay, "Play");
         m_pauseButton = new wxButton(this, playerButtonPause, "Pause");
@@ -94,6 +92,7 @@ namespace Bassplay::Ui {
         if (m_player->GetState() == Play::player_state_playing) {
             UpdateTimeLabel();
         }
+        UpdatePlayLabel();
     }
 
     void PlayerFrame::OnPlay(wxCommandEvent &event) {
@@ -109,6 +108,7 @@ namespace Bassplay::Ui {
     void PlayerFrame::OnStop(wxCommandEvent &event) {
         m_player->StopSong();
         UpdatePlayLabel();
+        UpdateTimeLabel();
     }
 
     void PlayerFrame::UpdateTimeLabel() {
@@ -135,7 +135,7 @@ namespace Bassplay::Ui {
         }
 
         titleLabel = m_player->GetSong() != nullptr ? wxString(m_player->GetSong()->GetTitle()) : "No song loaded";
-        m_songNameLabel->SetLabel(wxString(stateLabel + ":" + titleLabel));
+        m_songNameLabel->SetLabel(wxString(stateLabel + ": " + titleLabel));
     }
 
 } // Bassplay
