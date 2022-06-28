@@ -10,11 +10,12 @@
 #include <wx/wx.h>
 #include "../play/Player.h"
 
-enum playerButtons {
-    playerButtonsMinimum = 100,
+enum playerWidgets {
+    playerWidgetsMinimum = 100,
     playerButtonPlay,
     playerButtonPause,
-    playerButtonStop
+    playerButtonStop,
+    playerPositionSlider
 };
 
 
@@ -40,6 +41,7 @@ namespace Bassplay::Ui {
         wxButton* m_playButton;
         wxButton* m_pauseButton;
         wxButton* m_stopButton;
+        wxSlider* m_positionSlider;
 
         //ui building
         void BuildMainMenu();
@@ -52,9 +54,12 @@ namespace Bassplay::Ui {
         void OnPlay(wxCommandEvent& event);
         void OnPause(wxCommandEvent& event);
         void OnStop(wxCommandEvent& event);
+        void OnSliderDragged(wxScrollEvent& event);
         //helper methods
         void UpdatePlayLabel();
         void UpdateTimeLabel();
+        void ResetPositionSlider();
+        void UpdatePositionSlider();
         wxDECLARE_EVENT_TABLE();
     };
 

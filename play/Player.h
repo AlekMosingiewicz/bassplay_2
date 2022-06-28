@@ -40,7 +40,9 @@ namespace Bassplay::Play {
         bool HasSong() { return m_songBeingPlayed != nullptr; }
         Song* GetSong() { return m_songBeingPlayed; }
         std::string GetCurrentPlaybackTime();
+        double GetPlaybackTimeInSeconds();
         void SetReplay(bool doReplay) { replay = doReplay; }
+        void JumpToPosition(double position);
         void CALLBACK OnPlaybackEnd(HSYNC hmusic, DWORD channel, DWORD data, void *user) {  state = player_state_stopped; };
         std::string GetCurrentDirectory() { return m_currentDirectory; }
     };

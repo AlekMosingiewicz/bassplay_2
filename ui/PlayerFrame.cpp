@@ -18,7 +18,7 @@ namespace Bassplay::Ui {
 
     void PlayerFrame::OnOpen(wxCommandEvent &event) {
         wxFileDialog fileDialog(this, "Open music file", m_player->GetCurrentDirectory(), "",
-                                "Mod files (*.it,*.xm,*.mod)|*.it;*.xm",
+                                "Mod files (*.it,*.xm,*.mod,*.s3m)|*.it;*.xm;*.s3m",
                                 wxFD_OPEN | wxFD_FILE_MUST_EXIST);
         if (fileDialog.ShowModal() == wxID_CANCEL)
             return;
@@ -26,6 +26,7 @@ namespace Bassplay::Ui {
         std::string stdPath = std::string(path.mb_str());
         try {
             m_player->LoadSong(stdPath);
+            ResetPositionSlider();
             m_player->PlaySong();
             UpdateGUI();
         } catch (BassplayException &exception) {
@@ -61,6 +62,9 @@ namespace Bassplay::Ui {
         m_timeLabel = new wxStaticText(this, wxID_ANY, wxString("00:00/00:00"), wxDefaultPosition, wxDefaultSize, wxST_NO_AUTORESIZE);
         m_songNameLabel = new wxStaticText(this, wxID_ANY, wxString("No song loaded"), wxDefaultPosition, wxSize(300,0), wxST_NO_AUTORESIZE|wxALIGN_CENTRE_HORIZONTAL);
 
+        m_positionSlider = new wxSlider(this, playerPositionSlider, 0, 0, 100, wxDefaultPosition, wxSize(300, 0));
+        Connect(playerPositionSlider, wxEVT_SCROLL_THUMBRELEASE, wxScrollEventHandler(PlayerFrame::OnSliderDragged));
+
         m_playButton = new wxButton(this, playerButtonPlay, "Play");
         m_pauseButton = new wxButton(this, playerButtonPause, "Pause");
         m_stopButton = new wxButton(this, playerButtonStop, "Stop");
@@ -73,6 +77,7 @@ namespace Bassplay::Ui {
 
         verticalSizer->Add(m_songNameLabel, 3, wxALIGN_CENTER, 3);
         verticalSizer->Add(m_timeLabel, 3, wxALIGN_CENTER_HORIZONTAL | wxALIGN_CENTER_VERTICAL, 10);
+        verticalSizer->Add(m_positionSlider, 5, wxALIGN_CENTER_HORIZONTAL | wxALIGN_CENTER_VERTICAL, 1);
         verticalSizer->Add(horizontalSizer);
 
         m_playerPanel->SetSizerAndFit(verticalSizer);
@@ -93,6 +98,7 @@ namespace Bassplay::Ui {
             UpdateTimeLabel();
         }
         UpdatePlayLabel();
+        UpdatePositionSlider();
     }
 
     void PlayerFrame::OnPlay(wxCommandEvent &event) {
@@ -109,6 +115,7 @@ namespace Bassplay::Ui {
         m_player->StopSong();
         UpdatePlayLabel();
         UpdateTimeLabel();
+        ResetPositionSlider();
     }
 
     void PlayerFrame::UpdateTimeLabel() {
@@ -116,6 +123,24 @@ namespace Bassplay::Ui {
         if (m_timeLabel->GetLabel() != timeLabel) {
             m_timeLabel->SetLabel(timeLabel);
         }
+    }
+
+    void PlayerFrame::ResetPositionSlider() {
+        m_positionSlider->SetRange(0,static_cast<int>(m_player->GetSong()->Length()));
+        m_positionSlider->SetValue(0);
+    }
+
+    void PlayerFrame::UpdatePositionSlider() {
+        if (m_player->HasSong() && m_player->GetState() == Play::player_state_playing) {
+            m_positionSlider->SetValue(m_player->GetPlaybackTimeInSeconds());
+        }
+    }
+
+    void PlayerFrame::OnSliderDragged(wxScrollEvent &event) {
+        double position = m_positionSlider->GetValue();
+        m_player->JumpToPosition(position);
+        UpdateGUI();
+        UpdateTimeLabel();
     }
 
     void PlayerFrame::UpdatePlayLabel() {

@@ -65,9 +65,26 @@ namespace Bassplay::Play {
         return {"No song loaded"};
     }
 
+    double Player::GetPlaybackTimeInSeconds() {
+        if (m_songBeingPlayed != nullptr) {
+            return m_songBeingPlayed->GetCurrentPlaybackTime();
+        }
+        return 0;
+    }
+
     void Player::SetCurrentDirectory(std::string &path) {
         size_t last_slash_pos = path.find_last_of('/');
         std::string dir = path.substr(0, last_slash_pos);
         m_currentDirectory = std::string (dir);
+    }
+
+    void Player::JumpToPosition(double position) {
+        if (m_songBeingPlayed != nullptr) {
+            BASS_ChannelSetPosition(
+                    m_songBeingPlayed->GetMusicHandle(),
+                    BASS_ChannelSeconds2Bytes(m_songBeingPlayed->GetMusicHandle(), position),
+                    BASS_POS_BYTE
+            );
+        }
     }
 } // Play
