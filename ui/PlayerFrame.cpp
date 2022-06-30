@@ -18,7 +18,7 @@ namespace Bassplay::Ui {
 
     void PlayerFrame::OnOpen(wxCommandEvent &event) {
         wxFileDialog fileDialog(this, "Open music file", m_player->GetCurrentDirectory(), "",
-                                "Mod files (*.it,*.xm,*.mod,*.s3m)|*.it;*.xm;*.s3m",
+                                "Mod files (*.it,*.xm,*.mod,*.s3m)|*.it;*.xm;*.mod;*.s3m",
                                 wxFD_OPEN | wxFD_FILE_MUST_EXIST);
         if (fileDialog.ShowModal() == wxID_CANCEL)
             return;
@@ -97,6 +97,9 @@ namespace Bassplay::Ui {
         if (m_player->GetState() == Play::player_state_playing) {
             UpdateTimeLabel();
         }
+        if (m_player->GetState() == Play::player_state_stopped && m_positionSlider->GetValue() > 0) {
+            StopAndReset();
+        }
         UpdatePlayLabel();
         UpdatePositionSlider();
     }
@@ -112,10 +115,15 @@ namespace Bassplay::Ui {
     }
 
     void PlayerFrame::OnStop(wxCommandEvent &event) {
+        StopAndReset();
+    }
+
+    void PlayerFrame::StopAndReset() {
         m_player->StopSong();
         UpdatePlayLabel();
         UpdateTimeLabel();
         ResetPositionSlider();
+
     }
 
     void PlayerFrame::UpdateTimeLabel() {

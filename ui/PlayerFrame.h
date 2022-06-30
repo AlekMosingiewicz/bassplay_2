@@ -28,6 +28,7 @@ namespace Bassplay::Ui {
     public:
         PlayerFrame(const wxString& title, const wxPoint& pos, const wxSize& size, Bassplay::Play::Player* musicPlayer);
         void UpdateGUI();
+        void StopAndReset();
     private:
         //dependencies
         Bassplay::Play::Player* m_player;
@@ -60,6 +61,7 @@ namespace Bassplay::Ui {
         void UpdateTimeLabel();
         void ResetPositionSlider();
         void UpdatePositionSlider();
+
         wxDECLARE_EVENT_TABLE();
     };
 
