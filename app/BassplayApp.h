@@ -5,15 +5,12 @@
 #ifndef BASSPLAY_2_BASSPLAYAPP_H
 #define BASSPLAY_2_BASSPLAYAPP_H
 
-#include <wx/wxprec.h>
-#include <wx/event.h>
+#include "../common/wx.h"
 
-#ifndef WX_PRECOMP
-#include <wx/wx.h>
-#endif
-
+#include <vector>
 #include "../play/Player.h"
 #include "../ui/PlayerFrame.h"
+#include "../thread/GuiThread.h"
 
 namespace Bassplay::App {
     class BassplayApp : public wxApp {
@@ -21,7 +18,19 @@ namespace Bassplay::App {
         virtual bool OnInit();
         virtual int OnExit();
     private:
-        Play::Player* player;
+        //fields
+        Play::Player* m_player = nullptr;
+        Ui::PlayerFrame* m_playerFrame = nullptr;
+        std::vector<wxThread*> m_threads;
+        wxCriticalSection m_pThreadCS;
+
+        //methods
+        void InitThreads();
+        void StopThreads();
+        void StopThread(wxThread* thread);
+        void AddThread(wxThread* thread) { m_threads.push_back(thread); }
+        void RunThread(wxThread* thread);
+        void RunThreads();
     };
 } // Bassplay::App
 

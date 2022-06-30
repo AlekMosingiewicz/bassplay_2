@@ -65,10 +65,10 @@ namespace Bassplay::Play {
 
     void Song::SetTitle() {
         const char *original_title = BASS_ChannelGetTags(hmusic, BASS_TAG_MUSIC_NAME);
-        if (*original_title) {
+        if (strlen(original_title)>0) {
             name = original_title;
         } else {
-            name = info->filename;
+            name = BASS_ChannelGetTags(hmusic, BASS_TAG_MUSIC_NAME);
         }
     }
 } // Play

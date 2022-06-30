@@ -5,13 +5,19 @@
 #include "Player.h"
 
 namespace Bassplay::Play {
+    void CALLBACK on_playback_end(HSYNC hmusic, DWORD channel, DWORD data, void *user) {
+        auto player = static_cast<Player*>(user);
+        player->StopSong();
+    }
+
     void Player::LoadSong(std::string &path) {
-        if (songBeingPlayed != NULL) {
-            songBeingPlayed->UnloadSong();
+        if (m_songBeingPlayed != nullptr) {
+            m_songBeingPlayed->UnloadSong();
         }
         HMUSIC hmusic = BASS_MusicLoad(false, path.c_str(), 0, 0, BASS_MUSIC_PRESCAN, 0);
         if (hmusic != 0) {
-            songBeingPlayed = new Song(hmusic);
+            SetCurrentDirectory(path);
+            m_songBeingPlayed = new Song(hmusic);
         } else {
             throw BassplayException(BASS_ErrorGetCode());
         }
@@ -23,34 +29,62 @@ namespace Bassplay::Play {
     }
 
     void Player::PauseSong() {
-        if (songBeingPlayed != nullptr) {
-            BASS_ChannelPause(songBeingPlayed->GetMusicHandle());
+        if (m_songBeingPlayed != nullptr) {
+            BASS_ChannelPause(m_songBeingPlayed->GetMusicHandle());
             state = player_state_paused;
         }
     }
 
     void Player::StopSong() {
-        if (songBeingPlayed != nullptr) {
-            BASS_ChannelStop(songBeingPlayed->GetMusicHandle());
+        if (m_songBeingPlayed != nullptr) {
+            BASS_ChannelStop(m_songBeingPlayed->GetMusicHandle());
             state = player_state_stopped;
+            m_songBeingPlayed->Rewind();
         }
     }
 
     void Player::PlayCurrentSong() {
-        if (songBeingPlayed != nullptr) {
-            BASS_ChannelPlay(songBeingPlayed->GetMusicHandle(), replay);
+        if (m_songBeingPlayed != nullptr) {
+            BASS_ChannelPlay(m_songBeingPlayed->GetMusicHandle(), replay);
+            BASS_ChannelSetSync(m_songBeingPlayed->GetMusicHandle(), BASS_SYNC_END, 0, &on_playback_end, this);
         }
     }
 
-    std::string* Player::GetCurrentPlaybackTime() {
-        if (songBeingPlayed != nullptr) {
-            double rawPlaybackTime = songBeingPlayed->GetCurrentPlaybackTime();
-            int mins = (int)rawPlaybackTime/60;
-            int secs = (int)rawPlaybackTime%60;
-            auto playbackLabel = new std::string(std::to_string(mins) + "/" + std::to_string(secs));
-            return playbackLabel;
+    std::string Player::GetCurrentPlaybackTime() {
+        if (m_songBeingPlayed != nullptr) {
+            double rawPlaybackTime = m_songBeingPlayed->GetCurrentPlaybackTime();
+            double totalPlaybackTime = m_songBeingPlayed->Length();
+            int cmins = (int)rawPlaybackTime / 60;
+            int csecs = (int)rawPlaybackTime % 60;
+            int tmins = (int)totalPlaybackTime / 60;
+            int tsecs = (int)totalPlaybackTime % 60;
+            char temp[12];
+            sprintf(temp, "%02d:%02d/%02d:%02d", cmins, csecs, tmins, tsecs);
+            return {temp};
         }
-        auto noTime = new std::string("No song loaded");
-        return noTime;
+        return {"No song loaded"};
+    }
+
+    double Player::GetPlaybackTimeInSeconds() {
+        if (m_songBeingPlayed != nullptr) {
+            return m_songBeingPlayed->GetCurrentPlaybackTime();
+        }
+        return 0;
+    }
+
+    void Player::SetCurrentDirectory(std::string &path) {
+        size_t last_slash_pos = path.find_last_of('/');
+        std::string dir = path.substr(0, last_slash_pos);
+        m_currentDirectory = std::string (dir);
+    }
+
+    void Player::JumpToPosition(double position) {
+        if (m_songBeingPlayed != nullptr) {
+            BASS_ChannelSetPosition(
+                    m_songBeingPlayed->GetMusicHandle(),
+                    BASS_ChannelSeconds2Bytes(m_songBeingPlayed->GetMusicHandle(), position),
+                    BASS_POS_BYTE
+            );
+        }
     }
 } // Play
