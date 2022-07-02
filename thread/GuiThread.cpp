@@ -10,6 +10,6 @@ namespace Bassplay::Thread {
             m_playerFrame->UpdateGUI();
             This()->Sleep(500);
         }
-        return nullptr;
+        return (wxThread::ExitCode) 0;
     }
 }

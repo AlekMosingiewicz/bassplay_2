@@ -22,11 +22,18 @@ namespace Bassplay::App {
         return 0;
     }
     void BassplayApp::StopThread(wxThread *thread) {
-        if (thread->Delete() != wxTHREAD_NO_ERROR) {
+        int i = 0;
+        wxThreadError error = thread->Delete();
+        if (error != wxTHREAD_NO_ERROR) {
             std::string errorMessage = "Problem deleting thread " + std::to_string(thread->GetId());
+            errorMessage += error;
             wxLogError(wxString(errorMessage));
         }
-        wxCriticalSectionLocker enter(m_pThreadCS);
+        while (i++ < 100) {
+            wxCriticalSectionLocker enter(m_pThreadCS);
+            if (!thread) break;
+        }
+        thread->Kill();
     }
 
     void BassplayApp::StopThreads() {
