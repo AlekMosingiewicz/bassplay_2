@@ -14,12 +14,11 @@ namespace Bassplay::Play {
         if (m_songBeingPlayed != nullptr) {
             m_songBeingPlayed->UnloadSong();
         }
-        HMUSIC hmusic = BASS_MusicLoad(false, path.c_str(), 0, 0, BASS_MUSIC_PRESCAN, 0);
-        if (hmusic != 0) {
+        try {
+            m_songBeingPlayed = new Song(path);
             SetCurrentDirectory(path);
-            m_songBeingPlayed = new Song(hmusic);
-        } else {
-            throw BassplayException(BASS_ErrorGetCode());
+        } catch (BassplayException& bassplayException) {
+            throw bassplayException;
         }
     }
 

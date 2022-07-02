@@ -14,12 +14,14 @@ namespace Bassplay::Play {
 
     class Song {
     private:
-        HMUSIC hmusic = 0;
-        BASS_CHANNELINFO *info = nullptr;
-        std::vector<char *> samples;
-        std::vector<char *> instruments;
-        char *message = nullptr;
-        const char *name = nullptr;
+        HMUSIC m_hmusic = 0;
+        BASS_CHANNELINFO *m_info = nullptr;
+        std::vector<char *> m_samples;
+        std::vector<char *> m_instruments;
+        char *m_message = nullptr;
+        std::string m_name;
+        std::string m_path;
+        std::string m_filename;
 
         void CleanupBaseData();
         void PopulateSamples();
@@ -27,17 +29,12 @@ namespace Bassplay::Play {
         void PopulateMessage();
         void PopulateInstruments();
         void SetTitle();
+        void Init(HMUSIC hmusic);
+        void SetFilename();
 
     public:
-        Song(HMUSIC music) : hmusic(music) {
-            info = new BASS_CHANNELINFO();
-            BASS_ChannelGetInfo(hmusic, info);
-
-            SetTitle();
-            PopulateSamples();
-            PopulateMessage();
-            PopulateInstruments();
-        };
+        Song(HMUSIC music) : m_hmusic(music) { Init(m_hmusic); };
+        Song(std::string &path);
 
         ~Song() {
             CleanupBaseData();
@@ -46,19 +43,26 @@ namespace Bassplay::Play {
 
         double Length();
 
-        std::string GetName() { return BASS_ChannelGetTags(hmusic, BASS_TAG_MUSIC_NAME); };
+        std::string GetName() { return BASS_ChannelGetTags(m_hmusic, BASS_TAG_MUSIC_NAME); };
 
-        const char* GetFilename() { return info->filename; }
-        const char* GetTitle() { return name; }
+        std::string GetTitle() { return !(m_name.empty()) ? m_name : m_filename; }
+        std::string GetFilename() { return m_filename; }
 
-        void UnloadSong() { if (hmusic != 0) BASS_MusicFree(hmusic); hmusic = 0; }
-        void Rewind() { BASS_ChannelSetPosition(hmusic, 0, BASS_POS_BYTE); }
-
-        double GetCurrentPlaybackTime() {
-            return BASS_ChannelBytes2Seconds(hmusic, BASS_ChannelGetPosition(hmusic,BASS_POS_BYTE));
+        void UnloadSong() {
+            if (m_hmusic != 0) BASS_MusicFree(m_hmusic);
+            m_hmusic = 0;
         }
 
-        HMUSIC GetMusicHandle() { return hmusic; }
+        void Rewind() {
+            BASS_ChannelSetPosition(m_hmusic, MAKELONG(0, 0), BASS_POS_MUSIC_ORDER |
+                                                              BASS_MUSIC_POSRESET);
+        }
+
+        double GetCurrentPlaybackTime() {
+            return BASS_ChannelBytes2Seconds(m_hmusic, BASS_ChannelGetPosition(m_hmusic, BASS_POS_BYTE));
+        }
+
+        HMUSIC GetMusicHandle() { return m_hmusic; }
     };
 } // Play
 
