@@ -4,7 +4,7 @@ project(bassplay_2)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_FLAGS "-no-pie")
 
-add_executable(bassplay_2 common/wx.h main.cpp play/Song.cpp play/Song.h play/Player.cpp play/Player.h app/BassplayApp.cpp app/BassplayApp.h ui/PlayerFrame.cpp ui/PlayerFrame.h exception/BassplayException.cpp exception/BassplayException.h thread/GuiThread.cpp thread/GuiThread.h)
+add_executable(bassplay_2 common/wx.h main.cpp play/Song.cpp play/Song.h play/Player.cpp play/Player.h app/BassplayApp.cpp app/BassplayApp.h ui/PlayerFrame.cpp ui/PlayerFrame.h exception/BassplayException.cpp exception/BassplayException.h thread/GuiThread.cpp thread/GuiThread.h ui/SongInfoFrame.cpp ui/SongInfoFrame.h)
 
 # Add Bass library
 add_library(bass SHARED IMPORTED exception/BassplayException.cpp exception/BassplayException.h common/wx.h)
