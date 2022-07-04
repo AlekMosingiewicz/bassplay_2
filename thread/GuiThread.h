@@ -17,7 +17,7 @@ namespace Bassplay::Thread {
     private:
         Ui::PlayerFrame* m_playerFrame = nullptr;
     protected:
-        virtual ExitCode Entry();
+        ExitCode Entry() override;
     };
 }
 
