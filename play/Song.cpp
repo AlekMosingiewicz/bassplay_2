@@ -7,8 +7,8 @@
 #include <algorithm>
 
 namespace Bassplay::Play {
-    Song::Song(std::string &path): m_path(path)  {
-        m_hmusic = BASS_MusicLoad(false, path.c_str(), 0, 0, BASS_MUSIC_PRESCAN, 0);
+    Song::Song(std::string &t_path): m_path(t_path)  {
+        m_hmusic = BASS_MusicLoad(false, t_path.c_str(), 0, 0, BASS_MUSIC_PRESCAN, 0);
         if (m_hmusic != 0) {
             Init(m_hmusic);
             SetFilename();

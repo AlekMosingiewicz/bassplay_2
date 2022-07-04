@@ -33,8 +33,8 @@ namespace Bassplay::Play {
         void SetFilename();
 
     public:
-        Song(HMUSIC music) : m_hmusic(music) { Init(m_hmusic); };
-        Song(std::string &path);
+        Song(HMUSIC t_music) : m_hmusic(t_music) { Init(m_hmusic); };
+        Song(std::string &t_path);
 
         ~Song() {
             CleanupBaseData();
