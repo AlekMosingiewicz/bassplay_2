@@ -28,7 +28,7 @@ namespace Bassplay::Play {
             size_t original_sample_size = strlen(original_sample);
             char *sample = (char *) malloc(original_sample_size + 1);
             strcpy(sample, original_sample);
-            m_samples.push_back(sample);
+            m_samples.emplace_back(std::string(sample));
             original_sample += original_sample_size + 1;
         }
     }
@@ -40,7 +40,7 @@ namespace Bassplay::Play {
             size_t original_instrument_size = strlen(original_instrument);
             char *instrument = (char*) malloc(original_instrument_size + 1);
             strcpy(instrument, original_instrument);
-            m_instruments.push_back(instrument);
+            m_instruments.emplace_back(std::string(instrument));
             original_instrument += original_instrument_size +1;
         }
     }
@@ -51,15 +51,7 @@ namespace Bassplay::Play {
        m_filename = m_path.substr(++slashpos, flen);
     }
 
-    void Song::CleanupSamples() {
-        std::for_each(m_samples.begin(), m_samples.end(), [](char *sample) { free(sample); });
-        m_samples.clear();
-    }
-
     void Song::CleanupBaseData() {
-        if (m_message != nullptr) {
-            delete(m_message);
-        }
         if (m_info != nullptr) {
             delete(m_info);
         }
@@ -73,7 +65,7 @@ namespace Bassplay::Play {
         size_t original_message_size = strlen(original_message);
         char *local_message = (char *) malloc(original_message_size + 1);
         strcpy(local_message, original_message);
-        m_message = local_message;
+        m_message = std::string(local_message);
     }
 
     void Song::SetTitle() {
@@ -93,6 +85,22 @@ namespace Bassplay::Play {
         PopulateSamples();
         PopulateMessage();
         PopulateInstruments();
+    }
+
+    std::string Song::GetHumanReadableSamples() {
+        std::string readableSamples;
+        for (std::string sample: m_samples) {
+            readableSamples += "\n" + sample;
+        }
+        return readableSamples;
+    }
+
+    std::string Song::GetHumanReadableInstruments() {
+        std::string readableInstruments;
+        for (std::string instrument: m_instruments) {
+            readableInstruments += "\n" + instrument;
+        }
+        return readableInstruments;
     }
 } // Play
 

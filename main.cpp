@@ -1,6 +1,7 @@
 #include <iostream>
 #define wxUSE_UNICODE_WCHAR 1
 #include "app/BassplayApp.h"
+#include "play/serializer/SerializableStringList.h"
 
 wxBEGIN_EVENT_TABLE(Bassplay::Ui::PlayerFrame, wxFrame)
                 EVT_MENU(wxID_EXIT,  Bassplay::Ui::PlayerFrame::OnExit)
