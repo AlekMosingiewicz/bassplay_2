@@ -8,7 +8,7 @@ namespace Bassplay::Play::Serializer {
 
     std::string SerializableStringList::serialize() {
         std::string output;
-        std::vector<std::string>::const_iterator it;
+        std::list<std::string>::const_iterator it;
         const char delimiter = '\n';
 
         for (it = m_strings.begin(); it != m_strings.end(); it++) {

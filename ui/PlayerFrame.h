@@ -9,6 +9,7 @@
 
 #include <wx/wx.h>
 #include "../play/Player.h"
+#include "SongInfoFrame.h"
 
 enum playerWidgets {
     playerWidgetsMinimum = 100,
@@ -44,6 +45,9 @@ namespace Bassplay::Ui {
         wxButton* m_stopButton;
         wxSlider* m_positionSlider;
 
+        //external frames
+        SongInfoFrame* m_songInfoFrame = nullptr;
+
         //ui building
         void BuildMainMenu();
         void BuildPlayerPanel();
@@ -56,6 +60,8 @@ namespace Bassplay::Ui {
         void OnPause(wxCommandEvent& event);
         void OnStop(wxCommandEvent& event);
         void OnSliderDragged(wxScrollEvent& event);
+        //info
+        void OpenInfoFrame();
         //helper methods
         void UpdatePlayLabel();
         void UpdateTimeLabel();

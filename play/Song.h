@@ -9,6 +9,7 @@
 #include <string>
 #include <vector>
 #include "../exception/BassplayException.h"
+#include "serializer/SerializableStringList.h"
 
 namespace Bassplay::Play {
 
@@ -16,8 +17,8 @@ namespace Bassplay::Play {
     private:
         HMUSIC m_hmusic = 0;
         BASS_CHANNELINFO *m_info = nullptr;
-        std::vector<std::string> m_samples;
-        std::vector<std::string> m_instruments;
+        Serializer::SerializableStringList m_samples;
+        Serializer::SerializableStringList m_instruments;
         std::string m_message;
         std::string m_name;
         std::string m_path;
@@ -46,8 +47,8 @@ namespace Bassplay::Play {
         std::string GetTitle() { return !(m_name.empty()) ? m_name : m_filename; }
         std::string GetFilename() { return m_filename; }
         std::string GetMessage() { return m_message; }
-        std::string GetHumanReadableSamples();
-        std::string GetHumanReadableInstruments();
+        std::string GetHumanReadableSamples() { return m_samples.serialize(); };
+        std::string GetHumanReadableInstruments() { return m_instruments.serialize(); };
 
         void UnloadSong() {
             if (m_hmusic != 0) BASS_MusicFree(m_hmusic);

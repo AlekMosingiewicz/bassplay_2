@@ -15,15 +15,6 @@
 
 #include "catch.hpp"
 
-
-TEST_CASE("Two strings are equal")
-{
-    std::string s1("string");
-    std::string s2("string");
-
-    CHECK(s1 == s2);
-}
-
 TEST_CASE("String list is properly deserialized")
 {
     Bassplay::Play::Serializer::SerializableStringList list;

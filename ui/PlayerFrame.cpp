@@ -151,6 +151,15 @@ namespace Bassplay::Ui {
         UpdateTimeLabel();
     }
 
+    void PlayerFrame::OpenInfoFrame() {
+        if (m_songInfoFrame != nullptr) {
+            m_songInfoFrame->Hide();
+            m_songInfoFrame->Destroy();
+        }
+        m_songInfoFrame = new SongInfoFrame(m_player->GetSong());
+        m_songInfoFrame->Show();
+    }
+
     void PlayerFrame::UpdatePlayLabel() {
         wxString stateLabel;
         wxString titleLabel;

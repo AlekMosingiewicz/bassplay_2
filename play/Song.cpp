@@ -28,7 +28,8 @@ namespace Bassplay::Play {
             size_t original_sample_size = strlen(original_sample);
             char *sample = (char *) malloc(original_sample_size + 1);
             strcpy(sample, original_sample);
-            m_samples.emplace_back(std::string(sample));
+            std::string sSample = std::string(sample);
+            m_samples.add(sSample);
             original_sample += original_sample_size + 1;
         }
     }
@@ -40,7 +41,8 @@ namespace Bassplay::Play {
             size_t original_instrument_size = strlen(original_instrument);
             char *instrument = (char*) malloc(original_instrument_size + 1);
             strcpy(instrument, original_instrument);
-            m_instruments.emplace_back(std::string(instrument));
+            std::string sInstrument = std::string(instrument);
+            m_instruments.add(sInstrument);
             original_instrument += original_instrument_size +1;
         }
     }
@@ -87,20 +89,5 @@ namespace Bassplay::Play {
         PopulateInstruments();
     }
 
-    std::string Song::GetHumanReadableSamples() {
-        std::string readableSamples;
-        for (std::string sample: m_samples) {
-            readableSamples += "\n" + sample;
-        }
-        return readableSamples;
-    }
-
-    std::string Song::GetHumanReadableInstruments() {
-        std::string readableInstruments;
-        for (std::string instrument: m_instruments) {
-            readableInstruments += "\n" + instrument;
-        }
-        return readableInstruments;
-    }
 } // Play
 

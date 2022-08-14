@@ -20,6 +20,7 @@ add_executable(
         thread/GuiThread.cpp
         thread/GuiThread.h
         ui/SongInfoFrame.cpp ui/SongInfoFrame.h
+        ui/SongInfoFrame.cpp ui/SongInfoFrame.cpp
         exception/BassplayException.cpp
         exception/BassplayException.h
         common/wx.h

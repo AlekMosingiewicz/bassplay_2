@@ -12,14 +12,17 @@
 enum infoPages {
     infoPageGeneral,
     infoPageMessage,
-    infoPageSample
+    infoPageSample,
+    infoPageInstruments
 };
 
 namespace Bassplay::Ui {
 
     class SongInfoFrame: public wxFrame {
     public:
-        SongInfoFrame(Play::Song* t_song): m_song(t_song) {};
+        SongInfoFrame() { BuildInfoWindow(); };
+        SongInfoFrame(Play::Song* t_song): m_song(t_song) { BuildInfoWindow(); };
+        void SetSong(Play::Song* t_song);
     private:
         //fields
         Play::Song* m_song = nullptr;
@@ -29,9 +32,14 @@ namespace Bassplay::Ui {
         wxNotebookPage* m_generalInfo = nullptr;
         wxNotebookPage* m_messageInfo = nullptr;
         wxNotebookPage* m_sampleInfo = nullptr;
+        wxNotebookPage* m_instrumentInfo = nullptr;
 
         //functions
         void BuildInfoWindow();
+        void ResetInfoWindow();
+
+        void RemovePage(wxNotebookPage* page, size_t index);
+        void SetInfoPages();
     };
 
 } // Bassplay
