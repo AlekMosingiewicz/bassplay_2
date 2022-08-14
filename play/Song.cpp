@@ -24,26 +24,28 @@ namespace Bassplay::Play {
 
     void Song::PopulateSamples() {
         const char* original_sample = BASS_ChannelGetTags(m_hmusic, BASS_TAG_MUSIC_SAMPLE);
+        int idx = 0;
         while (*original_sample) {
             size_t original_sample_size = strlen(original_sample);
             char *sample = (char *) malloc(original_sample_size + 1);
             strcpy(sample, original_sample);
             std::string sSample = std::string(sample);
             m_samples.add(sSample);
-            original_sample += original_sample_size + 1;
+            original_sample = BASS_ChannelGetTags(m_hmusic, BASS_TAG_MUSIC_SAMPLE + (++idx));
         }
     }
 
     void Song::PopulateInstruments() {
         const char* original_instrument = BASS_ChannelGetTags(m_hmusic, BASS_TAG_MUSIC_INST);
         if (original_instrument == NULL) return;
+        int idx = 0;
         while (*original_instrument) {
             size_t original_instrument_size = strlen(original_instrument);
             char *instrument = (char*) malloc(original_instrument_size + 1);
             strcpy(instrument, original_instrument);
             std::string sInstrument = std::string(instrument);
             m_instruments.add(sInstrument);
-            original_instrument += original_instrument_size +1;
+            original_instrument = BASS_ChannelGetTags(m_hmusic, BASS_TAG_MUSIC_INST + (++idx));
         }
     }
 

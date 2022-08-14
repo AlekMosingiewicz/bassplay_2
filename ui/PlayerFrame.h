@@ -30,6 +30,8 @@ namespace Bassplay::Ui {
         PlayerFrame(const wxString& title, const wxPoint& pos, const wxSize& size, Bassplay::Play::Player* musicPlayer);
         void UpdateGUI();
         void StopAndReset();
+        //info
+        void ShowInfoFrame();
     private:
         //dependencies
         Bassplay::Play::Player* m_player;
@@ -55,13 +57,12 @@ namespace Bassplay::Ui {
         void OnExit(wxCommandEvent& event);
         void OnAbout(wxCommandEvent& event);
         void OnOpen(wxCommandEvent& event);
+        void OnInfo(wxCommandEvent& event);
         //play controls
         void OnPlay(wxCommandEvent& event);
         void OnPause(wxCommandEvent& event);
         void OnStop(wxCommandEvent& event);
         void OnSliderDragged(wxScrollEvent& event);
-        //info
-        void OpenInfoFrame();
         //helper methods
         void UpdatePlayLabel();
         void UpdateTimeLabel();

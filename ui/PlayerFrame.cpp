@@ -28,6 +28,9 @@ namespace Bassplay::Ui {
             m_player->LoadSong(stdPath);
             ResetPositionSlider();
             m_player->PlaySong();
+            if (m_songInfoFrame != nullptr) {
+                m_songInfoFrame->SetSong(m_player->GetSong());
+            }
             UpdateGUI();
         } catch (BassplayException &exception) {
             wxMessageBox(wxString::Format("Error code %d", exception.GetCode()),
@@ -40,6 +43,7 @@ namespace Bassplay::Ui {
     void PlayerFrame::BuildMainMenu() {
         m_menuFile = new wxMenu;
         m_menuFile->Append(wxID_OPEN, wxEmptyString, wxString("Load music module"));
+        m_menuFile->Append(wxID_INFO, wxEmptyString, wxString("Module info"));
         m_menuFile->AppendSeparator();
         m_menuFile->Append(wxID_EXIT);
 
@@ -151,13 +155,21 @@ namespace Bassplay::Ui {
         UpdateTimeLabel();
     }
 
-    void PlayerFrame::OpenInfoFrame() {
+    void PlayerFrame::ShowInfoFrame() {
         if (m_songInfoFrame != nullptr) {
             m_songInfoFrame->Hide();
             m_songInfoFrame->Destroy();
         }
         m_songInfoFrame = new SongInfoFrame(m_player->GetSong());
         m_songInfoFrame->Show();
+    }
+
+    void PlayerFrame::OnInfo(wxCommandEvent &event) {
+        if (!m_player->HasSong()) {
+            wxMessageBox("No module loaded");
+            return;
+        }
+        ShowInfoFrame();
     }
 
     void PlayerFrame::UpdatePlayLabel() {

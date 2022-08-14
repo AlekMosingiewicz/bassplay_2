@@ -9,36 +9,35 @@
 #include <wx/wx.h>
 #include <wx/notebook.h>
 
-enum infoPages {
-    infoPageGeneral,
-    infoPageMessage,
-    infoPageSample,
-    infoPageInstruments
-};
-
 namespace Bassplay::Ui {
 
-    class SongInfoFrame: public wxFrame {
+    class SongInfoFrame : public wxFrame {
     public:
         SongInfoFrame() { BuildInfoWindow(); };
-        SongInfoFrame(Play::Song* t_song): m_song(t_song) { BuildInfoWindow(); };
-        void SetSong(Play::Song* t_song);
+
+        SongInfoFrame(Play::Song *t_song, const wxString &title = "Mod info", const wxPoint &pos = wxPoint(0,0),
+                      const wxSize &size = wxSize(600,600)) :
+                wxFrame(NULL, wxID_ANY, title, pos, size, wxDEFAULT),
+                m_song(t_song) { BuildInfoWindow(); };
+
+        void SetSong(Play::Song *t_song);
+
     private:
         //fields
-        Play::Song* m_song = nullptr;
+        Play::Song *m_song = nullptr;
         //ui fields
-        wxPanel* m_mainPanel = nullptr;
-        wxNotebook* m_mainInfo = nullptr;
-        wxNotebookPage* m_generalInfo = nullptr;
-        wxNotebookPage* m_messageInfo = nullptr;
-        wxNotebookPage* m_sampleInfo = nullptr;
-        wxNotebookPage* m_instrumentInfo = nullptr;
+        wxPanel *m_mainPanel = nullptr;
+        wxNotebook *m_mainInfo = nullptr;
+        wxTextCtrl *m_generalInfo = nullptr;
+        wxTextCtrl *m_messageInfo = nullptr;
+        wxTextCtrl *m_sampleInfo = nullptr;
+        wxTextCtrl *m_instrumentInfo = nullptr;
 
         //functions
         void BuildInfoWindow();
-        void ResetInfoWindow();
 
-        void RemovePage(wxNotebookPage* page, size_t index);
+        void RemovePage(wxNotebookPage *page, size_t index);
+
         void SetInfoPages();
     };
 
