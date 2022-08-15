@@ -25,7 +25,7 @@ namespace Bassplay::Play {
     void Song::PopulateSamples() {
         const char* original_sample = BASS_ChannelGetTags(m_hmusic, BASS_TAG_MUSIC_SAMPLE);
         int idx = 0;
-        while (*original_sample) {
+        while (original_sample != nullptr) {
             size_t original_sample_size = strlen(original_sample);
             char *sample = (char *) malloc(original_sample_size + 1);
             strcpy(sample, original_sample);
@@ -39,7 +39,7 @@ namespace Bassplay::Play {
         const char* original_instrument = BASS_ChannelGetTags(m_hmusic, BASS_TAG_MUSIC_INST);
         if (original_instrument == NULL) return;
         int idx = 0;
-        while (*original_instrument) {
+        while (original_instrument != nullptr) {
             size_t original_instrument_size = strlen(original_instrument);
             char *instrument = (char*) malloc(original_instrument_size + 1);
             strcpy(instrument, original_instrument);
