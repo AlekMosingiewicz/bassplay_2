@@ -138,7 +138,7 @@ namespace Bassplay::Ui {
     }
 
     void PlayerFrame::ResetPositionSlider() {
-        m_positionSlider->SetRange(0,static_cast<int>(m_player->GetSong()->Length()));
+        m_positionSlider->SetRange(0,static_cast<int>(m_player->GetSong()->GetLength()));
         m_positionSlider->SetValue(0);
     }
 

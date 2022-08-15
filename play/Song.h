@@ -40,7 +40,7 @@ namespace Bassplay::Play {
             CleanupBaseData();
         }
 
-        double Length();
+        double GetLength() const;
 
         std::string GetName() { return BASS_ChannelGetTags(m_hmusic, BASS_TAG_MUSIC_NAME); };
 
@@ -49,6 +49,7 @@ namespace Bassplay::Play {
         std::string GetMessage() { return m_message; }
         std::string GetHumanReadableSamples() { return m_samples.serialize(); };
         std::string GetHumanReadableInstruments() { return m_instruments.serialize(); };
+        std::string GetHumanReadablePlaybackTime() const;
 
         void UnloadSong() {
             if (m_hmusic != 0) BASS_MusicFree(m_hmusic);

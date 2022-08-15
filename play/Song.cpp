@@ -17,7 +17,7 @@ namespace Bassplay::Play {
         }
     }
 
-    double Song::Length() {
+    double Song::GetLength() const {
         QWORD length = BASS_ChannelGetLength(m_hmusic, BASS_POS_BYTE);
         return BASS_ChannelBytes2Seconds(m_hmusic, length);
     }
@@ -89,6 +89,19 @@ namespace Bassplay::Play {
         PopulateSamples();
         PopulateMessage();
         PopulateInstruments();
+    }
+
+    std::string Song::GetHumanReadablePlaybackTime() const {
+        double lengthInSecs = GetLength();
+
+        int mins = (int)lengthInSecs/60;
+        int secs = (int)lengthInSecs%60;
+
+        char temp[6];
+
+        sprintf(temp, "%02d:%02d", mins, secs);
+
+        return {temp};
     }
 
 } // Play
