@@ -18,7 +18,7 @@ namespace Bassplay::Ui {
 
     void PlayerFrame::OnOpen(wxCommandEvent &event) {
         wxFileDialog fileDialog(this, "Open music file", m_player->GetCurrentDirectory(), "",
-                                "Mod files (*.it,*.xm,*.mod,*.s3m)|*.it;*.xm;*.mod;*.s3m",
+                                "Mod files (*.it,*.xm,*.mod,*.s3m,*.mo3)|*.it;*.IT;*.xm;*.XM;*.mod;*.MOD;*.s3m;*.S3M;*.mo3",
                                 wxFD_OPEN | wxFD_FILE_MUST_EXIST);
         if (fileDialog.ShowModal() == wxID_CANCEL)
             return;
@@ -28,6 +28,9 @@ namespace Bassplay::Ui {
             m_player->LoadSong(stdPath);
             ResetPositionSlider();
             m_player->PlaySong();
+            if (m_songInfoFrame != nullptr) {
+                m_songInfoFrame->SetSong(m_player->GetSong());
+            }
             UpdateGUI();
         } catch (BassplayException &exception) {
             wxMessageBox(wxString::Format("Error code %d", exception.GetCode()),
@@ -40,6 +43,7 @@ namespace Bassplay::Ui {
     void PlayerFrame::BuildMainMenu() {
         m_menuFile = new wxMenu;
         m_menuFile->Append(wxID_OPEN, wxEmptyString, wxString("Load music module"));
+        m_menuFile->Append(wxID_INFO, wxEmptyString, wxString("Module info"));
         m_menuFile->AppendSeparator();
         m_menuFile->Append(wxID_EXIT);
 
@@ -134,7 +138,7 @@ namespace Bassplay::Ui {
     }
 
     void PlayerFrame::ResetPositionSlider() {
-        m_positionSlider->SetRange(0,static_cast<int>(m_player->GetSong()->Length()));
+        m_positionSlider->SetRange(0,static_cast<int>(m_player->GetSong()->GetLength()));
         m_positionSlider->SetValue(0);
     }
 
@@ -149,6 +153,26 @@ namespace Bassplay::Ui {
         m_player->JumpToPosition(position);
         UpdateGUI();
         UpdateTimeLabel();
+    }
+
+    void PlayerFrame::ShowInfoFrame() {
+        if (FindWindowById(playerInfoWindow, this) == nullptr) {
+            m_songInfoFrame = nullptr;
+        }
+        if (m_songInfoFrame != nullptr) {
+            m_songInfoFrame->Hide();
+            m_songInfoFrame->Destroy();
+        }
+        m_songInfoFrame = new SongInfoFrame(m_player->GetSong(), this, playerInfoWindow);
+        m_songInfoFrame->Show();
+    }
+
+    void PlayerFrame::OnInfo(wxCommandEvent &event) {
+        if (!m_player->HasSong()) {
+            wxMessageBox("No module loaded");
+            return;
+        }
+        ShowInfoFrame();
     }
 
     void PlayerFrame::UpdatePlayLabel() {

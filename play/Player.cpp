@@ -52,7 +52,7 @@ namespace Bassplay::Play {
     std::string Player::GetCurrentPlaybackTime() {
         if (m_songBeingPlayed != nullptr) {
             double rawPlaybackTime = m_songBeingPlayed->GetCurrentPlaybackTime();
-            double totalPlaybackTime = m_songBeingPlayed->Length();
+            double totalPlaybackTime = m_songBeingPlayed->GetLength();
             int cmins = (int)rawPlaybackTime / 60;
             int csecs = (int)rawPlaybackTime % 60;
             int tmins = (int)totalPlaybackTime / 60;

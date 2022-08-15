@@ -29,8 +29,8 @@ namespace Bassplay::Play {
         void PlayCurrentSong();
         void SetCurrentDirectory(std::string &path);
     public:
-        Player(bool doreplay = false) : replay(doreplay), m_songBeingPlayed(nullptr) {}
-        Player(Song* song, bool doreplay = false) : m_songBeingPlayed(song), replay(doreplay) {}
+        Player(bool t_doreplay = false) : replay(t_doreplay), m_songBeingPlayed(nullptr) {}
+        Player(Song* t_song, bool t_doreplay = false) : m_songBeingPlayed(t_song), replay(t_doreplay) {}
         ~Player() { if (m_songBeingPlayed != nullptr) { delete m_songBeingPlayed; } }
         void LoadSong(std::string& path);
         void PlaySong();
@@ -41,7 +41,7 @@ namespace Bassplay::Play {
         Song* GetSong() { return m_songBeingPlayed; }
         std::string GetCurrentPlaybackTime();
         double GetPlaybackTimeInSeconds();
-        void SetReplay(bool doReplay) { replay = doReplay; }
+        void SetReplay(bool t_doReplay) { replay = t_doReplay; }
         void JumpToPosition(double position);
         void CALLBACK OnPlaybackEnd(HSYNC hmusic, DWORD channel, DWORD data, void *user) {  state = player_state_stopped; };
         std::string GetCurrentDirectory() { return m_currentDirectory; }

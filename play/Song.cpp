@@ -7,8 +7,8 @@
 #include <algorithm>
 
 namespace Bassplay::Play {
-    Song::Song(std::string &path): m_path(path)  {
-        m_hmusic = BASS_MusicLoad(false, path.c_str(), 0, 0, BASS_MUSIC_PRESCAN, 0);
+    Song::Song(std::string &t_path): m_path(t_path)  {
+        m_hmusic = BASS_MusicLoad(false, t_path.c_str(), 0, 0, BASS_MUSIC_PRESCAN, 0);
         if (m_hmusic != 0) {
             Init(m_hmusic);
             SetFilename();
@@ -17,31 +17,35 @@ namespace Bassplay::Play {
         }
     }
 
-    double Song::Length() {
+    double Song::GetLength() const {
         QWORD length = BASS_ChannelGetLength(m_hmusic, BASS_POS_BYTE);
         return BASS_ChannelBytes2Seconds(m_hmusic, length);
     }
 
     void Song::PopulateSamples() {
         const char* original_sample = BASS_ChannelGetTags(m_hmusic, BASS_TAG_MUSIC_SAMPLE);
-        while (*original_sample) {
+        int idx = 0;
+        while (original_sample != nullptr) {
             size_t original_sample_size = strlen(original_sample);
             char *sample = (char *) malloc(original_sample_size + 1);
             strcpy(sample, original_sample);
-            m_samples.push_back(sample);
-            original_sample += original_sample_size + 1;
+            std::string sSample = std::string(sample);
+            m_samples.add(sSample);
+            original_sample = BASS_ChannelGetTags(m_hmusic, BASS_TAG_MUSIC_SAMPLE + (++idx));
         }
     }
 
     void Song::PopulateInstruments() {
         const char* original_instrument = BASS_ChannelGetTags(m_hmusic, BASS_TAG_MUSIC_INST);
         if (original_instrument == NULL) return;
-        while (*original_instrument) {
+        int idx = 0;
+        while (original_instrument != nullptr) {
             size_t original_instrument_size = strlen(original_instrument);
             char *instrument = (char*) malloc(original_instrument_size + 1);
             strcpy(instrument, original_instrument);
-            m_instruments.push_back(instrument);
-            original_instrument += original_instrument_size +1;
+            std::string sInstrument = std::string(instrument);
+            m_instruments.add(sInstrument);
+            original_instrument = BASS_ChannelGetTags(m_hmusic, BASS_TAG_MUSIC_INST + (++idx));
         }
     }
 
@@ -51,15 +55,7 @@ namespace Bassplay::Play {
        m_filename = m_path.substr(++slashpos, flen);
     }
 
-    void Song::CleanupSamples() {
-        std::for_each(m_samples.begin(), m_samples.end(), [](char *sample) { free(sample); });
-        m_samples.clear();
-    }
-
     void Song::CleanupBaseData() {
-        if (m_message != nullptr) {
-            delete(m_message);
-        }
         if (m_info != nullptr) {
             delete(m_info);
         }
@@ -73,7 +69,7 @@ namespace Bassplay::Play {
         size_t original_message_size = strlen(original_message);
         char *local_message = (char *) malloc(original_message_size + 1);
         strcpy(local_message, original_message);
-        m_message = local_message;
+        m_message = std::string(local_message);
     }
 
     void Song::SetTitle() {
@@ -94,5 +90,19 @@ namespace Bassplay::Play {
         PopulateMessage();
         PopulateInstruments();
     }
+
+    std::string Song::GetHumanReadablePlaybackTime() const {
+        double lengthInSecs = GetLength();
+
+        int mins = (int)lengthInSecs/60;
+        int secs = (int)lengthInSecs%60;
+
+        char temp[6];
+
+        sprintf(temp, "%02d:%02d", mins, secs);
+
+        return {temp};
+    }
+
 } // Play
 
