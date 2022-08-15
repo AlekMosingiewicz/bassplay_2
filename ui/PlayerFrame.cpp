@@ -156,11 +156,14 @@ namespace Bassplay::Ui {
     }
 
     void PlayerFrame::ShowInfoFrame() {
+        if (FindWindowById(playerInfoWindow, this) == nullptr) {
+            m_songInfoFrame = nullptr;
+        }
         if (m_songInfoFrame != nullptr) {
             m_songInfoFrame->Hide();
             m_songInfoFrame->Destroy();
         }
-        m_songInfoFrame = new SongInfoFrame(m_player->GetSong());
+        m_songInfoFrame = new SongInfoFrame(m_player->GetSong(), this, playerInfoWindow);
         m_songInfoFrame->Show();
     }
 

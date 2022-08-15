@@ -15,9 +15,10 @@ namespace Bassplay::Ui {
     public:
         SongInfoFrame() { BuildInfoWindow(); };
 
-        SongInfoFrame(Play::Song *t_song, const wxString &title = "Mod info", const wxPoint &pos = wxPoint(0,0),
-                      const wxSize &size = wxSize(600,600)) :
-                wxFrame(NULL, wxID_ANY, title, pos, size, wxDEFAULT),
+        SongInfoFrame(Play::Song *t_song, wxWindow *parent = nullptr, wxWindowID = wxID_ANY,
+                      const wxString &title = "Mod info", const wxPoint &pos = wxPoint(0, 0),
+                      const wxSize &size = wxSize(600, 600)) :
+                wxFrame(parent, wxID_ANY, title, pos, size, wxCLOSE_BOX | wxMINIMIZE_BOX),
                 m_song(t_song) { BuildInfoWindow(); };
 
         void SetSong(Play::Song *t_song);

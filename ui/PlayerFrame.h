@@ -16,7 +16,8 @@ enum playerWidgets {
     playerButtonPlay,
     playerButtonPause,
     playerButtonStop,
-    playerPositionSlider
+    playerPositionSlider,
+    playerInfoWindow
 };
 
 
