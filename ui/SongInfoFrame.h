@@ -36,10 +36,8 @@ namespace Bassplay::Ui {
 
         //functions
         void BuildInfoWindow();
-
-        void RemovePage(wxNotebookPage *page, size_t index);
-
         void SetInfoPages();
+        void SetMainInfoPage();
     };
 
 } // Bassplay
