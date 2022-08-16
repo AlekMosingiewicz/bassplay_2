@@ -8,18 +8,16 @@ namespace Bassplay::Ui {
     void SongInfoFrame::BuildInfoWindow() {
         m_mainPanel = new wxPanel(this);
         m_mainInfo = new wxNotebook(m_mainPanel, wxID_ANY, wxPoint(0, 0), wxSize(600, 600));
+        long textCtrlStyle = wxTE_READONLY | wxTE_MULTILINE | wxVSCROLL | wxALWAYS_SHOW_SB;
 
         m_generalInfo = new wxTextCtrl(m_mainInfo, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize,
-                                       wxTE_READONLY|wxTE_MULTILINE);
+                                       textCtrlStyle);
         m_sampleInfo = new wxTextCtrl(m_mainInfo, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize,
-                                      wxTE_READONLY|wxTE_MULTILINE
-        );
+                                      textCtrlStyle);
         m_messageInfo = new wxTextCtrl(m_mainInfo, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize,
-                                       wxTE_READONLY|wxTE_MULTILINE
-        );
+                                       textCtrlStyle);
         m_instrumentInfo = new wxTextCtrl(m_mainInfo, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize,
-                                          wxTE_READONLY|wxTE_MULTILINE
-        );
+                                          textCtrlStyle);
 
         m_mainInfo->AddPage(m_generalInfo, wxString("General info"));
         m_mainInfo->AddPage(m_messageInfo, wxString("Message"));

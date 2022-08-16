@@ -28,6 +28,9 @@ namespace Bassplay::Ui {
             m_player->LoadSong(stdPath);
             ResetPositionSlider();
             m_player->PlaySong();
+            if (FindWindowById(playerInfoWindow, this) == nullptr) {
+                m_songInfoFrame = nullptr;
+            }
             if (m_songInfoFrame != nullptr) {
                 m_songInfoFrame->SetSong(m_player->GetSong());
             }
@@ -91,8 +94,8 @@ namespace Bassplay::Ui {
 
     PlayerFrame::PlayerFrame(const wxString &title, const wxPoint &pos, const wxSize &size,
                              Bassplay::Play::Player *musicPlayer)
-            : wxFrame(NULL, wxID_ANY, title, pos, size, wxDEFAULT_FRAME_STYLE ^ wxRESIZE_BORDER) {
-        m_player = musicPlayer;
+            : wxFrame(NULL, wxID_ANY, title, pos, size, wxDEFAULT_FRAME_STYLE ^ wxRESIZE_BORDER),
+              m_player(musicPlayer) {
         BuildMainMenu();
         BuildPlayerPanel();
     }

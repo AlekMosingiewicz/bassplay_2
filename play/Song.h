@@ -33,39 +33,39 @@ namespace Bassplay::Play {
         void SetFilename();
 
     public:
-        Song(HMUSIC t_music) : m_hmusic(t_music) { Init(m_hmusic); };
-        Song(std::string &t_path);
+        explicit Song(HMUSIC t_music) : m_hmusic(t_music) { Init(m_hmusic); };
+        explicit Song(std::string &t_path);
 
         ~Song() {
             CleanupBaseData();
         }
 
-        double GetLength() const;
+        [[nodiscard]] double GetLength() const;
 
-        std::string GetName() { return BASS_ChannelGetTags(m_hmusic, BASS_TAG_MUSIC_NAME); };
+        [[nodiscard]] std::string GetName() const { return BASS_ChannelGetTags(m_hmusic, BASS_TAG_MUSIC_NAME); };
 
         std::string GetTitle() { return !(m_name.empty()) ? m_name : m_filename; }
         std::string GetFilename() { return m_filename; }
         std::string GetMessage() { return m_message; }
         std::string GetHumanReadableSamples() { return m_samples.serialize(); };
         std::string GetHumanReadableInstruments() { return m_instruments.serialize(); };
-        std::string GetHumanReadablePlaybackTime() const;
+        [[nodiscard]] std::string GetHumanReadablePlaybackTime() const;
 
         void UnloadSong() {
             if (m_hmusic != 0) BASS_MusicFree(m_hmusic);
             m_hmusic = 0;
         }
 
-        void Rewind() {
+        void Rewind() const {
             BASS_ChannelSetPosition(m_hmusic, MAKELONG(0, 0), BASS_POS_MUSIC_ORDER |
                                                               BASS_MUSIC_POSRESET);
         }
 
-        double GetCurrentPlaybackTime() {
+        [[nodiscard]] double GetCurrentPlaybackTime() const {
             return BASS_ChannelBytes2Seconds(m_hmusic, BASS_ChannelGetPosition(m_hmusic, BASS_POS_BYTE));
         }
 
-        HMUSIC GetMusicHandle() { return m_hmusic; }
+        [[nodiscard]] HMUSIC GetMusicHandle() const { return m_hmusic; }
     };
 } // Play
 

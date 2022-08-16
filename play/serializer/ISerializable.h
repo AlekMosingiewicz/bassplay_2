@@ -12,6 +12,7 @@ namespace Bassplay::Play::Serializer {
     class ISerializable {
     public:
         ISerializable() = default;
+        virtual ~ISerializable() = default;
         virtual std::string serialize() = 0;
     };
 

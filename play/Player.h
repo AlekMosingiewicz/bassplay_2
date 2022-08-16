@@ -29,22 +29,22 @@ namespace Bassplay::Play {
         void PlayCurrentSong();
         void SetCurrentDirectory(std::string &path);
     public:
-        Player(bool t_doreplay = false) : replay(t_doreplay), m_songBeingPlayed(nullptr) {}
-        Player(Song* t_song, bool t_doreplay = false) : m_songBeingPlayed(t_song), replay(t_doreplay) {}
-        ~Player() { if (m_songBeingPlayed != nullptr) { delete m_songBeingPlayed; } }
+        explicit Player(bool t_doreplay = false) : replay(t_doreplay), m_songBeingPlayed(nullptr) {}
+        explicit Player(Song* t_song, bool t_doreplay = false) : m_songBeingPlayed(t_song), replay(t_doreplay) {}
+        ~Player() { delete m_songBeingPlayed; }
         void LoadSong(std::string& path);
         void PlaySong();
         void PauseSong();
         void StopSong();
-        int GetState() { return state; }
-        bool HasSong() { return m_songBeingPlayed != nullptr; }
-        Song* GetSong() { return m_songBeingPlayed; }
+        [[nodiscard]] int GetState() const { return state; }
+        [[nodiscard]] bool HasSong() const { return m_songBeingPlayed != nullptr; }
+        [[nodiscard]] Song* GetSong() const { return m_songBeingPlayed; }
         std::string GetCurrentPlaybackTime();
         double GetPlaybackTimeInSeconds();
         void SetReplay(bool t_doReplay) { replay = t_doReplay; }
         void JumpToPosition(double position);
         void CALLBACK OnPlaybackEnd(HSYNC hmusic, DWORD channel, DWORD data, void *user) {  state = player_state_stopped; };
-        std::string GetCurrentDirectory() { return m_currentDirectory; }
+        [[nodiscard]] std::string GetCurrentDirectory() const { return m_currentDirectory; }
     };
 } // Play
 
