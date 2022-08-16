@@ -11,9 +11,7 @@
 namespace Bassplay::Thread {
     class GuiThread: public wxThread {
     public:
-        GuiThread(Ui::PlayerFrame* playerFrame):  wxThread(wxTHREAD_DETACHED){
-            m_playerFrame = playerFrame;
-        }
+        GuiThread(Ui::PlayerFrame* t_playerFrame): wxThread(wxTHREAD_DETACHED), m_playerFrame(t_playerFrame) {};
     private:
         Ui::PlayerFrame* m_playerFrame = nullptr;
     protected:

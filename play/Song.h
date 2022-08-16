@@ -9,6 +9,7 @@
 #include <string>
 #include <vector>
 #include "../exception/BassplayException.h"
+#include "serializer/SerializableStringList.h"
 
 namespace Bassplay::Play {
 
@@ -16,16 +17,15 @@ namespace Bassplay::Play {
     private:
         HMUSIC m_hmusic = 0;
         BASS_CHANNELINFO *m_info = nullptr;
-        std::vector<char *> m_samples;
-        std::vector<char *> m_instruments;
-        char *m_message = nullptr;
+        Serializer::SerializableStringList m_samples;
+        Serializer::SerializableStringList m_instruments;
+        std::string m_message;
         std::string m_name;
         std::string m_path;
         std::string m_filename;
 
         void CleanupBaseData();
         void PopulateSamples();
-        void CleanupSamples();
         void PopulateMessage();
         void PopulateInstruments();
         void SetTitle();
@@ -33,20 +33,23 @@ namespace Bassplay::Play {
         void SetFilename();
 
     public:
-        Song(HMUSIC music) : m_hmusic(music) { Init(m_hmusic); };
-        Song(std::string &path);
+        Song(HMUSIC t_music) : m_hmusic(t_music) { Init(m_hmusic); };
+        Song(std::string &t_path);
 
         ~Song() {
             CleanupBaseData();
-            CleanupSamples();
         }
 
-        double Length();
+        double GetLength() const;
 
         std::string GetName() { return BASS_ChannelGetTags(m_hmusic, BASS_TAG_MUSIC_NAME); };
 
         std::string GetTitle() { return !(m_name.empty()) ? m_name : m_filename; }
         std::string GetFilename() { return m_filename; }
+        std::string GetMessage() { return m_message; }
+        std::string GetHumanReadableSamples() { return m_samples.serialize(); };
+        std::string GetHumanReadableInstruments() { return m_instruments.serialize(); };
+        std::string GetHumanReadablePlaybackTime() const;
 
         void UnloadSong() {
             if (m_hmusic != 0) BASS_MusicFree(m_hmusic);
