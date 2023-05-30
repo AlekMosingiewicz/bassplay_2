@@ -2,7 +2,6 @@ cmake_minimum_required(VERSION 3.22)
 project(bassplay_2)
 
 set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_CXX_FLAGS "-no-pie")
 
 include_directories(play)
 add_subdirectory(play)

@@ -12,6 +12,10 @@
 
 #define CATCH_CONFIG_MAIN
 #include "../play/serializer/SerializableStringList.h"
+#include "../play/Song.h"
+#include "../play/serializer/JsonSongSerializer.h"
+#include "../play/serializer/JsonSongCollectionSerializer.h"
+#include "../play/collection/SongCollection.h"
 
 #include "catch.hpp"
 
@@ -24,4 +28,44 @@ TEST_CASE("String list is properly deserialized")
     list.add(s2);
     std::string serialized = list.serialize();
     CHECK(serialized == std::string("string1\nstring2"));
+}
+
+TEST_CASE("Song is properly serialized to JSON")
+{
+    Bassplay::Play::Song song;
+    Bassplay::Play::Serializer::JsonSongSerializer serializer;
+
+    std::string songName = "SongName";
+    std::string songPath = "Path/To/Song";
+
+    song.SetName(songName);
+    song.SetPath(songPath);
+
+    std::string json = serializer.Serialize(&song);
+
+    CHECK(json == std::string("{\"filename\":\"Song\",\"title\":\"SongName\",\"path\":\"Path/To/Song\"}"));
+}
+
+TEST_CASE("Song collection is properly serialized to JSON")
+{
+    Bassplay::Play::Song song1;
+    Bassplay::Play::Song song2;
+    Bassplay::Play::Collection::SongCollection collection;
+    Bassplay::Play::Serializer::JsonSongSerializer songSerializer;
+    Bassplay::Play::Serializer::JsonSongCollectionSerializer serializer(&songSerializer);
+
+    song1.SetName("song1");
+    song1.SetFilename("Song1");
+    song1.SetPath("/Path/To/Song1");
+
+    song2.SetName("song2");
+    song2.SetPath("/Path/To/Song2");
+    song2.SetFilename("Song2");
+
+    collection.AddSong(&song1);
+    collection.AddSong(&song2);
+
+    std::string json = serializer.Serialize(&collection);
+
+    CHECK(json == std::string("[{\"filename\":\"Song1\",\"title\":\"song1\",\"path\":\"/Path/To/Song1\"},{\"filename\":\"Song2\",\"title\":\"song2\",\"path\":\"/Path/To/Song2\"}]"));
 }

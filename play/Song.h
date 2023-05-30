@@ -35,6 +35,7 @@ namespace Bassplay::Play {
     public:
         explicit Song(HMUSIC t_music) : m_hmusic(t_music) { Init(m_hmusic); };
         explicit Song(std::string &t_path);
+        Song() = default;
 
         ~Song() {
             CleanupBaseData();
@@ -47,9 +48,17 @@ namespace Bassplay::Play {
         std::string GetTitle() { return !(m_name.empty()) ? m_name : m_filename; }
         std::string GetFilename() { return m_filename; }
         std::string GetMessage() { return m_message; }
+        std::string GetPath() { return m_path; }
         std::string GetHumanReadableSamples() { return m_samples.serialize(); };
         std::string GetHumanReadableInstruments() { return m_instruments.serialize(); };
         [[nodiscard]] std::string GetHumanReadablePlaybackTime() const;
+
+        void SetName(std::string &p_name) { m_name = p_name; }
+        void SetPath(std::string &p_path) { m_path = p_path; SetFilename(); }
+
+        void SetName(const char* name) { m_name = std::string(name); }
+        void SetPath(const char* path) { m_path = std::string (path); }
+        void SetFilename(const char* filename) { m_filename = std::string(filename); }
 
         void UnloadSong() {
             if (m_hmusic != 0) BASS_MusicFree(m_hmusic);
