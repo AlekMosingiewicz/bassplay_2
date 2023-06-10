@@ -15,7 +15,8 @@
 #include "../play/Song.h"
 #include "../play/serializer/JsonSongSerializer.h"
 #include "../play/serializer/JsonSongCollectionSerializer.h"
-#include "../play/collection/SongCollection.h"
+#include "../play/persistence/FileCollectionPersister.h"
+#include <fstream>
 
 #include "catch.hpp"
 
@@ -67,5 +68,39 @@ TEST_CASE("Song collection is properly serialized to JSON")
 
     std::string json = serializer.Serialize(&collection);
 
+    CHECK(json == std::string("[{\"filename\":\"Song1\",\"title\":\"song1\",\"path\":\"/Path/To/Song1\"},{\"filename\":\"Song2\",\"title\":\"song2\",\"path\":\"/Path/To/Song2\"}]"));
+}
+
+TEST_CASE("Song collection is properly persisted")
+{
+    const char* filename = "./test.json";
+    std::fstream fstream = std::fstream(filename, std::ios::out);
+
+    Bassplay::Play::Song song1;
+    Bassplay::Play::Song song2;
+    Bassplay::Play::Collection::SongCollection collection;
+    Bassplay::Play::Serializer::JsonSongSerializer songSerializer;
+    Bassplay::Play::Serializer::JsonSongCollectionSerializer serializer(&songSerializer);
+
+    song1.SetName("song1");
+    song1.SetFilename("Song1");
+    song1.SetPath("/Path/To/Song1");
+
+    song2.SetName("song2");
+    song2.SetPath("/Path/To/Song2");
+    song2.SetFilename("Song2");
+
+    collection.AddSong(&song1);
+    collection.AddSong(&song2);
+
+    Bassplay::Play::Persistence::FileCollectionPersister persister(&fstream, &serializer);
+
+    persister.PersistCollection(&collection);
+    fstream.close();
+
+    std::fstream instream(filename);
+    std::string json;
+
+    instream >> json;
     CHECK(json == std::string("[{\"filename\":\"Song1\",\"title\":\"song1\",\"path\":\"/Path/To/Song1\"},{\"filename\":\"Song2\",\"title\":\"song2\",\"path\":\"/Path/To/Song2\"}]"));
 }

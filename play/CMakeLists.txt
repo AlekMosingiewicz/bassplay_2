@@ -13,7 +13,7 @@ set(HEADER_FILES
         serializer/ISongCollectionSerializer.h
         serializer/JsonSongCollectionSerializer.h
         serializer/AbstractSongCollectionSerializer.h
-        serializer/InvalidSerializerException.h)
+        serializer/InvalidSerializerException.h persistence/FileCollectionPersister.cpp persistence/FileCollectionPersister.h)
 
 set(SOURCE_FILES
         serializer/SerializableStringList.cpp
@@ -23,6 +23,6 @@ set(SOURCE_FILES
         serializer/JsonSongSerializer.cpp
         serializer/JsonSongCollectionSerializer.cpp
         serializer/InvalidSerializerException.cpp
-        serializer/InvalidSerializerException.h)
+        serializer/InvalidSerializerException.h persistence/ICollectionPersister.h persistence/AbstractCollectionPersister.h persistence/FileCollectionPersister.cpp persistence/FileCollectionPersister.h)
 
 add_library(Play_lib STATIC ${SOURCE_FILES} ${HEADER_FILES})
