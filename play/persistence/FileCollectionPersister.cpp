@@ -6,8 +6,8 @@
 
 namespace Bassplay::Play::Persistence {
     void FileCollectionPersister::PersistCollection(const Collection::SongCollection &collection) {
-        std::string serlializedCollection = m_serializer->Serialize(collection);
-        m_ostream->write(serlializedCollection.c_str(), (std::streamsize) serlializedCollection.length());
+        auto serializedCollection = m_serializer->Serialize(collection);
+        m_ostream->write(serializedCollection.c_str(), (std::streamsize) serializedCollection.length());
         m_ostream->flush();
     }
 } // Bassplay
