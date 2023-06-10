@@ -16,7 +16,7 @@ namespace Bassplay::Play::Serializer {
     class ISongCollectionSerializer {
     public:
         ISongCollectionSerializer() = default;
-        virtual std::string Serialize(Collection::SongCollection* p_songCollection) = 0;
+        virtual std::string Serialize(const Collection::SongCollection &p_songCollection) = 0;
     };
 
 } // Bassplay

@@ -10,9 +10,9 @@ namespace Bassplay::Play::Serializer {
             throw InvalidSerializerException();
     }
 
-    std::string JsonSongCollectionSerializer::Serialize(Collection::SongCollection *p_songCollection) {
+    std::string JsonSongCollectionSerializer::Serialize(const Collection::SongCollection &p_songCollection) {
         std::string collection_json = "[";
-        auto list = p_songCollection->GetSongs();
+        auto list = p_songCollection.GetSongs();
         auto it = list.rbegin();
 
         while (it != list.rend()) {

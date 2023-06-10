@@ -66,10 +66,11 @@ TEST_CASE("Song collection is properly serialized to JSON")
     collection.AddSong(&song1);
     collection.AddSong(&song2);
 
-    std::string json = serializer.Serialize(&collection);
+    std::string json = serializer.Serialize(collection);
 
     CHECK(json == std::string("[{\"filename\":\"Song1\",\"title\":\"song1\",\"path\":\"/Path/To/Song1\"},{\"filename\":\"Song2\",\"title\":\"song2\",\"path\":\"/Path/To/Song2\"}]"));
 }
+
 
 TEST_CASE("Song collection is properly persisted")
 {
@@ -95,7 +96,7 @@ TEST_CASE("Song collection is properly persisted")
 
     Bassplay::Play::Persistence::FileCollectionPersister persister(&fstream, &serializer);
 
-    persister.PersistCollection(&collection);
+    persister.PersistCollection(collection);
     fstream.close();
 
     std::fstream instream(filename);
@@ -103,4 +104,5 @@ TEST_CASE("Song collection is properly persisted")
 
     instream >> json;
     CHECK(json == std::string("[{\"filename\":\"Song1\",\"title\":\"song1\",\"path\":\"/Path/To/Song1\"},{\"filename\":\"Song2\",\"title\":\"song2\",\"path\":\"/Path/To/Song2\"}]"));
+    std::remove(filename);
 }

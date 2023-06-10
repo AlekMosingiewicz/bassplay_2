@@ -10,7 +10,7 @@
 namespace Bassplay::Play::Persistence {
     class ICollectionPersister {
     public:
-        virtual void PersistCollection(Bassplay::Play::Collection::SongCollection *collection){};
+        virtual void PersistCollection(const Bassplay::Play::Collection::SongCollection &collection){};
     };
 } // Persistence
 

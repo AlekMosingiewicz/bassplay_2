@@ -15,7 +15,7 @@ namespace Bassplay::Play::Serializer {
         void ValidateSerializer() override;
     public:
         JsonSongCollectionSerializer(JsonSongSerializer* serializer): AbstractSongCollectionSerializer(serializer) {}
-        std::string Serialize(Collection::SongCollection *p_songCollection) override;
+        std::string Serialize(const Collection::SongCollection& p_songCollection) override;
         ~JsonSongCollectionSerializer() {}
     };
 }

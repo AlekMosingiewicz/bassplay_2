@@ -15,7 +15,7 @@ namespace Bassplay::Play::Persistence {
     public:
         FileCollectionPersister(std::fstream *fstream, Serializer::ISongCollectionSerializer *serializer)
                 : AbstractCollectionPersister(fstream, serializer) {};
-        void PersistCollection(Collection::SongCollection *collection) override;
+        void PersistCollection(const Collection::SongCollection &collection) override;
     };
 
 } // Bassplay

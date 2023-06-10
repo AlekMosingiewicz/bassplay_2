@@ -5,7 +5,7 @@
 #include "FileCollectionPersister.h"
 
 namespace Bassplay::Play::Persistence {
-    void FileCollectionPersister::PersistCollection(Collection::SongCollection *collection) {
+    void FileCollectionPersister::PersistCollection(const Collection::SongCollection &collection) {
         std::string serlializedCollection = m_serializer->Serialize(collection);
         m_ostream->write(serlializedCollection.c_str(), (std::streamsize) serlializedCollection.length());
         m_ostream->flush();
