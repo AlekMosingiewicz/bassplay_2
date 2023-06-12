@@ -16,6 +16,7 @@
 #include "../play/serializer/JsonSongSerializer.h"
 #include "../play/serializer/JsonSongCollectionSerializer.h"
 #include "../play/persistence/FileCollectionPersister.h"
+#include "../play/parser/JsonParser.h"
 #include <fstream>
 
 #include "catch.hpp"
@@ -105,4 +106,17 @@ TEST_CASE("Song collection is properly persisted")
     instream >> json;
     CHECK(json == std::string("[{\"filename\":\"Song1\",\"title\":\"song1\",\"path\":\"/Path/To/Song1\"},{\"filename\":\"Song2\",\"title\":\"song2\",\"path\":\"/Path/To/Song2\"}]"));
     std::remove(filename);
+}
+
+TEST_CASE("JSON is properly parsed")
+{
+    std::string json(R"([{"key1":"value1","key2":"value2","key3":"value3"}])");
+    Bassplay::Play::Parser::JsonParser jsonParser;
+
+    jsonParser.Parse(json);
+    std::vector<std::unordered_map<std::string,std::string >> data = jsonParser.GetData();
+
+    std::unordered_map<std::string,std::string> firstObjectData = data.front();
+    CHECK("value1" == firstObjectData["key1"]);
+    CHECK("value2" == firstObjectData["key2"]);
 }
