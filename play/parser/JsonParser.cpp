@@ -16,20 +16,20 @@ namespace Bassplay::Play::Parser {
     std::vector<std::unordered_map<std::string,std::string >> JsonParser::ParseArray(const std::string &arrayString) {
         std::vector<std::string> elements_string;
         std::vector<std::unordered_map<std::string,std::string >> parsedElements;
-        size_t pointer = 0;
+        size_t pos = 0;
         size_t beginning;
         size_t ending;
 
-        while (pointer < arrayString.length()) {
-            pointer = arrayString.find('{', pointer);
+        while (pos < arrayString.length()) {
+            pos = arrayString.find('{', pos);
 
-            if (pointer == std::string::npos) {
+            if (pos == std::string::npos) {
                 break;
             }
 
-            beginning = pointer;
-            pointer = arrayString.find('}', pointer);
-            ending = pointer;
+            beginning = pos;
+            pos = arrayString.find('}', pos);
+            ending = pos;
             elements_string.push_back(arrayString.substr(beginning,(ending - beginning)+1));
         }
 
