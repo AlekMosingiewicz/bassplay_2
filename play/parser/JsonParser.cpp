@@ -30,7 +30,7 @@ namespace Bassplay::Play::Parser {
             beginning = pointer;
             pointer = arrayString.find('}', pointer);
             ending = pointer;
-            elements_string.push_back(arrayString.substr(0,ending));
+            elements_string.push_back(arrayString.substr(beginning,(ending - beginning)+1));
         }
 
         parsedElements.reserve(elements_string.size());
