@@ -110,7 +110,7 @@ TEST_CASE("Song collection is properly persisted")
 
 TEST_CASE("JSON is properly parsed")
 {
-    std::string json(R"([{"key1":"value1","key2":"value2","key3":"value3"}])");
+    std::string json(R"([{"key1":"value1","key2":"value2","key3":"value3"},{"key4":"value4"}])");
     Bassplay::Play::Parser::JsonParser jsonParser;
 
     jsonParser.Parse(json);
@@ -119,4 +119,7 @@ TEST_CASE("JSON is properly parsed")
     std::unordered_map<std::string,std::string> firstObjectData = data.front();
     CHECK("value1" == firstObjectData["key1"]);
     CHECK("value2" == firstObjectData["key2"]);
+
+    std::unordered_map<std::string,std::string> secondObjectData = data.back();
+    CHECK("value4" == secondObjectData["key4"]);
 }
