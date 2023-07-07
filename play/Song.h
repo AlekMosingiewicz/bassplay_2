@@ -59,6 +59,7 @@ namespace Bassplay::Play {
         void SetName(const char* name) { m_name = std::string(name); }
         void SetPath(const char* path) { m_path = std::string (path); }
         void SetFilename(const char* filename) { m_filename = std::string(filename); }
+        void SetFilename(std::string &filename) { m_filename = filename; }
 
         void UnloadSong() {
             if (m_hmusic != 0) BASS_MusicFree(m_hmusic);

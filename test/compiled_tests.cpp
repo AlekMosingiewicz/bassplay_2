@@ -17,6 +17,7 @@
 #include "../play/serializer/JsonSongCollectionSerializer.h"
 #include "../play/persistence/FileCollectionPersister.h"
 #include "../play/parser/JsonParser.h"
+#include "../play/transformer/JsonSongCollectionTransformer.h"
 #include <fstream>
 
 #include "catch.hpp"
@@ -122,4 +123,17 @@ TEST_CASE("JSON is properly parsed")
 
     std::unordered_map<std::string,std::string> secondObjectData = data.back();
     CHECK("value4" == secondObjectData["key4"]);
+}
+
+TEST_CASE("Song collection is properly deserialized")
+{
+    std::string json(R"([{"filename":"Song1","title":"song1","path":"/Path/To/Song1"}])");
+    Bassplay::Play::Parser::JsonParser jsonParser;
+    Bassplay::Play::Transformer::JsonSongCollectionTransformer transformer(&jsonParser);
+    Bassplay::Play::Collection::SongCollection* collection = transformer.Transform(json.c_str());
+    Bassplay::Play::Song* song = collection->GetSongs().front();
+
+    CHECK(std::string("song1") == song->GetTitle());
+    CHECK(std::string("Song1") == song->GetFilename());
+    CHECK(std::string("/Path/To/Song1") == song->GetPath());
 }
