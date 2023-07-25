@@ -6,7 +6,7 @@
 
 namespace Bassplay::Play::Transformer {
     Bassplay::Play::Collection::SongCollection* JsonSongCollectionTransformer::Transform(const char *src) {
-        Bassplay::Play::Collection::SongCollection* collection = new Bassplay::Play::Collection::SongCollection;
+        auto *collection = new Bassplay::Play::Collection::SongCollection;
         std::string jsonString(src);
         m_jsonParser->Parse(jsonString);
         std::vector<std::unordered_map<std::string,std::string >> data = m_jsonParser->GetData();

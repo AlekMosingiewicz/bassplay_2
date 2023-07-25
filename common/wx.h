@@ -8,5 +8,6 @@
 
 #ifndef WX_PRECOMP
 #include <wx/wx.h>
+#include <wx/filename.h>
 #endif
 #endif //BASSPLAY_2_WX_H
