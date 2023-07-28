@@ -24,8 +24,12 @@ namespace Bassplay::Ui {
             return;
         wxString path = fileDialog.GetPath();
         std::string stdPath = std::string(path.mb_str());
+        OpenSong(stdPath);
+    }
+
+    void PlayerFrame::OpenSong(std::string &path) {
         try {
-            m_player->LoadSong(stdPath);
+            m_player->LoadSong(path);
             ResetPositionSlider();
             m_player->PlaySong();
             if (FindWindowById(playerInfoWindow, this) == nullptr) {
@@ -35,6 +39,7 @@ namespace Bassplay::Ui {
                 m_songInfoFrame->SetSong(m_player->GetSong());
             }
             UpdateGUI();
+            BuildHistory();
         } catch (BassplayException &exception) {
             wxMessageBox(wxString::Format("Error code %d", exception.GetCode()),
                          "Error loading song!",
@@ -45,10 +50,8 @@ namespace Bassplay::Ui {
 
     void PlayerFrame::BuildMainMenu() {
         m_menuFile = new wxMenu;
-        m_menuFile->Append(wxID_OPEN, wxEmptyString, wxString("Load music module"));
-        m_menuFile->Append(wxID_INFO, wxEmptyString, wxString("Module info"));
-        m_menuFile->AppendSeparator();
-        m_menuFile->Append(wxID_EXIT);
+
+        BuildFileMenu();
 
         m_menuHelp = new wxMenu;
         m_menuHelp->Append(wxID_ABOUT);
@@ -60,6 +63,59 @@ namespace Bassplay::Ui {
         SetMenuBar(m_mainMenuBar);
         CreateStatusBar();
         SetStatusText("Bassplay 2.0");
+    }
+
+    void PlayerFrame::BuildFileMenu() {
+        m_menuFile->Append(wxID_OPEN, wxEmptyString, wxString("Load music module"));
+        m_menuFile->Append(wxID_INFO, wxEmptyString, wxString("Module info"));
+        m_menuFile->AppendSeparator();
+        BuildHistory();
+        m_menuFile->AppendSeparator();
+        m_menuFile->Append(wxID_EXIT);
+        Bind(wxEVT_MENU, &PlayerFrame::OnHistory, this);
+    }
+
+    void PlayerFrame::OnHistory(wxCommandEvent &event) {
+        auto id = event.GetId();
+        switch (id) {
+            case wxID_EXIT:
+                OnExit(event);
+                return;
+            case wxID_OPEN:
+                OnOpen(event);
+                return;
+            case wxID_INFO:
+                OnAbout(event);
+                return;
+        }
+        auto history = m_player->GetHistory()->GetSongs();
+        auto iterator = history.begin();
+        for (int i = 0; i < id - 100; i++) {
+            iterator++;
+        }
+        std::string path = (*iterator)->GetPath();
+        OpenSong(path);
+    }
+
+    void PlayerFrame::BuildHistory() {
+        if (m_menuFile == nullptr) {
+            return;
+        }
+
+        for (auto j = 100; j < 200; j++) {
+            if (m_menuFile->FindItem(j) != nullptr) {
+                m_menuFile->Delete(j);
+            }
+        }
+
+        auto history = m_player->GetHistory();
+        int i = 100;
+        for (auto song: history->GetSongs()) {
+            auto id = i++;
+            m_menuFile->Insert((i - 98),id, wxString(song->GetTitle()));
+        }
+        this->Refresh();
+        this->Update();
     }
 
     void PlayerFrame::BuildPlayerPanel() {
