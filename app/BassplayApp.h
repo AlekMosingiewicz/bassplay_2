@@ -22,6 +22,9 @@
 #include "../play/persistence/FileCollectionPersister.h"
 
 namespace Bassplay::App {
+
+    const int HISTORY_SIZE = 5;
+
     class BassplayApp : public wxApp {
     public:
         virtual bool OnInit();

@@ -77,7 +77,7 @@ namespace Bassplay::App {
         wxString buffer;
         historyFile.ReadAll(&buffer);
         auto collection = transformer.Transform(buffer.c_str());
-        collection->SetLimit(5);
+        collection->SetLimit(HISTORY_SIZE);
         m_player->SetHistory(collection);
     }
 
