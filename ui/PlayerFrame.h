@@ -62,7 +62,7 @@ namespace Bassplay::Ui {
         void OnAbout(wxCommandEvent& event);
         void OnOpen(wxCommandEvent& event);
         void OnInfo(wxCommandEvent& event);
-        void OnHistory(wxCommandEvent& event);
+        void OnMenu(wxCommandEvent& event);
         //play controls
         void OnPlay(wxCommandEvent& event);
         void OnPause(wxCommandEvent& event);

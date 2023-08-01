@@ -72,10 +72,10 @@ namespace Bassplay::Ui {
         BuildHistory();
         m_menuFile->AppendSeparator();
         m_menuFile->Append(wxID_EXIT);
-        Bind(wxEVT_MENU, &PlayerFrame::OnHistory, this);
+        Bind(wxEVT_MENU, &PlayerFrame::OnMenu, this);
     }
 
-    void PlayerFrame::OnHistory(wxCommandEvent &event) {
+    void PlayerFrame::OnMenu(wxCommandEvent &event) {
         auto id = event.GetId();
         switch (id) {
             case wxID_EXIT:
@@ -84,8 +84,11 @@ namespace Bassplay::Ui {
             case wxID_OPEN:
                 OnOpen(event);
                 return;
-            case wxID_INFO:
+            case wxID_ABOUT:
                 OnAbout(event);
+                return;
+            case wxID_INFO:
+                OnInfo(event);
                 return;
         }
         auto history = m_player->GetHistory()->GetSongs();

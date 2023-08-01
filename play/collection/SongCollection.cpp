@@ -16,7 +16,12 @@ namespace Bassplay::Play::Collection {
 
     void SongCollection::AddSong(Bassplay::Play::Song *t_song) {
         if (m_limit > 0 && m_songs.size() + 1 > m_limit) {
-            m_songs.erase(m_songs.end());
+            for (auto it = m_songs.begin(); it != m_songs.end(); it++) {
+                if (std::next(it) == m_songs.end()) {
+                    m_songs.erase(it);
+                    break;
+                }
+            }
         }
         std::string name = t_song->GetFilename();
         if (name.empty()) {

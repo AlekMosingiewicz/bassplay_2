@@ -10,6 +10,7 @@
 #include "../serializer/ISongCollectionSerializer.h"
 #include <list>
 #include <unordered_map>
+#include <iterator>
 
 namespace Bassplay::Play::Serializer {
     class ISongCollectionSerializer;
