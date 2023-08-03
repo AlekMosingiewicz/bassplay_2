@@ -12,7 +12,7 @@
 #include "SongInfoFrame.h"
 
 enum playerWidgets {
-    playerWidgetsMinimum = 100,
+    playerWidgetsMinimum = 200,
     playerButtonPlay,
     playerButtonPause,
     playerButtonStop,
