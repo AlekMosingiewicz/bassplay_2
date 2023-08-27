@@ -17,6 +17,9 @@ namespace Bassplay::Play {
         try {
             m_songBeingPlayed = new Song(path);
             SetCurrentDirectory(path);
+            if (m_history != nullptr) {
+                m_history->AddSong(m_songBeingPlayed);
+            }
         } catch (BassplayException& bassplayException) {
             throw bassplayException;
         }

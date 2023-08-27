@@ -12,7 +12,7 @@
 #include "SongInfoFrame.h"
 
 enum playerWidgets {
-    playerWidgetsMinimum = 100,
+    playerWidgetsMinimum = 200,
     playerButtonPlay,
     playerButtonPause,
     playerButtonStop,
@@ -54,11 +54,15 @@ namespace Bassplay::Ui {
         //ui building
         void BuildMainMenu();
         void BuildPlayerPanel();
+        void BuildFileMenu();
+        //history handling
+        void BuildHistory();
         //events
         void OnExit(wxCommandEvent& event);
         void OnAbout(wxCommandEvent& event);
         void OnOpen(wxCommandEvent& event);
         void OnInfo(wxCommandEvent& event);
+        void OnMenu(wxCommandEvent& event);
         //play controls
         void OnPlay(wxCommandEvent& event);
         void OnPause(wxCommandEvent& event);
@@ -69,6 +73,7 @@ namespace Bassplay::Ui {
         void UpdateTimeLabel();
         void ResetPositionSlider();
         void UpdatePositionSlider();
+        void OpenSong(std::string& path);
 
         wxDECLARE_EVENT_TABLE();
     };

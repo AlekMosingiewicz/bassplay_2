@@ -6,7 +6,7 @@
 #define BASSPLAY_2_PLAYER_H
 
 #include "Song.h"
-
+#include "collection/SongCollection.h"
 
 namespace Bassplay::Play {
 
@@ -25,13 +25,18 @@ namespace Bassplay::Play {
         bool  replay;
         int state = player_state_stopped;
         std::string m_currentDirectory;
+        Bassplay::Play::Collection::SongCollection* m_playlist = nullptr;
+        Bassplay::Play::Collection::SongCollection* m_history = nullptr;
         //methods
         void PlayCurrentSong();
         void SetCurrentDirectory(std::string &path);
     public:
-        explicit Player(bool t_doreplay = false) : replay(t_doreplay), m_songBeingPlayed(nullptr) {}
+        explicit Player(bool t_doreplay = false) : replay(t_doreplay), m_songBeingPlayed(nullptr), m_playlist(new Collection::SongCollection()) {
+            m_history = new Bassplay::Play::Collection::SongCollection();
+            m_history->SetLimit(5);
+        };
         explicit Player(Song* t_song, bool t_doreplay = false) : m_songBeingPlayed(t_song), replay(t_doreplay) {}
-        ~Player() { delete m_songBeingPlayed; }
+        ~Player() { delete m_songBeingPlayed; if (m_history != nullptr) { delete m_history; } }
         void LoadSong(std::string& path);
         void PlaySong();
         void PauseSong();
@@ -39,6 +44,16 @@ namespace Bassplay::Play {
         [[nodiscard]] int GetState() const { return state; }
         [[nodiscard]] bool HasSong() const { return m_songBeingPlayed != nullptr; }
         [[nodiscard]] Song* GetSong() const { return m_songBeingPlayed; }
+        [[nodiscard]] Bassplay::Play::Collection::SongCollection* GetPlaylist() { return m_playlist; };
+        [[nodiscard]] Bassplay::Play::Collection::SongCollection* GetHistory() { return m_history; };
+        void SetPlaylist(Bassplay::Play::Collection::SongCollection* p_songCollection) {
+            if (m_playlist != nullptr) delete m_playlist;
+            m_playlist = p_songCollection;
+        }
+        void SetHistory(Bassplay::Play::Collection::SongCollection* p_history) {
+            if (m_history != nullptr) delete m_history;
+            m_history = p_history;
+        }
         std::string GetCurrentPlaybackTime();
         double GetPlaybackTimeInSeconds();
         void SetReplay(bool t_doReplay) { replay = t_doReplay; }

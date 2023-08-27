@@ -8,11 +8,23 @@
 #include "../common/wx.h"
 
 #include <vector>
+#include <fstream>
+#include <unistd.h>
+#include <sys/types.h>
+#include <pwd.h>
 #include "../play/Player.h"
 #include "../ui/PlayerFrame.h"
 #include "../thread/GuiThread.h"
+#include "../play/collection/SongCollection.h"
+#include "../play/transformer/JsonSongCollectionTransformer.h"
+#include "../play/parser/JsonParser.h"
+#include "../play/serializer/JsonSongCollectionSerializer.h"
+#include "../play/persistence/FileCollectionPersister.h"
 
 namespace Bassplay::App {
+
+    const int HISTORY_SIZE = 5;
+
     class BassplayApp : public wxApp {
     public:
         virtual bool OnInit();
@@ -31,6 +43,10 @@ namespace Bassplay::App {
         void AddThread(wxThread* thread) { m_threads.push_back(thread); }
         void RunThread(wxThread* thread);
         void RunThreads();
+        void InitHistory();
+        void InitHistoryDir();
+        void SaveHistory();
+        wxString GetAppDir();
     };
 } // Bassplay::App
 
