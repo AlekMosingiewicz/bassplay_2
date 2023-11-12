@@ -89,4 +89,10 @@ namespace Bassplay::Play {
             );
         }
     }
+
+    void Player::BassUpdateVolume() const {
+        if (mVolume > 0 && mVolume < 100) {
+            BASS_SetVolume(mVolume);
+        }
+    }
 } // Play
