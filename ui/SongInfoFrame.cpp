@@ -47,6 +47,10 @@ namespace Bassplay::Ui {
         m_instrumentInfo->WriteText(wxInstruments);
         m_messageInfo->WriteText(wxMessage);
 
+        m_sampleInfo->SetInsertionPoint(0);
+        m_instrumentInfo->SetInsertionPoint(0);
+        m_messageInfo->SetInsertionPoint(0);
+
         SetMainInfoPage();
     }
 
