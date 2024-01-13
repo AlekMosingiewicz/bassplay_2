@@ -15,7 +15,7 @@ namespace Bassplay::Play {
 
     class Song {
     private:
-        HMUSIC m_hmusic = 0;
+        HMUSIC mHmusic = 0;
         BASS_CHANNELINFO *m_info = nullptr;
         Serializer::SerializableStringList m_samples;
         Serializer::SerializableStringList m_instruments;
@@ -33,7 +33,7 @@ namespace Bassplay::Play {
         void SetFilename();
 
     public:
-        explicit Song(HMUSIC t_music) : m_hmusic(t_music) { Init(m_hmusic); };
+        explicit Song(HMUSIC t_music) : mHmusic(t_music) { Init(mHmusic); };
         explicit Song(std::string &t_path);
         Song() = default;
 
@@ -43,7 +43,7 @@ namespace Bassplay::Play {
 
         [[nodiscard]] double GetLength() const;
 
-        [[nodiscard]] std::string GetName() const { return BASS_ChannelGetTags(m_hmusic, BASS_TAG_MUSIC_NAME); };
+        [[nodiscard]] std::string GetName() const { return BASS_ChannelGetTags(mHmusic, BASS_TAG_MUSIC_NAME); };
 
         std::string GetTitle() { return !(m_name.empty()) ? m_name : m_filename; }
         std::string GetFilename() { return m_filename; }
@@ -60,22 +60,24 @@ namespace Bassplay::Play {
         void SetPath(const char* path) { m_path = std::string (path); }
         void SetFilename(const char* filename) { m_filename = std::string(filename); }
         void SetFilename(std::string &filename) { m_filename = filename; }
+        float GetVolume();
+        void SetVolume(float volume);
 
         void UnloadSong() {
-            if (m_hmusic != 0) BASS_MusicFree(m_hmusic);
-            m_hmusic = 0;
+            if (mHmusic != 0) BASS_MusicFree(mHmusic);
+            mHmusic = 0;
         }
 
         void Rewind() const {
-            BASS_ChannelSetPosition(m_hmusic, MAKELONG(0, 0), BASS_POS_MUSIC_ORDER |
-                                                              BASS_MUSIC_POSRESET);
+            BASS_ChannelSetPosition(mHmusic, MAKELONG(0, 0), BASS_POS_MUSIC_ORDER |
+                                                             BASS_MUSIC_POSRESET);
         }
 
         [[nodiscard]] double GetCurrentPlaybackTime() const {
-            return BASS_ChannelBytes2Seconds(m_hmusic, BASS_ChannelGetPosition(m_hmusic, BASS_POS_BYTE));
+            return BASS_ChannelBytes2Seconds(mHmusic, BASS_ChannelGetPosition(mHmusic, BASS_POS_BYTE));
         }
 
-        [[nodiscard]] HMUSIC GetMusicHandle() const { return m_hmusic; }
+        [[nodiscard]] HMUSIC GetMusicHandle() const { return mHmusic; }
     };
 } // Play
 

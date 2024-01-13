@@ -24,7 +24,7 @@ namespace Bassplay::Play {
         Song* m_songBeingPlayed = nullptr;
         bool  replay;
         int   state = player_state_stopped;
-        float mVolume = 100;
+        float mVolume = 1;
         std::string m_currentDirectory;
         Bassplay::Play::Collection::SongCollection* m_playlist = nullptr;
         Bassplay::Play::Collection::SongCollection* m_history = nullptr;
@@ -43,8 +43,7 @@ namespace Bassplay::Play {
         void PlaySong();
         void PauseSong();
         void StopSong();
-        void   SetVolume(float volume) { mVolume = volume; BassUpdateVolume(); }
-        void   TuneVolume(float howMuch) { mVolume += howMuch; BassUpdateVolume(); }
+        void SetVolume(float volume) { mVolume = volume; BassUpdateVolume(); }
         [[nodiscard]] int GetState() const { return state; }
         [[nodiscard]] bool HasSong() const { return m_songBeingPlayed != nullptr; }
         [[nodiscard]] Song* GetSong() const { return m_songBeingPlayed; }
@@ -60,6 +59,7 @@ namespace Bassplay::Play {
         }
         std::string GetCurrentPlaybackTime();
         double GetPlaybackTimeInSeconds();
+        float GetVolume() { return mVolume; }
         void SetReplay(bool t_doReplay) { replay = t_doReplay; }
         void JumpToPosition(double position);
         void CALLBACK OnPlaybackEnd(HSYNC hmusic, DWORD channel, DWORD data, void *user) {  state = player_state_stopped; };

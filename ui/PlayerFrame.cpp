@@ -136,6 +136,7 @@ namespace Bassplay::Ui {
                 wxScrollEventHandler(PlayerFrame::OnVolumeSliderDragged));
 
         m_volumeSlider = new wxSlider(this, playerVolumeSlider, 100, 0, 100, wxDefaultPosition, wxSize(300, 0));
+        m_volumeSlider->SetValue((float) m_player->GetVolume() * 100);
 
         m_playButton = new wxButton(this, playerButtonPlay, "Play");
         m_pauseButton = new wxButton(this, playerButtonPause, "Pause");
@@ -173,6 +174,9 @@ namespace Bassplay::Ui {
         }
         if (m_player->GetState() == Play::player_state_stopped && m_positionSlider->GetValue() > 0) {
             StopAndReset();
+        }
+        if (m_player->GetState() == Play::player_state_stopped || m_player->GetState() == Play::player_state_paused) {
+            m_volumeSlider->SetValue(m_player->GetVolume() * 100);
         }
         UpdatePlayLabel();
         UpdatePositionSlider();

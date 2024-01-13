@@ -23,6 +23,7 @@ namespace Bassplay::Play {
         } catch (BassplayException& bassplayException) {
             throw bassplayException;
         }
+        mVolume = m_songBeingPlayed->GetVolume();
     }
 
     void Player::PlaySong() {
@@ -91,8 +92,8 @@ namespace Bassplay::Play {
     }
 
     void Player::BassUpdateVolume() const {
-        if (mVolume > 0 && mVolume < 100) {
-            BASS_SetVolume(mVolume);
+        if (mVolume > 0 && mVolume < 1) {
+            m_songBeingPlayed->SetVolume(mVolume);
         }
     }
 } // Play
