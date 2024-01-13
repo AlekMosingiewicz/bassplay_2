@@ -127,9 +127,15 @@ namespace Bassplay::Ui {
         wxSizer* verticalSizer = new wxBoxSizer(wxVERTICAL);
         m_timeLabel = new wxStaticText(this, wxID_ANY, wxString("00:00/00:00"), wxDefaultPosition, wxDefaultSize, wxST_NO_AUTORESIZE);
         m_songNameLabel = new wxStaticText(this, wxID_ANY, wxString("No song loaded"), wxDefaultPosition, wxSize(300,0), wxST_NO_AUTORESIZE|wxALIGN_CENTRE_HORIZONTAL);
+        auto volumeLabel = new wxStaticText(this, wxID_ANY, wxString("Volume:"), wxDefaultPosition, wxSize(300,0), wxST_NO_AUTORESIZE|wxALIGN_LEFT);
 
         m_positionSlider = new wxSlider(this, playerPositionSlider, 0, 0, 100, wxDefaultPosition, wxSize(300, 0));
-        Connect(playerPositionSlider, wxEVT_SCROLL_THUMBRELEASE, wxScrollEventHandler(PlayerFrame::OnSliderDragged));
+        Connect(playerPositionSlider, wxEVT_SCROLL_THUMBRELEASE,
+                wxScrollEventHandler(PlayerFrame::OnPositionSliderDragged));
+        Connect(playerVolumeSlider, wxEVT_SCROLL_THUMBRELEASE,
+                wxScrollEventHandler(PlayerFrame::OnVolumeSliderDragged));
+
+        m_volumeSlider = new wxSlider(this, playerVolumeSlider, 100, 0, 100, wxDefaultPosition, wxSize(300, 0));
 
         m_playButton = new wxButton(this, playerButtonPlay, "Play");
         m_pauseButton = new wxButton(this, playerButtonPause, "Pause");
@@ -145,6 +151,8 @@ namespace Bassplay::Ui {
         verticalSizer->Add(m_timeLabel, 3, wxALIGN_CENTER_HORIZONTAL | wxALIGN_CENTER_VERTICAL, 10);
         verticalSizer->Add(m_positionSlider, 5, wxALIGN_CENTER_HORIZONTAL | wxALIGN_CENTER_VERTICAL, 1);
         verticalSizer->Add(horizontalSizer);
+        verticalSizer->Add(volumeLabel, 3, wxALIGN_CENTER_HORIZONTAL | wxALIGN_CENTER_VERTICAL, 1);
+        verticalSizer->Add(m_volumeSlider, 5, wxALIGN_CENTER_HORIZONTAL | wxALIGN_CENTER_VERTICAL, 1);
 
         m_playerPanel->SetSizerAndFit(verticalSizer);
 
@@ -210,11 +218,16 @@ namespace Bassplay::Ui {
         }
     }
 
-    void PlayerFrame::OnSliderDragged(wxScrollEvent &event) {
+    void PlayerFrame::OnPositionSliderDragged(wxScrollEvent &event) {
         double position = m_positionSlider->GetValue();
         m_player->JumpToPosition(position);
         UpdateGUI();
         UpdateTimeLabel();
+    }
+
+    void PlayerFrame::OnVolumeSliderDragged(wxScrollEvent &event) {
+        double volume = m_volumeSlider->GetValue();
+        m_player->SetVolume((float) (volume/100));
     }
 
     void PlayerFrame::ShowInfoFrame() {

@@ -9,7 +9,7 @@ namespace Bassplay::App {
         BASS_Init(-1, 44100, 0, NULL, NULL); //start the BASS library
         m_player = new Play::Player(false);
         InitHistory();
-        m_playerFrame = new Ui::PlayerFrame("Bassplay 2.0", wxPoint(50, 50), wxSize(300, 200), m_player);
+        m_playerFrame = new Ui::PlayerFrame("Bassplay 2.0", wxPoint(50, 50), wxSize(300, 250), m_player);
         m_playerFrame->Show(true);
         InitThreads();
         return true;

@@ -17,6 +17,7 @@ enum playerWidgets {
     playerButtonPause,
     playerButtonStop,
     playerPositionSlider,
+    playerVolumeSlider,
     playerInfoWindow
 };
 
@@ -47,6 +48,7 @@ namespace Bassplay::Ui {
         wxButton* m_pauseButton;
         wxButton* m_stopButton;
         wxSlider* m_positionSlider;
+        wxSlider* m_volumeSlider;
 
         //external frames
         SongInfoFrame* m_songInfoFrame = nullptr;
@@ -67,7 +69,8 @@ namespace Bassplay::Ui {
         void OnPlay(wxCommandEvent& event);
         void OnPause(wxCommandEvent& event);
         void OnStop(wxCommandEvent& event);
-        void OnSliderDragged(wxScrollEvent& event);
+        void OnPositionSliderDragged(wxScrollEvent& event);
+        void OnVolumeSliderDragged(wxScrollEvent& event);
         //helper methods
         void UpdatePlayLabel();
         void UpdateTimeLabel();
