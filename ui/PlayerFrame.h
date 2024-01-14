@@ -45,6 +45,7 @@ namespace Bassplay::Ui {
         wxPanel* m_playerPanel;
         wxStaticText* m_songNameLabel = nullptr;
         wxStaticText* m_timeLabel = nullptr;
+        wxStaticText* mVolumeLabel = nullptr;
         wxButton* m_playButton;
         wxButton* m_pauseButton;
         wxButton* m_stopButton;

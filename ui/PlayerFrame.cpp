@@ -127,7 +127,7 @@ namespace Bassplay::Ui {
         wxSizer* verticalSizer = new wxBoxSizer(wxVERTICAL);
         m_timeLabel = new wxStaticText(this, wxID_ANY, wxString("00:00/00:00"), wxDefaultPosition, wxDefaultSize, wxST_NO_AUTORESIZE);
         m_songNameLabel = new wxStaticText(this, wxID_ANY, wxString("No song loaded"), wxDefaultPosition, wxSize(300,0), wxST_NO_AUTORESIZE|wxALIGN_CENTRE_HORIZONTAL);
-        auto volumeLabel = new wxStaticText(this, wxID_ANY, wxString("Volume:"), wxDefaultPosition, wxSize(300,0), wxST_NO_AUTORESIZE|wxALIGN_LEFT);
+        mVolumeLabel = new wxStaticText(this, wxID_ANY, wxString("Volume:"), wxDefaultPosition, wxSize(300,0), wxST_NO_AUTORESIZE|wxALIGN_LEFT);
 
         m_positionSlider = new wxSlider(this, playerPositionSlider, 0, 0, 100, wxDefaultPosition, wxSize(300, 0));
         Connect(playerPositionSlider, wxEVT_SCROLL_THUMBRELEASE,
@@ -154,12 +154,16 @@ namespace Bassplay::Ui {
         verticalSizer->Add(m_timeLabel, 3, wxALIGN_CENTER_HORIZONTAL | wxALIGN_CENTER_VERTICAL, 10);
         verticalSizer->Add(m_positionSlider, 5, wxALIGN_CENTER_HORIZONTAL | wxALIGN_CENTER_VERTICAL, 1);
         verticalSizer->Add(horizontalSizer);
-        verticalSizer->Add(volumeLabel, 3, wxALIGN_CENTER_HORIZONTAL | wxALIGN_CENTER_VERTICAL, 1);
+        verticalSizer->Add(mVolumeLabel, 3, wxALIGN_CENTER_HORIZONTAL | wxALIGN_CENTER_VERTICAL, 1);
         verticalSizer->Add(m_volumeSlider, 5, wxALIGN_CENTER_HORIZONTAL | wxALIGN_CENTER_VERTICAL, 1);
+
+
 
         m_playerPanel->SetSizerAndFit(verticalSizer);
 
         m_playerPanel->Show(true);
+        m_volumeSlider->Hide();
+        mVolumeLabel->Hide();
     }
 
     PlayerFrame::PlayerFrame(const wxString &title, const wxPoint &pos, const wxSize &size,
@@ -281,11 +285,19 @@ namespace Bassplay::Ui {
         wxSize size = GetSize();
         if (mVolumeVisible) {
             size.SetHeight(size.GetHeight() - 50);
+            mVolumeLabel->Hide();
+            m_volumeSlider->Hide();
         } else {
             size.SetHeight(size.GetHeight() + 50);
+            mVolumeLabel->Show(true);
+            m_volumeSlider->Show(true);
         }
         SetSize(size);
         mVolumeVisible = !mVolumeVisible;
+        m_playerPanel->Show(true);
+
+        this->Refresh();
+        this->Update();
     }
 
 } // Bassplay
