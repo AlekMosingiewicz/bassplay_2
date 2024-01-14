@@ -141,10 +141,12 @@ namespace Bassplay::Ui {
         m_playButton = new wxButton(this, playerButtonPlay, "Play");
         m_pauseButton = new wxButton(this, playerButtonPause, "Pause");
         m_stopButton = new wxButton(this, playerButtonStop, "Stop");
+        mVolumeButton = new wxButton(this, playerButtonVolume, "Volume");
 
         horizontalSizer->Add(m_playButton, 3, wxALL, 5);
         horizontalSizer->Add(m_pauseButton, 3, wxALL, 5);
         horizontalSizer->Add(m_stopButton, 3, wxALL, 5);
+        horizontalSizer->Add(mVolumeButton, 3, wxALL, 5);
         horizontalSizer->AddSpacer(3);
         horizontalSizer->RecalcSizes();
 
@@ -246,6 +248,7 @@ namespace Bassplay::Ui {
         m_songInfoFrame->Show();
     }
 
+
     void PlayerFrame::OnInfo(wxCommandEvent &event) {
         if (!m_player->HasSong()) {
             wxMessageBox("No module loaded");
@@ -272,6 +275,17 @@ namespace Bassplay::Ui {
 
         titleLabel = m_player->GetSong() != nullptr ? wxString(m_player->GetSong()->GetTitle()) : "No song loaded";
         m_songNameLabel->SetLabel(wxString(stateLabel + ": " + titleLabel));
+    }
+
+    void PlayerFrame::OnVolumeButtonPress(wxCommandEvent &event) {
+        wxSize size = GetSize();
+        if (mVolumeVisible) {
+            size.SetHeight(size.GetHeight() - 50);
+        } else {
+            size.SetHeight(size.GetHeight() + 50);
+        }
+        SetSize(size);
+        mVolumeVisible = !mVolumeVisible;
     }
 
 } // Bassplay
