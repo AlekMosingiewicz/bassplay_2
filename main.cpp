@@ -11,7 +11,7 @@ wxBEGIN_EVENT_TABLE(Bassplay::Ui::PlayerFrame, wxFrame)
                 EVT_BUTTON(playerButtonPlay, Bassplay::Ui::PlayerFrame::OnPlay)
                 EVT_BUTTON(playerButtonPause, Bassplay::Ui::PlayerFrame::OnPause)
                 EVT_BUTTON(playerButtonStop, Bassplay::Ui::PlayerFrame::OnStop)
-                EVT_BUTTON(playerButtonVolume, Bassplay::Ui::PlayerFrame::OnVolumeButtonPress)
+                EVT_BUTTON(playerButtonControls, Bassplay::Ui::PlayerFrame::OnVolumeButtonPress)
 wxEND_EVENT_TABLE()
 
 IMPLEMENT_APP(Bassplay::App::BassplayApp)

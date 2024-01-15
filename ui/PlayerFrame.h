@@ -16,7 +16,7 @@ enum playerWidgets {
     playerButtonPlay,
     playerButtonPause,
     playerButtonStop,
-    playerButtonVolume,
+    playerButtonControls,
     playerPositionSlider,
     playerVolumeSlider,
     playerInfoWindow
@@ -49,7 +49,7 @@ namespace Bassplay::Ui {
         wxButton* m_playButton;
         wxButton* m_pauseButton;
         wxButton* m_stopButton;
-        wxButton* mVolumeButton;
+        wxButton* mControlsButton;
         wxSlider* m_positionSlider;
         wxSlider* m_volumeSlider;
 
