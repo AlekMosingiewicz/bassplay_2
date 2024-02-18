@@ -3,6 +3,7 @@
 //
 
 #include <wx/wx.h>
+#include <wx/stdpaths.h>
 
 #include "PlayerFrame.h"
 
@@ -139,46 +140,47 @@ namespace Bassplay::Ui {
         m_volumeSlider = new wxSlider(this, playerVolumeSlider, 100, 0, 100, wxDefaultPosition, wxSize(300, 0));
         m_volumeSlider -> SetValue((float)(m_player -> GetVolume() * 100));
 
+        wxString imagedir = wxStandardPaths::Get().GetUserConfigDir() + "/.bassplay/img/";
         m_playButton = new wxBitmapButton(
                 this,
                 playerButtonPlay,
-                wxBitmap(wxImage("/home/aleksander/src/bassplay-2/img/211876_play_icon.png", wxBITMAP_TYPE_PNG)),
+                wxBitmap(wxImage(imagedir + "211876_play_icon.png", wxBITMAP_TYPE_PNG)),
                 wxDefaultPosition,
                 wxSize(50, 50)
         );
         m_pauseButton = new wxBitmapButton(
                 this,
                 playerButtonPause,
-                wxBitmap(wxImage("/home/aleksander/src/bassplay-2/img/211871_pause_icon.png", wxBITMAP_TYPE_PNG)),
+                wxBitmap(wxImage(imagedir + "211871_pause_icon.png", wxBITMAP_TYPE_PNG)),
                 wxDefaultPosition,
                 wxSize(50, 50)
         );
         m_stopButton = new wxBitmapButton(
                 this,
                 playerButtonStop,
-                wxBitmap(wxImage("/home/aleksander/src/bassplay-2/img/2203518_block_cube_music_square_stop_icon.png", wxBITMAP_TYPE_PNG)),
+                wxBitmap(wxImage(imagedir + "2203518_block_cube_music_square_stop_icon.png", wxBITMAP_TYPE_PNG)),
                 wxDefaultPosition,
                 wxSize(50, 50)
         );
         mControlsButton = new wxBitmapButton(
                 this,
                 playerButtonControls,
-                wxBitmap(wxImage("/home/aleksander/src/bassplay-2/img/3516631_audio_control_gauge_media_play_icon.png", wxBITMAP_TYPE_PNG)),
+                wxBitmap(wxImage(imagedir + "3516631_audio_control_gauge_media_play_icon.png", wxBITMAP_TYPE_PNG)),
                 wxDefaultPosition,
                 wxSize(50, 50)
         );
 
-        horizontalSizer -> Add(m_playButton, 3, wxALL, 5);
-        horizontalSizer -> Add(m_pauseButton, 3, wxALL, 5);
-        horizontalSizer -> Add(m_stopButton, 3, wxALL, 5);
-        horizontalSizer -> Add(mControlsButton, 3, wxALL, 5);
-        horizontalSizer -> AddSpacer(3);
+        horizontalSizer -> Add(m_playButton, 2, wxALL, 5);
+        horizontalSizer -> Add(m_pauseButton, 2, wxALL, 5);
+        horizontalSizer -> Add(m_stopButton, 2, wxALL, 5);
+        horizontalSizer -> Add(mControlsButton, 2, wxALL, 5);
+        horizontalSizer -> AddSpacer(5);
         horizontalSizer -> RecalcSizes();
 
         verticalSizer -> Add(m_songNameLabel, 3, wxALIGN_CENTER, 3);
         verticalSizer -> Add(m_timeLabel, 3, wxALIGN_CENTER_HORIZONTAL | wxALIGN_CENTER_VERTICAL, 10);
         verticalSizer -> Add(m_positionSlider, 5, wxALIGN_CENTER_HORIZONTAL | wxALIGN_CENTER_VERTICAL, 1);
-        verticalSizer -> Add(horizontalSizer);
+        verticalSizer -> Add(horizontalSizer, 0, wxALIGN_CENTER_HORIZONTAL);
         verticalSizer -> Add(mVolumeLabel, 3, wxALIGN_CENTER_HORIZONTAL | wxALIGN_CENTER_VERTICAL, 1);
         verticalSizer -> Add(m_volumeSlider, 5, wxALIGN_CENTER_HORIZONTAL | wxALIGN_CENTER_VERTICAL, 1);
 
