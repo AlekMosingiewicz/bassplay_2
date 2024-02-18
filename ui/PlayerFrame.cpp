@@ -146,28 +146,28 @@ namespace Bassplay::Ui {
                 playerButtonPlay,
                 wxBitmap(wxImage(imagedir + "211876_play_icon.png", wxBITMAP_TYPE_PNG)),
                 wxDefaultPosition,
-                wxSize(50, 50)
+                wxSize(45, 45)
         );
         m_pauseButton = new wxBitmapButton(
                 this,
                 playerButtonPause,
                 wxBitmap(wxImage(imagedir + "211871_pause_icon.png", wxBITMAP_TYPE_PNG)),
                 wxDefaultPosition,
-                wxSize(50, 50)
+                wxSize(45, 45)
         );
         m_stopButton = new wxBitmapButton(
                 this,
                 playerButtonStop,
                 wxBitmap(wxImage(imagedir + "2203518_block_cube_music_square_stop_icon.png", wxBITMAP_TYPE_PNG)),
                 wxDefaultPosition,
-                wxSize(50, 50)
+                wxSize(45, 45)
         );
         mControlsButton = new wxBitmapButton(
                 this,
                 playerButtonControls,
                 wxBitmap(wxImage(imagedir + "3516631_audio_control_gauge_media_play_icon.png", wxBITMAP_TYPE_PNG)),
                 wxDefaultPosition,
-                wxSize(50, 50)
+                wxSize(45, 45)
         );
 
         horizontalSizer -> Add(m_playButton, 2, wxALL, 5);
