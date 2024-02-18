@@ -36,7 +36,6 @@ include(${wxWidgets_USE_FILE})
 target_link_libraries(bassplay_2 ${wxWidgets_LIBRARIES})
 
 # Copy icon images to hidden app directory
-file(MAKE_DIRECTORY "./img")
 file(MAKE_DIRECTORY "$ENV{HOME}/.bassplay/img")
 configure_file("img/211876_play_icon.png" "$ENV{HOME}/.bassplay/img/211876_play_icon.png" COPYONLY)
 configure_file("img/211871_pause_icon.png" "$ENV{HOME}/.bassplay/img/211871_pause_icon.png" COPYONLY)
