@@ -23,7 +23,6 @@ namespace Bassplay::Play {
         } catch (BassplayException& bassplayException) {
             throw bassplayException;
         }
-        mVolume = m_songBeingPlayed->GetVolume();
         BassUpdateVolume();
     }
 
