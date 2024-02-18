@@ -130,19 +130,43 @@ namespace Bassplay::Ui {
         m_songNameLabel = new wxStaticText(this, wxID_ANY, wxString("No song loaded"), wxDefaultPosition, wxSize(300, 0), wxST_NO_AUTORESIZE | wxALIGN_CENTRE_HORIZONTAL);
         mVolumeLabel = new wxStaticText(this, wxID_ANY, wxString("Volume:"), wxDefaultPosition, wxSize(300, 0), wxST_NO_AUTORESIZE | wxALIGN_LEFT);
 
-        m_positionSlider = new wxSlider(this, playerPositionSlider, 0, 0, 100, wxDefaultPosition, wxSize(420, 0));
+        m_positionSlider = new wxSlider(this, playerPositionSlider, 0, 0, 100, wxDefaultPosition, wxSize(300, 0));
         Connect(playerPositionSlider, wxEVT_SCROLL_THUMBRELEASE,
                 wxScrollEventHandler(PlayerFrame::OnPositionSliderDragged));
         Connect(playerVolumeSlider, wxEVT_SCROLL_THUMBRELEASE,
                 wxScrollEventHandler(PlayerFrame::OnVolumeSliderDragged));
 
-        m_volumeSlider = new wxSlider(this, playerVolumeSlider, 100, 0, 100, wxDefaultPosition, wxSize(420, 0));
+        m_volumeSlider = new wxSlider(this, playerVolumeSlider, 100, 0, 100, wxDefaultPosition, wxSize(300, 0));
         m_volumeSlider -> SetValue((float)(m_player -> GetVolume() * 100));
 
-        m_playButton = new wxButton(this, playerButtonPlay, "Play");
-        m_pauseButton = new wxButton(this, playerButtonPause, "Pause");
-        m_stopButton = new wxButton(this, playerButtonStop, "Stop");
-        mControlsButton = new wxButton(this, playerButtonControls, "Controls");
+        m_playButton = new wxBitmapButton(
+                this,
+                playerButtonPlay,
+                wxBitmap(wxImage("/home/aleksander/src/bassplay-2/img/211876_play_icon.png", wxBITMAP_TYPE_PNG)),
+                wxDefaultPosition,
+                wxSize(50, 50)
+        );
+        m_pauseButton = new wxBitmapButton(
+                this,
+                playerButtonPause,
+                wxBitmap(wxImage("/home/aleksander/src/bassplay-2/img/211871_pause_icon.png", wxBITMAP_TYPE_PNG)),
+                wxDefaultPosition,
+                wxSize(50, 50)
+        );
+        m_stopButton = new wxBitmapButton(
+                this,
+                playerButtonStop,
+                wxBitmap(wxImage("/home/aleksander/src/bassplay-2/img/2203518_block_cube_music_square_stop_icon.png", wxBITMAP_TYPE_PNG)),
+                wxDefaultPosition,
+                wxSize(50, 50)
+        );
+        mControlsButton = new wxBitmapButton(
+                this,
+                playerButtonControls,
+                wxBitmap(wxImage("/home/aleksander/src/bassplay-2/img/3516631_audio_control_gauge_media_play_icon.png", wxBITMAP_TYPE_PNG)),
+                wxDefaultPosition,
+                wxSize(50, 50)
+        );
 
         horizontalSizer -> Add(m_playButton, 3, wxALL, 5);
         horizontalSizer -> Add(m_pauseButton, 3, wxALL, 5);

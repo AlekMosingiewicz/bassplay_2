@@ -8,8 +8,9 @@ namespace Bassplay::App {
     bool BassplayApp::OnInit() {
         BASS_Init(-1, 44100, 0, NULL, NULL); //start the BASS library
         m_player = new Play::Player(false);
+        wxInitAllImageHandlers();
         InitHistory();
-        m_playerFrame = new Ui::PlayerFrame("Bassplay 2.0", wxPoint(50, 50), wxSize(420, 200), m_player);
+        m_playerFrame = new Ui::PlayerFrame("Bassplay 2.0", wxPoint(50, 50), wxSize(300, 200), m_player);
         m_playerFrame->Show(true);
         InitThreads();
         return true;
