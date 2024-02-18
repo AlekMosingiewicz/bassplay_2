@@ -35,5 +35,12 @@ find_package(wxWidgets REQUIRED COMPONENTS net core base)
 include(${wxWidgets_USE_FILE})
 target_link_libraries(bassplay_2 ${wxWidgets_LIBRARIES})
 
+# Copy icon images to hidden app directory
+file(MAKE_DIRECTORY "$ENV{HOME}/.bassplay/img")
+configure_file("img/211876_play_icon.png" "$ENV{HOME}/.bassplay/img/211876_play_icon.png" COPYONLY)
+configure_file("img/211871_pause_icon.png" "$ENV{HOME}/.bassplay/img/211871_pause_icon.png" COPYONLY)
+configure_file("img/2203518_block_cube_music_square_stop_icon.png" "$ENV{HOME}/.bassplay/img/2203518_block_cube_music_square_stop_icon.png" COPYONLY)
+configure_file("img/3516631_audio_control_gauge_media_play_icon.png" "$ENV{HOME}/.bassplay/img/3516631_audio_control_gauge_media_play_icon.png" COPYONLY)
+
 # Add unit tests
 add_subdirectory(test)

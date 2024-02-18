@@ -3,6 +3,8 @@
 //
 
 #include <wx/wx.h>
+#include <wx/stdpaths.h>
+
 #include "PlayerFrame.h"
 
 namespace Bassplay::Ui {
@@ -115,7 +117,7 @@ namespace Bassplay::Ui {
         int i = 100;
         for (auto song: history->GetSongs()) {
             auto id = i++;
-            m_menuFile->Insert((i - 98),id, wxString(song->GetTitle()));
+            m_menuFile->Insert((i - 98), id, wxString(song->GetTitle()));
         }
         this->Refresh();
         this->Update();
@@ -123,38 +125,81 @@ namespace Bassplay::Ui {
 
     void PlayerFrame::BuildPlayerPanel() {
         m_playerPanel = new wxPanel(this, wxID_ANY, wxPoint(0, 0), wxSize(150, 100));
-        wxSizer* horizontalSizer = new wxBoxSizer(wxHORIZONTAL);
-        wxSizer* verticalSizer = new wxBoxSizer(wxVERTICAL);
-        m_timeLabel = new wxStaticText(this, wxID_ANY, wxString("00:00/00:00"), wxDefaultPosition, wxDefaultSize, wxST_NO_AUTORESIZE);
-        m_songNameLabel = new wxStaticText(this, wxID_ANY, wxString("No song loaded"), wxDefaultPosition, wxSize(300,0), wxST_NO_AUTORESIZE|wxALIGN_CENTRE_HORIZONTAL);
+        wxSizer *horizontalSizer = new wxBoxSizer(wxHORIZONTAL);
+        wxSizer *verticalSizer = new wxBoxSizer(wxVERTICAL);
+        m_timeLabel = new wxStaticText(this, wxID_ANY, wxString("00:00/00:00"), wxDefaultPosition, wxDefaultSize,
+                                       wxST_NO_AUTORESIZE);
+        m_songNameLabel = new wxStaticText(this, wxID_ANY, wxString("No song loaded"), wxDefaultPosition,
+                                           wxSize(300, 0), wxST_NO_AUTORESIZE | wxALIGN_CENTRE_HORIZONTAL);
+        mVolumeLabel = new wxStaticText(this, wxID_ANY, wxString("Volume:"), wxDefaultPosition, wxSize(300, 0),
+                                        wxST_NO_AUTORESIZE | wxALIGN_LEFT);
 
         m_positionSlider = new wxSlider(this, playerPositionSlider, 0, 0, 100, wxDefaultPosition, wxSize(300, 0));
-        Connect(playerPositionSlider, wxEVT_SCROLL_THUMBRELEASE, wxScrollEventHandler(PlayerFrame::OnSliderDragged));
+        Connect(playerPositionSlider, wxEVT_SCROLL_THUMBRELEASE,
+                wxScrollEventHandler(PlayerFrame::OnPositionSliderDragged));
+        Connect(playerVolumeSlider, wxEVT_SCROLL_THUMBRELEASE,
+                wxScrollEventHandler(PlayerFrame::OnVolumeSliderDragged));
 
-        m_playButton = new wxButton(this, playerButtonPlay, "Play");
-        m_pauseButton = new wxButton(this, playerButtonPause, "Pause");
-        m_stopButton = new wxButton(this, playerButtonStop, "Stop");
+        m_volumeSlider = new wxSlider(this, playerVolumeSlider, 100, 0, 100, wxDefaultPosition, wxSize(300, 0));
+        m_volumeSlider->SetValue((float) (m_player->GetVolume() * 100));
 
-        horizontalSizer->Add(m_playButton, 3, wxALL, 5);
-        horizontalSizer->Add(m_pauseButton, 3, wxALL, 5);
-        horizontalSizer->Add(m_stopButton, 3, wxALL, 5);
-        horizontalSizer->AddSpacer(3);
+        wxString imagedir = wxStandardPaths::Get().GetUserConfigDir() + "/.bassplay/img/";
+        m_playButton = new wxBitmapButton(
+                this,
+                playerButtonPlay,
+                wxBitmap(wxImage(imagedir + "211876_play_icon.png", wxBITMAP_TYPE_PNG)),
+                wxDefaultPosition,
+                wxSize(45, 45)
+        );
+        m_pauseButton = new wxBitmapButton(
+                this,
+                playerButtonPause,
+                wxBitmap(wxImage(imagedir + "211871_pause_icon.png", wxBITMAP_TYPE_PNG)),
+                wxDefaultPosition,
+                wxSize(45, 45)
+        );
+        m_stopButton = new wxBitmapButton(
+                this,
+                playerButtonStop,
+                wxBitmap(wxImage(imagedir + "2203518_block_cube_music_square_stop_icon.png", wxBITMAP_TYPE_PNG)),
+                wxDefaultPosition,
+                wxSize(45, 45)
+        );
+        mControlsButton = new wxBitmapButton(
+                this,
+                playerButtonControls,
+                wxBitmap(wxImage(imagedir + "3516631_audio_control_gauge_media_play_icon.png", wxBITMAP_TYPE_PNG)),
+                wxDefaultPosition,
+                wxSize(45, 45)
+        );
+
+        horizontalSizer->Add(m_playButton, 2, wxALL, 5);
+        horizontalSizer->Add(m_pauseButton, 2, wxALL, 5);
+        horizontalSizer->Add(m_stopButton, 2, wxALL, 5);
+        horizontalSizer->Add(mControlsButton, 2, wxALL, 5);
+        horizontalSizer->AddSpacer(5);
         horizontalSizer->RecalcSizes();
 
         verticalSizer->Add(m_songNameLabel, 3, wxALIGN_CENTER, 3);
         verticalSizer->Add(m_timeLabel, 3, wxALIGN_CENTER_HORIZONTAL | wxALIGN_CENTER_VERTICAL, 10);
         verticalSizer->Add(m_positionSlider, 5, wxALIGN_CENTER_HORIZONTAL | wxALIGN_CENTER_VERTICAL, 1);
-        verticalSizer->Add(horizontalSizer);
+        verticalSizer->Add(horizontalSizer, 0, wxALIGN_CENTER_HORIZONTAL);
+        verticalSizer->Add(mVolumeLabel, 3, wxALIGN_CENTER_HORIZONTAL | wxALIGN_CENTER_VERTICAL, 1);
+        verticalSizer->Add(m_volumeSlider, 5, wxALIGN_CENTER_HORIZONTAL | wxALIGN_CENTER_VERTICAL, 1);
 
         m_playerPanel->SetSizerAndFit(verticalSizer);
 
         m_playerPanel->Show(true);
+        m_volumeSlider->Hide();
+        mVolumeLabel->Hide();
     }
 
-    PlayerFrame::PlayerFrame(const wxString &title, const wxPoint &pos, const wxSize &size,
-                             Bassplay::Play::Player *musicPlayer)
-            : wxFrame(NULL, wxID_ANY, title, pos, size, wxDEFAULT_FRAME_STYLE ^ wxRESIZE_BORDER),
-              m_player(musicPlayer) {
+    PlayerFrame::PlayerFrame(const wxString &title,
+                             const wxPoint &pos,
+                             const wxSize &size,
+                             Bassplay::Play::Player *musicPlayer) : wxFrame(NULL, wxID_ANY, title, pos, size,
+                                                                            wxDEFAULT_FRAME_STYLE ^ wxRESIZE_BORDER),
+                                                                    m_player(musicPlayer) {
         BuildMainMenu();
         BuildPlayerPanel();
     }
@@ -165,6 +210,9 @@ namespace Bassplay::Ui {
         }
         if (m_player->GetState() == Play::player_state_stopped && m_positionSlider->GetValue() > 0) {
             StopAndReset();
+        }
+        if (m_player->GetState() == Play::player_state_stopped || m_player->GetState() == Play::player_state_paused) {
+            m_volumeSlider->SetValue(m_player->GetVolume() * 100);
         }
         UpdatePlayLabel();
         UpdatePositionSlider();
@@ -200,7 +248,7 @@ namespace Bassplay::Ui {
     }
 
     void PlayerFrame::ResetPositionSlider() {
-        m_positionSlider->SetRange(0,static_cast<int>(m_player->GetSong()->GetLength()));
+        m_positionSlider->SetRange(0, static_cast < int > (m_player->GetSong()->GetLength()));
         m_positionSlider->SetValue(0);
     }
 
@@ -210,11 +258,16 @@ namespace Bassplay::Ui {
         }
     }
 
-    void PlayerFrame::OnSliderDragged(wxScrollEvent &event) {
+    void PlayerFrame::OnPositionSliderDragged(wxScrollEvent &event) {
         double position = m_positionSlider->GetValue();
         m_player->JumpToPosition(position);
         UpdateGUI();
         UpdateTimeLabel();
+    }
+
+    void PlayerFrame::OnVolumeSliderDragged(wxScrollEvent &event) {
+        double volume = m_volumeSlider->GetValue();
+        m_player->SetVolume((float) (volume / 100));
     }
 
     void PlayerFrame::ShowInfoFrame() {
@@ -255,6 +308,25 @@ namespace Bassplay::Ui {
 
         titleLabel = m_player->GetSong() != nullptr ? wxString(m_player->GetSong()->GetTitle()) : "No song loaded";
         m_songNameLabel->SetLabel(wxString(stateLabel + ": " + titleLabel));
+    }
+
+    void PlayerFrame::OnVolumeButtonPress(wxCommandEvent &event) {
+        wxSize size = GetSize();
+        if (mVolumeVisible) {
+            size.SetHeight(size.GetHeight() - 50);
+            mVolumeLabel->Hide();
+            m_volumeSlider->Hide();
+        } else {
+            size.SetHeight(size.GetHeight() + 50);
+            mVolumeLabel->Show(true);
+            m_volumeSlider->Show(true);
+        }
+        SetSize(size);
+        mVolumeVisible = !mVolumeVisible;
+        m_playerPanel->Show(true);
+
+        this->Refresh();
+        this->Update();
     }
 
 } // Bassplay
