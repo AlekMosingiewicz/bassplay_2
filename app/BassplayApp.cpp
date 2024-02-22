@@ -10,7 +10,7 @@ namespace Bassplay::App {
         m_player = new Play::Player(false);
         wxInitAllImageHandlers();
         InitHistory();
-        m_playerFrame = new Ui::PlayerFrame("Bassplay 2.0", wxPoint(50, 50), wxSize(300, 200), m_player);
+        m_playerFrame = new Ui::PlayerFrame("Bassplay 2.0", wxPoint(50, 50), wxSize(23, 7), m_player);
         m_playerFrame->Show(true);
         InitThreads();
         return true;

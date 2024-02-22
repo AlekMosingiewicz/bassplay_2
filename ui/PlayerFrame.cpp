@@ -197,11 +197,13 @@ namespace Bassplay::Ui {
     PlayerFrame::PlayerFrame(const wxString &title,
                              const wxPoint &pos,
                              const wxSize &size,
-                             Bassplay::Play::Player *musicPlayer) : wxFrame(NULL, wxID_ANY, title, pos, size,
+                             Bassplay::Play::Player *musicPlayer) : wxFrame(NULL, wxID_ANY, title, pos, wxDefaultSize,
                                                                             wxDEFAULT_FRAME_STYLE ^ wxRESIZE_BORDER),
                                                                     m_player(musicPlayer) {
         BuildMainMenu();
         BuildPlayerPanel();
+        const wxSize sizeM = GetTextExtent("M");
+        SetClientSize(wxSize(sizeM.x * size.x, sizeM.y * size.y));
     }
 
     void PlayerFrame::UpdateGUI() {
