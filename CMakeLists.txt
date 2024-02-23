@@ -23,7 +23,8 @@ add_executable(
         exception/BassplayException.cpp
         exception/BassplayException.h
         common/wx.h
-        )
+        ui/DpiAwareFrame.h
+)
 
 # Add Bass library
 add_library(bass SHARED IMPORTED exception/BassplayException.cpp exception/BassplayException.h common/wx.h)

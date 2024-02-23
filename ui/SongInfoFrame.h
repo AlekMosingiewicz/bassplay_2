@@ -6,19 +6,20 @@
 #define BASSPLAY_2_SONGINFOFRAME_H
 
 #include "../play/Song.h"
+#include "DpiAwareFrame.h"
 #include <wx/wx.h>
 #include <wx/notebook.h>
 
 namespace Bassplay::Ui {
 
-    class SongInfoFrame : public wxFrame {
+    class SongInfoFrame : public DpiAwareFrame {
     public:
         SongInfoFrame() { BuildInfoWindow(); };
 
-        SongInfoFrame(Play::Song *t_song, wxWindow *parent = nullptr, wxWindowID = wxID_ANY,
+        explicit SongInfoFrame(Play::Song *t_song, wxWindow *parent = nullptr, wxWindowID = wxID_ANY,
                       const wxString &title = "Mod info", const wxPoint &pos = wxPoint(0, 0),
-                      const wxSize &size = wxSize(600, 600)) :
-                wxFrame(parent, wxID_ANY, title, pos, size, wxCLOSE_BOX | wxMINIMIZE_BOX),
+                      const wxSize &size = wxSize(35, 30)) :
+                DpiAwareFrame(parent, wxID_ANY, title, pos, size, wxCLOSE_BOX | wxMINIMIZE_BOX),
                 m_song(t_song) { BuildInfoWindow(); };
 
         void SetSong(Play::Song *t_song);

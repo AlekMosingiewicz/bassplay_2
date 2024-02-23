@@ -10,6 +10,7 @@
 #include <wx/wx.h>
 #include "../play/Player.h"
 #include "SongInfoFrame.h"
+#include "DpiAwareFrame.h"
 
 enum playerWidgets {
     playerWidgetsMinimum = 200,
@@ -28,13 +29,14 @@ namespace Bassplay::Ui {
 
     class UiThread;
 
-    class PlayerFrame: public wxFrame  {
+    class PlayerFrame: public DpiAwareFrame  {
     public:
         PlayerFrame(const wxString& title, const wxPoint& pos, const wxSize& size, Bassplay::Play::Player* musicPlayer);
         void UpdateGUI();
         void StopAndReset();
         //info
         void ShowInfoFrame();
+
     private:
         //dependencies
         Bassplay::Play::Player* m_player;
