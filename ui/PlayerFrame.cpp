@@ -135,9 +135,14 @@ namespace Bassplay::Ui {
                                         wxST_NO_AUTORESIZE | wxALIGN_LEFT);
 
         m_positionSlider = new wxSlider(this, playerPositionSlider, 0, 0, 100, wxDefaultPosition, wxSize(300, 0));
+
         Connect(playerPositionSlider, wxEVT_SCROLL_THUMBRELEASE,
                 wxScrollEventHandler(PlayerFrame::OnPositionSliderDragged));
-        Connect(playerVolumeSlider, wxEVT_SCROLL_THUMBRELEASE,
+        Connect(playerPositionSlider, wxEVT_SCROLL_TOP,
+                wxScrollEventHandler(PlayerFrame::OnPositionSliderDragged));
+        Connect(playerPositionSlider, wxEVT_SCROLL_BOTTOM,
+                wxScrollEventHandler(PlayerFrame::OnPositionSliderDragged));
+        Connect(playerVolumeSlider, wxEVT_SCROLL_CHANGED,
                 wxScrollEventHandler(PlayerFrame::OnVolumeSliderDragged));
 
         m_volumeSlider = new wxSlider(this, playerVolumeSlider, 100, 0, 100, wxDefaultPosition, wxSize(300, 0));
@@ -197,12 +202,14 @@ namespace Bassplay::Ui {
     PlayerFrame::PlayerFrame(const wxString &title,
                              const wxPoint &pos,
                              const wxSize &size,
-                             Bassplay::Play::Player *musicPlayer) : DpiAwareFrame(NULL, wxID_ANY, title, pos, wxDefaultSize,
-                                                                            wxDEFAULT_FRAME_STYLE ^ wxRESIZE_BORDER),
+                             Bassplay::Play::Player *musicPlayer) : DpiAwareFrame(NULL, wxID_ANY, title, pos,
+                                                                                  wxDefaultSize,
+                                                                                  wxDEFAULT_FRAME_STYLE ^
+                                                                                  wxRESIZE_BORDER),
                                                                     m_player(musicPlayer) {
         BuildMainMenu();
         BuildPlayerPanel();
-        SetClientSize(this->CalculateRealSize(const_cast<wxSize&>(size)));
+        SetClientSize(this->CalculateRealSize(const_cast<wxSize &>(size)));
     }
 
     void PlayerFrame::UpdateGUI() {
