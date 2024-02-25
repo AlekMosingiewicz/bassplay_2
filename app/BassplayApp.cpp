@@ -96,7 +96,7 @@ namespace Bassplay::App {
         InitHistoryDir();
         auto appDir = GetAppDir();
         wxString wxHistoryPath = appDir + "/history_stream.json";
-        const char* history_path = wxHistoryPath.c_str();
+        const char *history_path = wxHistoryPath.c_str();
 
         Bassplay::Play::Serializer::JsonSongSerializer serializer;
         Bassplay::Play::Serializer::JsonSongCollectionSerializer songCollectionSerializer(&serializer);
@@ -110,7 +110,7 @@ namespace Bassplay::App {
         struct passwd *pw = getpwuid(getuid());
         const char *homedir = pw->pw_dir;
         wxString basePath(homedir);
-        basePath+="/.bassplay";
+        basePath += "/.bassplay";
         return basePath;
     }
 

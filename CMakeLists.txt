@@ -29,6 +29,7 @@ add_executable(
         event/IBassplayEventHandler.h
         event/BassplayEventDispatcher.h event/BassplayEventDispatcher.cpp
         event/BassplayPlaybackEvent.h
+        listener/GuiThreadPauseListener.h listener/GuiThreadPauseListener.cpp
 )
 
 # Add Bass library
@@ -36,6 +37,7 @@ add_library(bass SHARED IMPORTED exception/BassplayException.cpp exception/Bassp
         event/BassplayEventDispatcher.cpp
         event/BassplayEventDispatcher.h
         event/IBassplayEventHandler.h
+        listener/GuiThreadPauseListener.cpp
 )
 set_property(TARGET bass PROPERTY IMPORTED_LOCATION "/usr/local/lib/bass/libbass.so")
 target_link_libraries(bassplay_2 bass Play_lib)
