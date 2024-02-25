@@ -24,10 +24,18 @@ add_executable(
         exception/BassplayException.h
         common/wx.h
         ui/DpiAwareFrame.h
+        event/BassplayEvent.h
+        event/BassplayEventType.h
+        event/IBassplayEventHandler.h
+        event/BassplayEventDispatcher.h event/BassplayEventDispatcher.cpp
 )
 
 # Add Bass library
-add_library(bass SHARED IMPORTED exception/BassplayException.cpp exception/BassplayException.h common/wx.h)
+add_library(bass SHARED IMPORTED exception/BassplayException.cpp exception/BassplayException.h common/wx.h
+        event/BassplayEventDispatcher.cpp
+        event/BassplayEventDispatcher.h
+        event/IBassplayEventHandler.h
+)
 set_property(TARGET bass PROPERTY IMPORTED_LOCATION "/usr/local/lib/bass/libbass.so")
 target_link_libraries(bassplay_2 bass Play_lib)
 
