@@ -17,10 +17,11 @@ namespace Bassplay::Event {
 
     class BassplayPlaybackEvent : public BassplayEvent {
     public:
-        BassplayPlaybackEvent(PlaybackEventType playbackEventType) : BassplayEvent(playbackEvent),
+        explicit BassplayPlaybackEvent(PlaybackEventType playbackEventType) :
                                                                      m_playbackEventType(playbackEventType) {}
 
        PlaybackEventType GetPlaybackEventType() { return m_playbackEventType; }
+       BassplayEventType GetType() { return playbackEvent; }
     private:
         PlaybackEventType m_playbackEventType;
     };

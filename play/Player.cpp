@@ -29,19 +29,19 @@ namespace Bassplay::Play {
     void Player::PlaySong() {
         state = player_state_playing;
         PlayCurrentSong();
-        Bassplay::Event::BassplayEventDispatcher::Instance().BroadcastEvent(
-                Bassplay::Event::BassplayPlaybackEvent(
-                        Bassplay::Event::PlaybackEventType::playbackStarted
-                ));
+        auto event = Bassplay::Event::BassplayPlaybackEvent(
+                Bassplay::Event::PlaybackEventType::playbackStarted);
+        Bassplay::Event::BassplayEventDispatcher::Instance().BroadcastEvent<Bassplay::Event::BassplayPlaybackEvent>(event);
     }
 
     void Player::PauseSong() {
         if (m_songBeingPlayed != nullptr) {
             BASS_ChannelPause(m_songBeingPlayed->GetMusicHandle());
             state = player_state_paused;
-            Bassplay::Event::BassplayEventDispatcher::Instance().BroadcastEvent(
-                    Bassplay::Event::BassplayPlaybackEvent(
-                            Bassplay::Event::PlaybackEventType::playbackStopped));
+            auto event = Bassplay::Event::BassplayPlaybackEvent(
+                            Bassplay::Event::PlaybackEventType::playbackStopped);
+
+            Bassplay::Event::BassplayEventDispatcher::Instance().BroadcastEvent<Bassplay::Event::BassplayPlaybackEvent>(event);
         }
     }
 
@@ -51,9 +51,9 @@ namespace Bassplay::Play {
             state = player_state_stopped;
             m_songBeingPlayed->Rewind();
 
-            Bassplay::Event::BassplayEventDispatcher::Instance().BroadcastEvent(
-                    Bassplay::Event::BassplayPlaybackEvent(
-                            Bassplay::Event::PlaybackEventType::playbackStopped));
+//            Bassplay::Event::BassplayEventDispatcher::Instance().BroadcastEvent<Bassplay::Event::BassplayPlaybackEvent>(
+//                    Bassplay::Event::BassplayPlaybackEvent(
+//                            Bassplay::Event::PlaybackEventType::playbackStopped));
 
         }
     }

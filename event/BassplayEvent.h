@@ -10,10 +10,8 @@
 namespace Bassplay::Event {
     class BassplayEvent {
     public:
-        explicit BassplayEvent(BassplayEventType eventType): m_eventType(eventType) {};
-        BassplayEventType GetType() { return m_eventType; }
-    protected:
-        BassplayEventType m_eventType;
+        explicit BassplayEvent() = default;
+        virtual BassplayEventType GetType() { return defaultEvent; }
     };
 }
 

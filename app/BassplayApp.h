@@ -20,6 +20,9 @@
 #include "../play/parser/JsonParser.h"
 #include "../play/serializer/JsonSongCollectionSerializer.h"
 #include "../play/persistence/FileCollectionPersister.h"
+#include "../listener/GuiThreadPauseListener.h"
+#include "../event/BassplayEventDispatcher.h"
+#include "../event/BassplayEventType.h"
 
 namespace Bassplay::App {
 

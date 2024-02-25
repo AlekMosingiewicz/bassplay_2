@@ -10,7 +10,7 @@
 namespace Bassplay::Event {
     class IBassplayEventHandler {
     public:
-        virtual void Handle(const BassplayEvent& event) {};
+        virtual void Handle(BassplayEvent& event) {};
     };
 }
 #endif //BASSPLAY_2_IBASSPLAYEVENTHANDLER_H

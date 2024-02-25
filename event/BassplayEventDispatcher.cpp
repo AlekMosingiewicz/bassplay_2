@@ -23,18 +23,6 @@ namespace Bassplay::Event {
         return dynamic_cast<EventHandlerList *>(m_EventHandlers[type]) != nullptr;
     }
 
-    void
-    BassplayEventDispatcher::BroadcastEvent(BassplayEvent event) {
-        BassplayEventType type = event.GetType();
-        if (!HasListenersForEvent(type)) {
-            return;
-        }
-        auto handlers = *m_EventHandlers[type];
-        for (auto *handler: handlers) {
-            handler->Handle(event);
-        }
-    }
-
     void BassplayEventDispatcher::ClearHandlersForEvent(BassplayEventType type) {
         if (!HasListenersForEvent(type)) {
             return;

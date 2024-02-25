@@ -14,7 +14,7 @@ namespace Bassplay::Listener {
     class GuiThreadPauseListener: public Event::IBassplayEventHandler {
     public:
         explicit GuiThreadPauseListener(wxThread* thread): m_guiUpdateThread(thread)  {}
-        void Handle(Event::BassplayPlaybackEvent &event);
+        void Handle(Event::BassplayEvent &event) override;
     private:
         wxThread* m_guiUpdateThread = nullptr;
     };

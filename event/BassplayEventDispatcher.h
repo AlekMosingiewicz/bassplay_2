@@ -21,7 +21,17 @@ namespace Bassplay::Event {
 
         void RegisterHandler(BassplayEventType type, IBassplayEventHandler *handler);
 
-        void BroadcastEvent(BassplayEvent event);
+        template<class T>
+        void BroadcastEvent(T &event) {
+            BassplayEventType type = event.GetType();
+            if (!HasListenersForEvent(type)) {
+                return;
+            }
+            auto handlers = *m_EventHandlers[type];
+            for (auto *handler: handlers) {
+                handler->Handle(event);
+            }
+        };
 
     private:
         BassplayEventDispatcher() = default;

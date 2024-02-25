@@ -7,6 +7,7 @@
 
 namespace Bassplay::Event {
     enum BassplayEventType {
+        defaultEvent,
         playbackEvent
     };
 }
