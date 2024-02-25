@@ -28,6 +28,7 @@ add_executable(
         event/BassplayEventType.h
         event/IBassplayEventHandler.h
         event/BassplayEventDispatcher.h event/BassplayEventDispatcher.cpp
+        event/BassplayPlaybackEvent.h
 )
 
 # Add Bass library

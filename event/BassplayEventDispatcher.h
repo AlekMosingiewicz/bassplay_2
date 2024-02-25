@@ -19,18 +19,18 @@ namespace Bassplay::Event {
     public:
         static BassplayEventDispatcher &Instance();
 
-        void RegisterHandler(const std::string &name, IBassplayEventHandler *handler);
+        void RegisterHandler(BassplayEventType type, IBassplayEventHandler *handler);
 
-        void BroadcastEvent(const std::string &name, BassplayEvent event);
+        void BroadcastEvent(BassplayEvent event);
 
     private:
         BassplayEventDispatcher() = default;
 
-        std::map<std::string, EventHandlerList *> m_EventHandlers;
+        std::map<BassplayEventType, EventHandlerList *> m_EventHandlers;
 
-        bool HasListenersForEvent(const std::string &name);
+        bool HasListenersForEvent(BassplayEventType type);
 
-        void ClearHandlersForEvent(const std::string &name);
+        void ClearHandlersForEvent(BassplayEventType type);
 
         ~BassplayEventDispatcher();
     };

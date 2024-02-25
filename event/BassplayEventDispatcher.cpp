@@ -12,33 +12,34 @@ namespace Bassplay::Event {
     }
 
     void
-    BassplayEventDispatcher::RegisterHandler(const std::string &name, IBassplayEventHandler *handler) {
-        if (!HasListenersForEvent(name)) {
-            m_EventHandlers[name] = new EventHandlerList();
+    BassplayEventDispatcher::RegisterHandler(BassplayEventType type, IBassplayEventHandler *handler) {
+        if (!HasListenersForEvent(type)) {
+            m_EventHandlers[type] = new EventHandlerList();
         }
-        m_EventHandlers[name]->push_back(handler);
+        m_EventHandlers[type]->push_back(handler);
     }
 
-    bool BassplayEventDispatcher::HasListenersForEvent(const std::string &name) {
-        return dynamic_cast<EventHandlerList *>(m_EventHandlers[name]) != nullptr;
+    bool BassplayEventDispatcher::HasListenersForEvent(BassplayEventType type) {
+        return dynamic_cast<EventHandlerList *>(m_EventHandlers[type]) != nullptr;
     }
 
     void
-    BassplayEventDispatcher::BroadcastEvent(const std::string &name, Bassplay::Event::BassplayEvent event) {
-        if (!HasListenersForEvent(name)) {
+    BassplayEventDispatcher::BroadcastEvent(BassplayEvent event) {
+        BassplayEventType type = event.GetType();
+        if (!HasListenersForEvent(type)) {
             return;
         }
-        auto handlers = *m_EventHandlers[name];
+        auto handlers = *m_EventHandlers[type];
         for (auto *handler: handlers) {
             handler->Handle(event);
         }
     }
 
-    void BassplayEventDispatcher::ClearHandlersForEvent(const std::string &name) {
-        if (!HasListenersForEvent(name)) {
+    void BassplayEventDispatcher::ClearHandlersForEvent(BassplayEventType type) {
+        if (!HasListenersForEvent(type)) {
             return;
         }
-        auto handlers = *m_EventHandlers[name];
+        auto handlers = *m_EventHandlers[type];
         for (auto *handler: handlers) {
             handlers.remove(handler);
             delete handler;
