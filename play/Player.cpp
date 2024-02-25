@@ -51,10 +51,10 @@ namespace Bassplay::Play {
             state = player_state_stopped;
             m_songBeingPlayed->Rewind();
 
-//            Bassplay::Event::BassplayEventDispatcher::Instance().BroadcastEvent<Bassplay::Event::BassplayPlaybackEvent>(
-//                    Bassplay::Event::BassplayPlaybackEvent(
-//                            Bassplay::Event::PlaybackEventType::playbackStopped));
+            auto event = Bassplay::Event::BassplayPlaybackEvent(
+                    Bassplay::Event::PlaybackEventType::playbackStopped);
 
+            Bassplay::Event::BassplayEventDispatcher::Instance().BroadcastEvent<Bassplay::Event::BassplayPlaybackEvent>(event);
         }
     }
 
