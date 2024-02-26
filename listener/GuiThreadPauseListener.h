@@ -8,15 +8,20 @@
 #include "../event/IBassplayEventHandler.h"
 #include "../event/BassplayEvent.h"
 #include "../event/BassplayPlaybackEvent.h"
+#include "../ui/PlayerFrame.h"
 #include <wx/wx.h>
 
 namespace Bassplay::Listener {
-    class GuiThreadPauseListener: public Event::IBassplayEventHandler {
+    class GuiThreadPauseListener : public Event::IBassplayEventHandler {
     public:
-        explicit GuiThreadPauseListener(wxThread* thread): m_guiUpdateThread(thread)  {}
+        explicit GuiThreadPauseListener(wxThread *thread, Ui::PlayerFrame *playerFrame) : m_guiUpdateThread(thread),
+                                                                                          m_playerFrame(playerFrame) {}
+
         void Handle(Event::BassplayEvent &event) override;
+
     private:
-        wxThread* m_guiUpdateThread = nullptr;
+        wxThread *m_guiUpdateThread = nullptr;
+        Ui::PlayerFrame *m_playerFrame = nullptr;
     };
 }
 

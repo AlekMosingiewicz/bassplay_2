@@ -12,6 +12,8 @@ namespace Bassplay::Listener {
             m_guiUpdateThread->Pause();
         } else if (playbackEvent.GetPlaybackEventType() == Event::playbackStarted) {
             m_guiUpdateThread->Resume();
+        } else if (playbackEvent.GetPlaybackEventType() == Event::playbackEnded) {
+            m_playerFrame->StopAndReset();
         }
     }
 }

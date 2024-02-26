@@ -8,6 +8,10 @@ namespace Bassplay::Play {
     void CALLBACK on_playback_end(HSYNC hmusic, DWORD channel, DWORD data, void *user) {
         auto player = static_cast<Player *>(user);
         player->StopSong();
+        auto event = Bassplay::Event::BassplayPlaybackEvent(
+                Bassplay::Event::PlaybackEventType::playbackEnded);
+        Bassplay::Event::BassplayEventDispatcher::Instance().BroadcastEvent<Bassplay::Event::BassplayPlaybackEvent>(
+                event);
     }
 
     void Player::LoadSong(std::string &path) {
@@ -31,7 +35,8 @@ namespace Bassplay::Play {
         PlayCurrentSong();
         auto event = Bassplay::Event::BassplayPlaybackEvent(
                 Bassplay::Event::PlaybackEventType::playbackStarted);
-        Bassplay::Event::BassplayEventDispatcher::Instance().BroadcastEvent<Bassplay::Event::BassplayPlaybackEvent>(event);
+        Bassplay::Event::BassplayEventDispatcher::Instance().BroadcastEvent<Bassplay::Event::BassplayPlaybackEvent>(
+                event);
     }
 
     void Player::PauseSong() {
@@ -39,9 +44,10 @@ namespace Bassplay::Play {
             BASS_ChannelPause(m_songBeingPlayed->GetMusicHandle());
             state = player_state_paused;
             auto event = Bassplay::Event::BassplayPlaybackEvent(
-                            Bassplay::Event::PlaybackEventType::playbackStopped);
+                    Bassplay::Event::PlaybackEventType::playbackStopped);
 
-            Bassplay::Event::BassplayEventDispatcher::Instance().BroadcastEvent<Bassplay::Event::BassplayPlaybackEvent>(event);
+            Bassplay::Event::BassplayEventDispatcher::Instance().BroadcastEvent<Bassplay::Event::BassplayPlaybackEvent>(
+                    event);
         }
     }
 
@@ -54,7 +60,8 @@ namespace Bassplay::Play {
             auto event = Bassplay::Event::BassplayPlaybackEvent(
                     Bassplay::Event::PlaybackEventType::playbackStopped);
 
-            Bassplay::Event::BassplayEventDispatcher::Instance().BroadcastEvent<Bassplay::Event::BassplayPlaybackEvent>(event);
+            Bassplay::Event::BassplayEventDispatcher::Instance().BroadcastEvent<Bassplay::Event::BassplayPlaybackEvent>(
+                    event);
         }
     }
 
