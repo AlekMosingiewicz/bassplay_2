@@ -17,10 +17,10 @@ namespace Bassplay::App {
     }
 
     int BassplayApp::OnExit() {
-        StopThreads();
+        // StopThreads();
         BASS_Free();
         BASS_Stop();
-        StopThreads();
+        // StopThreads();
         SaveHistory();
         delete m_player;
         return 0;
@@ -36,7 +36,6 @@ namespace Bassplay::App {
         }
         while (i++ < 100) {
             wxCriticalSectionLocker enter(m_pThreadCS);
-            if (!thread) break;
         }
         thread->Kill();
     }
