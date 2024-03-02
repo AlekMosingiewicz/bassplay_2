@@ -321,11 +321,11 @@ namespace Bassplay::Ui {
     void PlayerFrame::OnVolumeButtonPress(wxCommandEvent &event) {
         wxSize size = GetSize();
         if (mVolumeVisible) {
-            size.SetHeight(size.GetHeight() - 50);
+            size.SetHeight(size.GetHeight() - (m_Ratio->y * 3));
             mVolumeLabel->Hide();
             m_volumeSlider->Hide();
         } else {
-            size.SetHeight(size.GetHeight() + 50);
+            size.SetHeight(size.GetHeight() + (m_Ratio->y * 3));
             mVolumeLabel->Show(true);
             m_volumeSlider->Show(true);
         }
