@@ -17,10 +17,10 @@ namespace Bassplay::App {
     }
 
     int BassplayApp::OnExit() {
-        StopThreads();
+        // StopThreads();
         BASS_Free();
         BASS_Stop();
-        StopThreads();
+        // StopThreads();
         SaveHistory();
         delete m_player;
         return 0;
@@ -36,7 +36,6 @@ namespace Bassplay::App {
         }
         while (i++ < 100) {
             wxCriticalSectionLocker enter(m_pThreadCS);
-            if (!thread) break;
         }
         thread->Kill();
     }
@@ -63,7 +62,12 @@ namespace Bassplay::App {
     }
 
     void BassplayApp::InitThreads() {
-        AddThread(new Thread::GuiThread(m_playerFrame));
+        Thread::GuiThread *guiThread = new Thread::GuiThread(m_playerFrame);
+        Bassplay::Event::BassplayEventDispatcher::Instance().RegisterHandler(
+                Event::playbackEvent,
+                new Bassplay::Listener::GuiThreadPauseListener(guiThread, m_playerFrame)
+        );
+        AddThread(guiThread);
         RunThreads();
     }
 
@@ -96,7 +100,7 @@ namespace Bassplay::App {
         InitHistoryDir();
         auto appDir = GetAppDir();
         wxString wxHistoryPath = appDir + "/history_stream.json";
-        const char* history_path = wxHistoryPath.c_str();
+        const char *history_path = wxHistoryPath.c_str();
 
         Bassplay::Play::Serializer::JsonSongSerializer serializer;
         Bassplay::Play::Serializer::JsonSongCollectionSerializer songCollectionSerializer(&serializer);
@@ -110,7 +114,7 @@ namespace Bassplay::App {
         struct passwd *pw = getpwuid(getuid());
         const char *homedir = pw->pw_dir;
         wxString basePath(homedir);
-        basePath+="/.bassplay";
+        basePath += "/.bassplay";
         return basePath;
     }
 

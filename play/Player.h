@@ -7,6 +7,9 @@
 
 #include "Song.h"
 #include "collection/SongCollection.h"
+#include "../event/BassplayEvent.h"
+#include "../event/BassplayEventDispatcher.h"
+#include "../event/BassplayPlaybackEvent.h"
 
 namespace Bassplay::Play {
 

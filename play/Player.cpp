@@ -6,8 +6,12 @@
 
 namespace Bassplay::Play {
     void CALLBACK on_playback_end(HSYNC hmusic, DWORD channel, DWORD data, void *user) {
-        auto player = static_cast<Player*>(user);
+        auto player = static_cast<Player *>(user);
         player->StopSong();
+        auto event = Bassplay::Event::BassplayPlaybackEvent(
+                Bassplay::Event::PlaybackEventType::playbackEnded);
+        Bassplay::Event::BassplayEventDispatcher::Instance().BroadcastEvent<Bassplay::Event::BassplayPlaybackEvent>(
+                event);
     }
 
     void Player::LoadSong(std::string &path) {
@@ -20,7 +24,7 @@ namespace Bassplay::Play {
             if (m_history != nullptr) {
                 m_history->AddSong(m_songBeingPlayed);
             }
-        } catch (BassplayException& bassplayException) {
+        } catch (BassplayException &bassplayException) {
             throw bassplayException;
         }
         BassUpdateVolume();
@@ -29,12 +33,21 @@ namespace Bassplay::Play {
     void Player::PlaySong() {
         state = player_state_playing;
         PlayCurrentSong();
+        auto event = Bassplay::Event::BassplayPlaybackEvent(
+                Bassplay::Event::PlaybackEventType::playbackStarted);
+        Bassplay::Event::BassplayEventDispatcher::Instance().BroadcastEvent<Bassplay::Event::BassplayPlaybackEvent>(
+                event);
     }
 
     void Player::PauseSong() {
         if (m_songBeingPlayed != nullptr) {
             BASS_ChannelPause(m_songBeingPlayed->GetMusicHandle());
             state = player_state_paused;
+            auto event = Bassplay::Event::BassplayPlaybackEvent(
+                    Bassplay::Event::PlaybackEventType::playbackStopped);
+
+            Bassplay::Event::BassplayEventDispatcher::Instance().BroadcastEvent<Bassplay::Event::BassplayPlaybackEvent>(
+                    event);
         }
     }
 
@@ -43,6 +56,12 @@ namespace Bassplay::Play {
             BASS_ChannelStop(m_songBeingPlayed->GetMusicHandle());
             state = player_state_stopped;
             m_songBeingPlayed->Rewind();
+
+            auto event = Bassplay::Event::BassplayPlaybackEvent(
+                    Bassplay::Event::PlaybackEventType::playbackStopped);
+
+            Bassplay::Event::BassplayEventDispatcher::Instance().BroadcastEvent<Bassplay::Event::BassplayPlaybackEvent>(
+                    event);
         }
     }
 
@@ -57,10 +76,10 @@ namespace Bassplay::Play {
         if (m_songBeingPlayed != nullptr) {
             double rawPlaybackTime = m_songBeingPlayed->GetCurrentPlaybackTime();
             double totalPlaybackTime = m_songBeingPlayed->GetLength();
-            int cmins = (int)rawPlaybackTime / 60;
-            int csecs = (int)rawPlaybackTime % 60;
-            int tmins = (int)totalPlaybackTime / 60;
-            int tsecs = (int)totalPlaybackTime % 60;
+            int cmins = (int) rawPlaybackTime / 60;
+            int csecs = (int) rawPlaybackTime % 60;
+            int tmins = (int) totalPlaybackTime / 60;
+            int tsecs = (int) totalPlaybackTime % 60;
             char temp[12];
             sprintf(temp, "%02d:%02d/%02d:%02d", cmins, csecs, tmins, tsecs);
             return {temp};
@@ -78,7 +97,7 @@ namespace Bassplay::Play {
     void Player::SetCurrentDirectory(std::string &path) {
         size_t last_slash_pos = path.find_last_of('/');
         std::string dir = path.substr(0, last_slash_pos);
-        m_currentDirectory = std::string (dir);
+        m_currentDirectory = std::string(dir);
     }
 
     void Player::JumpToPosition(double position) {
