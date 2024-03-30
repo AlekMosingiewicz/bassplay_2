@@ -16,7 +16,8 @@ set(HEADER_FILES
         serializer/InvalidSerializerException.h
         persistence/FileCollectionPersister.h
         transformer/CollectionDataSource.h
-        )
+        parser/JsonNode.h
+)
 
 set(SOURCE_FILES
         serializer/SerializableStringList.cpp
