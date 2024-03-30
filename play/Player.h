@@ -35,6 +35,7 @@ namespace Bassplay::Play {
         void PlayCurrentSong();
         void SetCurrentDirectory(std::string &path);
         void BassUpdateVolume() const;
+        static void BroadcastPlaybackEvent(Bassplay::Event::PlaybackEventType eventType);
     public:
         explicit Player(bool t_doreplay = false) : replay(t_doreplay), m_songBeingPlayed(nullptr), m_playlist(new Collection::SongCollection()) {
             m_history = new Bassplay::Play::Collection::SongCollection();
