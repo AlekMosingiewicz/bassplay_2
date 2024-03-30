@@ -15,7 +15,9 @@ struct JsonNode {
     void *m_value;
     JsonNode *m_parent = nullptr;
 
-    JsonNode(std::string name, void *value, JsonNode *parent = nullptr): m_name (std::move(name)), m_value(value) {}
+    JsonNode(std::string name, void *value, JsonNode *parent = nullptr) : m_name(std::move(name)), m_value(value),
+                                                                          m_parent(parent) {}
+
 };
 
 #endif //BASSPLAY_2_JSONNODE_H
