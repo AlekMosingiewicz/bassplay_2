@@ -28,9 +28,11 @@ namespace Bassplay::Event {
             return;
         }
         auto handlers = *m_EventHandlers[type];
-        for (auto *handler: handlers) {
-            handlers.remove(handler);
-            delete handler;
+        if (handlers.empty()) {
+            return;
+        }
+        for (auto it = handlers.begin(); it != handlers.end(); it++) {
+            delete *it;
         }
     }
 

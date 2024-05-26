@@ -110,4 +110,15 @@ namespace Bassplay::Play {
         Bassplay::Event::BassplayEventDispatcher::Instance().BroadcastEvent<Bassplay::Event::BassplayPlaybackEvent>(
                 event);
     }
+
+   Player::~Player() {
+        if (m_songBeingPlayed != nullptr) {
+            m_songBeingPlayed->UnloadSong();
+            delete m_songBeingPlayed;
+            m_songBeingPlayed = nullptr;
+        }
+        if (m_playlist != nullptr) delete m_playlist;
+        delete m_history;
+
+    }
 } // Play

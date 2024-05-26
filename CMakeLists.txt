@@ -14,13 +14,11 @@ add_executable(
         app/BassplayApp.h
         ui/PlayerFrame.cpp
         ui/PlayerFrame.h
-        exception/BassplayException.cpp
         exception/BassplayException.h
         thread/GuiThread.cpp
         thread/GuiThread.h
         ui/SongInfoFrame.cpp ui/SongInfoFrame.h
         ui/SongInfoFrame.cpp ui/SongInfoFrame.cpp
-        exception/BassplayException.cpp
         exception/BassplayException.h
         common/wx.h
         ui/DpiAwareFrame.h
@@ -33,7 +31,7 @@ add_executable(
 )
 
 # Add Bass library
-add_library(bass SHARED IMPORTED exception/BassplayException.cpp exception/BassplayException.h common/wx.h
+add_library(bass SHARED IMPORTED exception/BassplayException.h common/wx.h
         event/BassplayEventDispatcher.cpp
         event/BassplayEventDispatcher.h
         event/IBassplayEventHandler.h
