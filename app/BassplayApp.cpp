@@ -31,7 +31,7 @@ namespace Bassplay::App {
         wxThreadError error = thread->Delete();
         if (error != wxTHREAD_NO_ERROR) {
             std::string errorMessage = "Problem deleting thread " + std::to_string(thread->GetId());
-            errorMessage += error;
+            errorMessage += std::to_string(error);
             wxLogError(wxString(errorMessage));
         }
         while (i++ < 100) {
