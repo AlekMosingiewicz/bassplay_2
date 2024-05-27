@@ -49,7 +49,7 @@ namespace Bassplay::App {
         void InitHistory();
         void InitHistoryDir();
         void SaveHistory();
-        wxString GetAppDir();
+        static wxString GetAppDir();
     };
 } // Bassplay::App
 
