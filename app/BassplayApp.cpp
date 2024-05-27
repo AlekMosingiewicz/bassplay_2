@@ -37,7 +37,6 @@ namespace Bassplay::App {
         while (i++ < 100) {
             wxCriticalSectionLocker enter(m_pThreadCS);
         }
-        thread->Kill();
     }
 
     void BassplayApp::StopThreads() {
