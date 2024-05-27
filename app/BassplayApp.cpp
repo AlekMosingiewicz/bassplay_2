@@ -17,7 +17,6 @@ namespace Bassplay::App {
     }
 
     int BassplayApp::OnExit() {
-        StopThreads();
         BASS_Free();
         BASS_Stop();
         StopThreads();
