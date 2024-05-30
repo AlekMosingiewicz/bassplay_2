@@ -60,7 +60,7 @@ namespace Bassplay::App {
     }
 
     void BassplayApp::InitThreads() {
-        Thread::GuiThread *guiThread = new Thread::GuiThread(m_playerFrame);
+        auto *guiThread = new Thread::GuiThread(m_playerFrame);
         Bassplay::Event::BassplayEventDispatcher::Instance().RegisterHandler(
                 Event::playbackEvent,
                 new Bassplay::Listener::GuiThreadPauseListener(guiThread, m_playerFrame)
