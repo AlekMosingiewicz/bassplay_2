@@ -299,6 +299,11 @@ namespace Bassplay::Ui {
     }
 
     void PlayerFrame::UpdatePlayLabel() {
+        if (m_player == nullptr || m_songNameLabel == nullptr) {
+            //TODO Log error or handle this case
+            return;
+        }
+
         wxString stateLabel;
         wxString titleLabel;
 
@@ -314,8 +319,17 @@ namespace Bassplay::Ui {
                 break;
         }
 
-        titleLabel = m_player->GetSong() != nullptr ? wxString(m_player->GetSong()->GetTitle()) : "No song loaded";
-        m_songNameLabel->SetLabel(wxString(stateLabel + ": " + titleLabel));
+        auto song = m_player->GetSong();
+        if (song != nullptr) {
+            titleLabel = wxString(song->GetTitle());
+        } else {
+            titleLabel = "No song loaded";
+        }
+
+        wxMutexLocker locker(m_playLabelMutex);
+        if (locker.IsOk()) {
+            m_songNameLabel->SetLabel(wxString(stateLabel + ": " + titleLabel));
+        }
     }
 
     void PlayerFrame::OnVolumeButtonPress(wxCommandEvent &event) {

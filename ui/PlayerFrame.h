@@ -55,6 +55,9 @@ namespace Bassplay::Ui {
         wxSlider* m_positionSlider;
         wxSlider* m_volumeSlider;
 
+        //multithreading
+        wxMutex m_playLabelMutex;
+
         //helper variables
         bool mVolumeVisible = false;
 
