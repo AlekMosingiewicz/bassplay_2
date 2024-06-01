@@ -326,6 +326,7 @@ namespace Bassplay::Ui {
             titleLabel = "No song loaded";
         }
 
+        //TODO better solution would be not to call this method when song is opened
         wxMutexLocker locker(m_playLabelMutex);
         if (locker.IsOk()) {
             m_songNameLabel->SetLabel(wxString(stateLabel + ": " + titleLabel));
