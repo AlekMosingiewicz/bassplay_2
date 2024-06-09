@@ -32,7 +32,7 @@ namespace Bassplay::Ui {
     class PlayerFrame: public DpiAwareFrame  {
     public:
         PlayerFrame(const wxString& title, const wxPoint& pos, const wxSize& size, Bassplay::Play::Player* musicPlayer);
-        void UpdateGUI();
+        void UpdateGUI(bool withPlayLabelUpdate = true);
         void StopAndReset();
         //info
         void ShowInfoFrame();

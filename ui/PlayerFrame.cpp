@@ -26,7 +26,10 @@ namespace Bassplay::Ui {
             return;
         wxString path = fileDialog.GetPath();
         std::string stdPath = std::string(path.mb_str());
-        OpenSong(stdPath);
+        wxMutexLocker locker(m_playLabelMutex);
+        if (locker.IsOk()) {
+            OpenSong(stdPath);
+        }
     }
 
     void PlayerFrame::OpenSong(std::string &path) {
@@ -40,7 +43,7 @@ namespace Bassplay::Ui {
             if (m_songInfoFrame != nullptr) {
                 m_songInfoFrame->SetSong(m_player->GetSong());
             }
-            UpdateGUI();
+            UpdateGUI(false);
             BuildHistory();
         } catch (BassplayException &exception) {
             wxMessageBox(wxString::Format("Error code %d", exception.GetCode()),
@@ -212,7 +215,7 @@ namespace Bassplay::Ui {
         SetClientSize(this->CalculateRealSize(const_cast<wxSize &>(size)));
     }
 
-    void PlayerFrame::UpdateGUI() {
+    void PlayerFrame::UpdateGUI(bool withPlayLabelUpdate) {
         if (m_player->GetState() == Play::player_state_playing) {
             UpdateTimeLabel();
         }
@@ -222,8 +225,10 @@ namespace Bassplay::Ui {
         if (m_player->GetState() == Play::player_state_stopped || m_player->GetState() == Play::player_state_paused) {
             m_volumeSlider->SetValue(m_player->GetVolume() * 100);
         }
-        UpdatePlayLabel();
-        UpdatePositionSlider();
+        if (withPlayLabelUpdate) {
+            UpdatePlayLabel();
+            UpdatePositionSlider();
+        }
     }
 
     void PlayerFrame::OnPlay(wxCommandEvent &event) {
@@ -326,11 +331,7 @@ namespace Bassplay::Ui {
             titleLabel = "No song loaded";
         }
 
-        //TODO better solution would be not to call this method when song is opened
-        wxMutexLocker locker(m_playLabelMutex);
-        if (locker.IsOk()) {
-            m_songNameLabel->SetLabel(wxString(stateLabel + ": " + titleLabel));
-        }
+        m_songNameLabel->SetLabel(wxString(stateLabel + ": " + titleLabel));
     }
 
     void PlayerFrame::OnVolumeButtonPress(wxCommandEvent &event) {
