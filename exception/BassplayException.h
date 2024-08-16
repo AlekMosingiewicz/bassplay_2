@@ -13,8 +13,8 @@ namespace Bassplay {
     private:
         int code;
     public:
-        BassplayException(int errorCode) : code(errorCode) {}
-        int GetCode() { return code; }
+        explicit BassplayException(int errorCode) : code(errorCode) {}
+        [[nodiscard]] int GetCode() const { return code; }
     };
 
 } // Bassplay

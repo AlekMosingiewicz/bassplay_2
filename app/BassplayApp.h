@@ -47,9 +47,9 @@ namespace Bassplay::App {
         void RunThread(wxThread* thread);
         void RunThreads();
         void InitHistory();
-        void InitHistoryDir();
+        static void InitHistoryDir();
         void SaveHistory();
-        wxString GetAppDir();
+        static wxString GetAppDir();
     };
 } // Bassplay::App
 

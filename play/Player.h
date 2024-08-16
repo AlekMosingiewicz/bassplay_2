@@ -35,13 +35,14 @@ namespace Bassplay::Play {
         void PlayCurrentSong();
         void SetCurrentDirectory(std::string &path);
         void BassUpdateVolume() const;
+        static void BroadcastPlaybackEvent(Bassplay::Event::PlaybackEventType eventType);
     public:
         explicit Player(bool t_doreplay = false) : replay(t_doreplay), m_songBeingPlayed(nullptr), m_playlist(new Collection::SongCollection()) {
             m_history = new Bassplay::Play::Collection::SongCollection();
             m_history->SetLimit(5);
         };
         explicit Player(Song* t_song, bool t_doreplay = false) : m_songBeingPlayed(t_song), replay(t_doreplay) {}
-        ~Player() { delete m_songBeingPlayed; if (m_history != nullptr) { delete m_history; } }
+        ~Player();
         void LoadSong(std::string& path);
         void PlaySong();
         void PauseSong();

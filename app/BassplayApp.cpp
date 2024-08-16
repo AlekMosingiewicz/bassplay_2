@@ -17,10 +17,9 @@ namespace Bassplay::App {
     }
 
     int BassplayApp::OnExit() {
-        // StopThreads();
         BASS_Free();
         BASS_Stop();
-        // StopThreads();
+        StopThreads();
         SaveHistory();
         delete m_player;
         return 0;
@@ -28,21 +27,20 @@ namespace Bassplay::App {
 
     void BassplayApp::StopThread(wxThread *thread) {
         int i = 0;
+        thread->Pause();
         wxThreadError error = thread->Delete();
         if (error != wxTHREAD_NO_ERROR) {
             std::string errorMessage = "Problem deleting thread " + std::to_string(thread->GetId());
-            errorMessage += error;
+            errorMessage += std::to_string(error);
             wxLogError(wxString(errorMessage));
         }
         while (i++ < 100) {
             wxCriticalSectionLocker enter(m_pThreadCS);
         }
-        thread->Kill();
     }
 
     void BassplayApp::StopThreads() {
         for (wxThread *thread: m_threads) {
-            if (thread)
                 StopThread(thread);
         }
     }
@@ -62,7 +60,7 @@ namespace Bassplay::App {
     }
 
     void BassplayApp::InitThreads() {
-        Thread::GuiThread *guiThread = new Thread::GuiThread(m_playerFrame);
+        auto *guiThread = new Thread::GuiThread(m_playerFrame);
         Bassplay::Event::BassplayEventDispatcher::Instance().RegisterHandler(
                 Event::playbackEvent,
                 new Bassplay::Listener::GuiThreadPauseListener(guiThread, m_playerFrame)

@@ -7,15 +7,16 @@
 namespace Bassplay::Play {
     void CALLBACK on_playback_end(HSYNC hmusic, DWORD channel, DWORD data, void *user) {
         auto player = static_cast<Player *>(user);
-        player->StopSong();
         auto event = Bassplay::Event::BassplayPlaybackEvent(
                 Bassplay::Event::PlaybackEventType::playbackEnded);
         Bassplay::Event::BassplayEventDispatcher::Instance().BroadcastEvent<Bassplay::Event::BassplayPlaybackEvent>(
                 event);
+        player->StopSong();
     }
 
     void Player::LoadSong(std::string &path) {
         if (m_songBeingPlayed != nullptr) {
+            BroadcastPlaybackEvent(Bassplay::Event::PlaybackEventType::playbackStopped);
             m_songBeingPlayed->UnloadSong();
         }
         try {
@@ -33,35 +34,23 @@ namespace Bassplay::Play {
     void Player::PlaySong() {
         state = player_state_playing;
         PlayCurrentSong();
-        auto event = Bassplay::Event::BassplayPlaybackEvent(
-                Bassplay::Event::PlaybackEventType::playbackStarted);
-        Bassplay::Event::BassplayEventDispatcher::Instance().BroadcastEvent<Bassplay::Event::BassplayPlaybackEvent>(
-                event);
+        BroadcastPlaybackEvent(Bassplay::Event::PlaybackEventType::playbackStarted);
     }
 
     void Player::PauseSong() {
         if (m_songBeingPlayed != nullptr) {
+            BroadcastPlaybackEvent(Bassplay::Event::PlaybackEventType::playbackStopped);
             BASS_ChannelPause(m_songBeingPlayed->GetMusicHandle());
             state = player_state_paused;
-            auto event = Bassplay::Event::BassplayPlaybackEvent(
-                    Bassplay::Event::PlaybackEventType::playbackStopped);
-
-            Bassplay::Event::BassplayEventDispatcher::Instance().BroadcastEvent<Bassplay::Event::BassplayPlaybackEvent>(
-                    event);
         }
     }
 
     void Player::StopSong() {
         if (m_songBeingPlayed != nullptr) {
+            BroadcastPlaybackEvent(Bassplay::Event::PlaybackEventType::playbackStopped);
             BASS_ChannelStop(m_songBeingPlayed->GetMusicHandle());
             state = player_state_stopped;
             m_songBeingPlayed->Rewind();
-
-            auto event = Bassplay::Event::BassplayPlaybackEvent(
-                    Bassplay::Event::PlaybackEventType::playbackStopped);
-
-            Bassplay::Event::BassplayEventDispatcher::Instance().BroadcastEvent<Bassplay::Event::BassplayPlaybackEvent>(
-                    event);
         }
     }
 
@@ -114,5 +103,22 @@ namespace Bassplay::Play {
         if (mVolume > 0 && mVolume < 1) {
             m_songBeingPlayed->SetVolume(mVolume);
         }
+    }
+
+    void Player::BroadcastPlaybackEvent(Bassplay::Event::PlaybackEventType eventType) {
+        auto event = Bassplay::Event::BassplayPlaybackEvent(eventType);
+        Bassplay::Event::BassplayEventDispatcher::Instance().BroadcastEvent<Bassplay::Event::BassplayPlaybackEvent>(
+                event);
+    }
+
+   Player::~Player() {
+        if (m_songBeingPlayed != nullptr) {
+            m_songBeingPlayed->UnloadSong();
+            delete m_songBeingPlayed;
+            m_songBeingPlayed = nullptr;
+        }
+        if (m_playlist != nullptr) delete m_playlist;
+        delete m_history;
+
     }
 } // Play

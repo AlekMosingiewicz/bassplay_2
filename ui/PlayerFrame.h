@@ -32,7 +32,7 @@ namespace Bassplay::Ui {
     class PlayerFrame: public DpiAwareFrame  {
     public:
         PlayerFrame(const wxString& title, const wxPoint& pos, const wxSize& size, Bassplay::Play::Player* musicPlayer);
-        void UpdateGUI();
+        void UpdateGUI(bool withPlayLabelUpdate = true);
         void StopAndReset();
         //info
         void ShowInfoFrame();
@@ -54,6 +54,9 @@ namespace Bassplay::Ui {
         wxButton* mControlsButton;
         wxSlider* m_positionSlider;
         wxSlider* m_volumeSlider;
+
+        //multithreading
+        wxMutex m_playLabelMutex;
 
         //helper variables
         bool mVolumeVisible = false;

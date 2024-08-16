@@ -26,7 +26,9 @@ namespace Bassplay::Ui {
             return;
         wxString path = fileDialog.GetPath();
         std::string stdPath = std::string(path.mb_str());
+        m_playLabelMutex.Lock();
         OpenSong(stdPath);
+        m_playLabelMutex.Unlock();
     }
 
     void PlayerFrame::OpenSong(std::string &path) {
@@ -40,7 +42,7 @@ namespace Bassplay::Ui {
             if (m_songInfoFrame != nullptr) {
                 m_songInfoFrame->SetSong(m_player->GetSong());
             }
-            UpdateGUI();
+            UpdateGUI(false);
             BuildHistory();
         } catch (BassplayException &exception) {
             wxMessageBox(wxString::Format("Error code %d", exception.GetCode()),
@@ -212,7 +214,7 @@ namespace Bassplay::Ui {
         SetClientSize(this->CalculateRealSize(const_cast<wxSize &>(size)));
     }
 
-    void PlayerFrame::UpdateGUI() {
+    void PlayerFrame::UpdateGUI(bool withPlayLabelUpdate) {
         if (m_player->GetState() == Play::player_state_playing) {
             UpdateTimeLabel();
         }
@@ -222,8 +224,10 @@ namespace Bassplay::Ui {
         if (m_player->GetState() == Play::player_state_stopped || m_player->GetState() == Play::player_state_paused) {
             m_volumeSlider->SetValue(m_player->GetVolume() * 100);
         }
-        UpdatePlayLabel();
-        UpdatePositionSlider();
+        if (withPlayLabelUpdate) {
+            UpdatePlayLabel();
+            UpdatePositionSlider();
+        }
     }
 
     void PlayerFrame::OnPlay(wxCommandEvent &event) {
@@ -299,6 +303,11 @@ namespace Bassplay::Ui {
     }
 
     void PlayerFrame::UpdatePlayLabel() {
+        if (m_player == nullptr || m_songNameLabel == nullptr) {
+            //TODO Log error or handle this case
+            return;
+        }
+
         wxString stateLabel;
         wxString titleLabel;
 
@@ -314,7 +323,13 @@ namespace Bassplay::Ui {
                 break;
         }
 
-        titleLabel = m_player->GetSong() != nullptr ? wxString(m_player->GetSong()->GetTitle()) : "No song loaded";
+        auto song = m_player->GetSong();
+        if (song != nullptr) {
+            titleLabel = wxString(song->GetTitle());
+        } else {
+            titleLabel = "No song loaded";
+        }
+
         m_songNameLabel->SetLabel(wxString(stateLabel + ": " + titleLabel));
     }
 
