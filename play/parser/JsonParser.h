@@ -9,6 +9,7 @@
 #include <unordered_map>
 #include <string>
 #include <vector>
+#include "JsonNode.h"
 
 namespace Bassplay::Play::Parser {
 
