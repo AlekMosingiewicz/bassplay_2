@@ -26,10 +26,9 @@ namespace Bassplay::Ui {
             return;
         wxString path = fileDialog.GetPath();
         std::string stdPath = std::string(path.mb_str());
-        wxMutexLocker locker(m_playLabelMutex);
-        if (locker.IsOk()) {
-            OpenSong(stdPath);
-        }
+        m_playLabelMutex.Lock();
+        OpenSong(stdPath);
+        m_playLabelMutex.Unlock();
     }
 
     void PlayerFrame::OpenSong(std::string &path) {
