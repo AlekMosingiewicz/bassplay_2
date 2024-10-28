@@ -21,9 +21,12 @@ namespace Bassplay::Play::History {
         ~PlaybackHistory() {
             delete m_collection;
             delete m_lastSong;
+            delete m_dir;
         }
         void SetCollection(SongCollection *collection) { m_collection = collection; }
         void SetLastSong(Song *lastSong) { m_lastSong = lastSong; }
+        void SetDir(std::string *dir) { m_dir = dir; }
+        [[nodiscard]] std::string* GetDir() const { return m_dir; }
         [[nodiscard]] SongCollection* GetCollection() const { return m_collection; }
         [[nodiscard]] Song* GetLastSong() const { return m_lastSong; }
         static PlaybackHistory* CreateFromJson(std::string &json);
@@ -31,6 +34,7 @@ namespace Bassplay::Play::History {
     private:
         SongCollection *m_collection = nullptr;
         Song *m_lastSong = nullptr;
+        std::string *m_dir = nullptr;
     };
 
 }

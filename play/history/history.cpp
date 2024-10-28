@@ -23,6 +23,12 @@ namespace Bassplay::Play::History {
             history->SetLastSong(JsonSongTransformer::TransformFromJson(songJson));
         }
 
+        if (j.contains("dir")) {
+            std::string dir = j["dir"].dump();
+            std::string sanitizedDir = dir.substr(1, dir.size() - 2);
+            history->SetDir(new std::string(sanitizedDir));
+        }
+
         history->SetCollection(collection);
 
         return history;

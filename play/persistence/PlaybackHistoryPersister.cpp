@@ -17,6 +17,10 @@ namespace Bassplay::Play::Persistence {
                 j["lastSong"] = JsonSongTransformer::TransformToJson(history->GetLastSong());
             }
 
+            if (history->GetDir() != nullptr) {
+                j["dir"] = *history->GetDir();
+            }
+
             m_ostream->write(j.dump().c_str(), j.dump().size());
         }
 }

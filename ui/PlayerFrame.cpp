@@ -19,7 +19,11 @@ namespace Bassplay::Ui {
     }
 
     void PlayerFrame::OnOpen(wxCommandEvent &event) {
-        wxFileDialog fileDialog(this, "Open music file", m_player->GetCurrentDirectory(), "",
+        auto dir = m_player->GetCurrentDirectory().empty()
+                ? (*m_player->GetPlaybackHistory()->GetDir())
+                : m_player->GetCurrentDirectory();
+
+        wxFileDialog fileDialog(this, "Open music file", dir, "",
                                 "Mod files (*.it,*.xm,*.mod,*.s3m,*.mo3,*.mptm)|*.it;*.IT;*.xm;*.XM;*.mod;*.MOD;*.s3m;*.S3M;*.mo3;*.mptm",
                                 wxFD_OPEN | wxFD_FILE_MUST_EXIST);
         if (fileDialog.ShowModal() == wxID_CANCEL)

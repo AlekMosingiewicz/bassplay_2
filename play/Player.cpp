@@ -27,6 +27,7 @@ namespace Bassplay::Play {
             }
             if (m_history != nullptr) {
                 m_history->SetLastSong(m_songBeingPlayed);
+                m_history->SetDir(&m_currentDirectory);
             }
         } catch (BassplayException &bassplayException) {
             throw bassplayException;
