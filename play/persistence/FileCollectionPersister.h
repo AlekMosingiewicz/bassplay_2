@@ -7,6 +7,7 @@
 
 #include "AbstractCollectionPersister.h"
 #include "../serializer/ISongCollectionSerializer.h"
+#include "../json/json.hpp"
 #include <fstream>
 
 namespace Bassplay::Play::Persistence {
@@ -16,6 +17,7 @@ namespace Bassplay::Play::Persistence {
         FileCollectionPersister(std::fstream *fstream, Serializer::ISongCollectionSerializer *serializer)
                 : AbstractCollectionPersister(fstream, serializer) {};
         void PersistCollection(const Collection::SongCollection &collection) override;
+        const char* GetJsonKey() override { return "history"; }
     };
 
 } // Bassplay

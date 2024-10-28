@@ -11,6 +11,7 @@ namespace Bassplay::Play::Persistence {
     class ICollectionPersister {
     public:
         virtual void PersistCollection(const Bassplay::Play::Collection::SongCollection &collection){};
+        virtual const char* GetJsonKey() = 0;
     };
 } // Persistence
 
