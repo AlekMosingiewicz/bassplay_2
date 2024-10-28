@@ -26,6 +26,8 @@
 
 namespace Bassplay::App {
 
+    using namespace Bassplay::Play::History;
+
     const int HISTORY_SIZE = 5;
 
     class BassplayApp : public wxApp {

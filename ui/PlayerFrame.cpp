@@ -95,7 +95,7 @@ namespace Bassplay::Ui {
                 OnInfo(event);
                 return;
         }
-        auto history = m_player->GetHistory()->GetSongs();
+        auto history = m_player->GetHistoryCollection()->GetSongs();
         auto iterator = history.begin();
         for (int i = 0; i < id - 100; i++) {
             iterator++;
@@ -115,7 +115,7 @@ namespace Bassplay::Ui {
             }
         }
 
-        auto history = m_player->GetHistory();
+        auto history = m_player->GetHistoryCollection();
         int i = 100;
         for (auto song: history->GetSongs()) {
             auto id = i++;

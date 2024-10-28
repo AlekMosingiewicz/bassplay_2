@@ -22,8 +22,8 @@ namespace Bassplay::Play {
         try {
             m_songBeingPlayed = new Song(path);
             SetCurrentDirectory(path);
-            if (m_history != nullptr) {
-                m_history->AddSong(m_songBeingPlayed);
+            if (m_history_collection != nullptr) {
+                m_history_collection->AddSong(m_songBeingPlayed);
             }
         } catch (BassplayException &bassplayException) {
             throw bassplayException;
@@ -118,7 +118,7 @@ namespace Bassplay::Play {
             m_songBeingPlayed = nullptr;
         }
         if (m_playlist != nullptr) delete m_playlist;
-        delete m_history;
+        delete m_history_collection;
 
     }
 } // Play

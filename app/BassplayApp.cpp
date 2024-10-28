@@ -79,9 +79,13 @@ namespace Bassplay::App {
         wxFile historyFile(history_path);
         wxString buffer;
         historyFile.ReadAll(&buffer);
-        auto collection = transformer.Transform(buffer.c_str());
-        collection->SetLimit(HISTORY_SIZE);
-        m_player->SetHistory(collection);
+        std::string jsonString = buffer.ToStdString();
+        //auto collection = transformer.Transform(buffer.c_str());
+        auto playbackHistory = PlaybackHistory::CreateFromJson(jsonString);
+        playbackHistory->GetCollection()->SetLimit(HISTORY_SIZE);
+        m_player->SetPlaybackHistory(playbackHistory);
+        //collection->SetLimit(HISTORY_SIZE);
+        //m_player->SetHistory(collection);
     }
 
     void BassplayApp::InitHistoryDir() {
@@ -105,7 +109,7 @@ namespace Bassplay::App {
         std::fstream history_stream(history_path, std::ostream::out);
 
         Bassplay::Play::Persistence::FileCollectionPersister persister(&history_stream, &songCollectionSerializer);
-        persister.PersistCollection(*(m_player->GetHistory()));
+        persister.PersistCollection(*(m_player->GetHistoryCollection()));
     }
 
     wxString BassplayApp::GetAppDir() {

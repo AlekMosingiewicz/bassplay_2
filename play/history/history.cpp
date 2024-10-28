@@ -9,13 +9,13 @@ namespace Bassplay::Play::History {
 
     using json = nlohmann::json;
 
-    History* History::CreateFromJson(std::string &json) {
+    PlaybackHistory* PlaybackHistory::CreateFromJson(std::string &json) {
         auto j = json::parse(json);
-        auto *history = new History();
+        auto *history = new PlaybackHistory();
         auto *collection = new SongCollection;
         for (auto &element: j["history"]) {
             Song *song = new Song();
-            song->SetPath(element["filename"].dump().c_str());
+            song->SetFilename(element["filename"].dump().c_str());
             song->SetName(element["title"].dump().c_str());
             song->SetPath(element["path"].dump().c_str());
             collection->AddSong(song);
