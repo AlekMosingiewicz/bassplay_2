@@ -75,17 +75,13 @@ namespace Bassplay::App {
             return;
         }
         Bassplay::Play::Parser::JsonParser parser;
-        Bassplay::Play::Transformer::JsonSongCollectionTransformer transformer(&parser);
         wxFile historyFile(history_path);
         wxString buffer;
         historyFile.ReadAll(&buffer);
         std::string jsonString = buffer.ToStdString();
-        //auto collection = transformer.Transform(buffer.c_str());
         auto playbackHistory = PlaybackHistory::CreateFromJson(jsonString);
         playbackHistory->GetCollection()->SetLimit(HISTORY_SIZE);
         m_player->SetPlaybackHistory(playbackHistory);
-        //collection->SetLimit(HISTORY_SIZE);
-        //m_player->SetHistory(collection);
     }
 
     void BassplayApp::InitHistoryDir() {
@@ -104,12 +100,15 @@ namespace Bassplay::App {
         wxString wxHistoryPath = appDir + "/history_stream.json";
         const char *history_path = wxHistoryPath.c_str();
 
-        Bassplay::Play::Serializer::JsonSongSerializer serializer;
-        Bassplay::Play::Serializer::JsonSongCollectionSerializer songCollectionSerializer(&serializer);
         std::fstream history_stream(history_path, std::ostream::out);
+        if (!history_stream.is_open()) {
+            wxLogError(wxString("Failed to open history file for writing"));
+            return;
+        }
 
-        Bassplay::Play::Persistence::FileCollectionPersister persister(&history_stream, &songCollectionSerializer);
-        persister.PersistCollection(*(m_player->GetHistoryCollection()));
+        PlaybackHistoryPersister persister(&history_stream);
+        persister.persist(m_player->GetPlaybackHistory());
+        history_stream.close();
     }
 
     wxString BassplayApp::GetAppDir() {

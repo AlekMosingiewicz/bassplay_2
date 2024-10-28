@@ -18,6 +18,8 @@ set(HEADER_FILES
         transformer/CollectionDataSource.h
         parser/JsonNode.h
         history/history.hpp
+        persistence/PlaybackHistoryPersister.cpp
+        persistence/PlaybackHistoryPersister.hpp
 )
 
 set(SOURCE_FILES
@@ -37,6 +39,8 @@ set(SOURCE_FILES
         transformer/ISongCollectionTransformer.h transformer/JsonSongCollectionTransformer.cpp transformer/JsonSongCollectionTransformer.h parser/JsonParser.cpp parser/JsonParser.h parser/JsonNode.h
         history/history.cpp
         transformer/JsonSongTransformer.cpp
-        transformer/JsonSongTransformer.hpp)
+        transformer/JsonSongTransformer.hpp
+        persistence/PlaybackHistoryPersister.cpp
+        persistence/PlaybackHistoryPersister.hpp)
 
 add_library(Play_lib STATIC ${SOURCE_FILES} ${HEADER_FILES})

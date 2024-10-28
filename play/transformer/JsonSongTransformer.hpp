@@ -11,10 +11,14 @@
 
 namespace Bassplay::Play::Transformer {
 
+    using json = nlohmann::json;
+
     class JsonSongTransformer {
+    private:
+        [[nodiscard]] static std::string SanitizeString(std::string &str);
     public:
         JsonSongTransformer() = default;
-        [[nodiscard]] static std::string TransformToJson(Song *song);
+        [[nodiscard]] static json TransformToJson(Song *song);
         [[nodiscard]] static Song* TransformFromJson(std::string &json);
     };
 }

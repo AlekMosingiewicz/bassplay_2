@@ -23,10 +23,12 @@
 #include "../listener/GuiThreadPauseListener.h"
 #include "../event/BassplayEventDispatcher.h"
 #include "../event/BassplayEventType.h"
+#include "../play/persistence/PlaybackHistoryPersister.hpp"
 
 namespace Bassplay::App {
 
     using namespace Bassplay::Play::History;
+    using Bassplay::Play::Persistence::PlaybackHistoryPersister;
 
     const int HISTORY_SIZE = 5;
 

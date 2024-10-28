@@ -22,8 +22,11 @@ namespace Bassplay::Play {
         try {
             m_songBeingPlayed = new Song(path);
             SetCurrentDirectory(path);
-            if (m_history_collection != nullptr) {
-                m_history_collection->AddSong(m_songBeingPlayed);
+            if (m_history != nullptr && m_history->GetCollection() != nullptr) {
+                m_history->GetCollection()->AddSong(m_songBeingPlayed);
+            }
+            if (m_history != nullptr) {
+                m_history->SetLastSong(m_songBeingPlayed);
             }
         } catch (BassplayException &bassplayException) {
             throw bassplayException;
