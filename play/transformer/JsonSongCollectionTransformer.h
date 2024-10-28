@@ -7,7 +7,7 @@
 
 #include "ISongCollectionTransformer.h"
 #include "../parser/JsonParser.h"
-#include "../Song.h"
+#include "../Song.hpp"
 #include <map>
 
 namespace Bassplay::Play::Transformer {

@@ -6,7 +6,7 @@
 #define BASSPLAY_2_FILECOLLECTIONPERSISTER_H
 
 #include "AbstractCollectionPersister.h"
-#include "../serializer/ISongCollectionSerializer.h"
+#include "../serializer/ISongCollectionSerializer.hpp"
 #include "../json/json.hpp"
 #include <fstream>
 

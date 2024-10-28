@@ -2,8 +2,8 @@
 // Created by aleksander on 29.05.22.
 //
 
-#ifndef BASSPLAY_2_SONG_H
-#define BASSPLAY_2_SONG_H
+#ifndef BASSPLAY_2_SONG_HPP
+#define BASSPLAY_2_SONG_HPP
 
 #include <bass/bass.h>
 #include <string>
@@ -82,4 +82,4 @@ namespace Bassplay::Play {
 } // Play
 
 
-#endif //BASSPLAY_2_SONG_H
+#endif //BASSPLAY_2_SONG_HPP

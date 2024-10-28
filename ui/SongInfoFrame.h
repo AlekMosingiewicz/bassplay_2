@@ -5,7 +5,7 @@
 #ifndef BASSPLAY_2_SONGINFOFRAME_H
 #define BASSPLAY_2_SONGINFOFRAME_H
 
-#include "../play/Song.h"
+#include "../play/Song.hpp"
 #include "DpiAwareFrame.h"
 #include <wx/wx.h>
 #include <wx/notebook.h>

@@ -4,13 +4,13 @@ project(Play)
 set(HEADER_FILES
         serializer/ISerializable.h
         serializer/SerializableStringList.h
-        serializer/ISongSerializer.h
-        Player.h
-        Song.h
-        collection/SongCollection.h
-        serializer/ISongSerializer.h
+        serializer/ISongSerializer.hpp
+        Player.hpp
+        Song.hpp
+        collection/SongCollection.hpp
+        serializer/ISongSerializer.hpp
         serializer/JsonSongSerializer.h
-        serializer/ISongCollectionSerializer.h
+        serializer/ISongCollectionSerializer.hpp
         serializer/JsonSongCollectionSerializer.h
         serializer/AbstractSongCollectionSerializer.h
         serializer/InvalidSerializerException.h

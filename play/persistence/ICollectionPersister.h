@@ -5,7 +5,7 @@
 #ifndef BASSPLAY_2_ICOLLECTIONPERSISTER_H
 #define BASSPLAY_2_ICOLLECTIONPERSISTER_H
 
-#include "../collection/SongCollection.h"
+#include "../collection/SongCollection.hpp"
 
 namespace Bassplay::Play::Persistence {
     class ICollectionPersister {

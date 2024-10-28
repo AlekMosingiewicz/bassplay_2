@@ -2,7 +2,7 @@
 // Created by aleksander on 29.05.22.
 //
 
-#include "Song.h"
+#include "Song.hpp"
 #include <cstring>
 #include <algorithm>
 

@@ -2,10 +2,10 @@
 // Created by aleksander on 29.08.22.
 //
 
-#ifndef BASSPLAY_2_ISONGCOLLECTIONSERIALIZER_H
-#define BASSPLAY_2_ISONGCOLLECTIONSERIALIZER_H
+#ifndef BASSPLAY_2_ISONGCOLLECTIONSERIALIZER_HPP
+#define BASSPLAY_2_ISONGCOLLECTIONSERIALIZER_HPP
 
-#include "../collection/SongCollection.h"
+#include "../collection/SongCollection.hpp"
 
 namespace Bassplay::Play::Collection {
     class SongCollection;
@@ -21,4 +21,4 @@ namespace Bassplay::Play::Serializer {
 
 } // Bassplay
 
-#endif //BASSPLAY_2_ISONGCOLLECTIONSERIALIZER_H
+#endif //BASSPLAY_2_ISONGCOLLECTIONSERIALIZER_HPP

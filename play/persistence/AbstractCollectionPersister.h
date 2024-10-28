@@ -6,7 +6,7 @@
 #define BASSPLAY_2_ABSTRACTCOLLECTIONPERSISTER_H
 
 #include "ICollectionPersister.h"
-#include "../serializer/ISongCollectionSerializer.h"
+#include "../serializer/ISongCollectionSerializer.hpp"
 #include <ostream>
 
 namespace Bassplay::Play::Persistence {

@@ -5,8 +5,8 @@
 #ifndef BASSPLAY_2_ABSTRACTSONGCOLLECTIONSERIALIZER_H
 #define BASSPLAY_2_ABSTRACTSONGCOLLECTIONSERIALIZER_H
 
-#include "ISongCollectionSerializer.h"
-#include "ISongSerializer.h"
+#include "ISongCollectionSerializer.hpp"
+#include "ISongSerializer.hpp"
 #include "InvalidSerializerException.h"
 
 namespace Bassplay::Play::Serializer {

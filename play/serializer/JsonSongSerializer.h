@@ -5,7 +5,7 @@
 #ifndef BASSPLAY_2_JSONSONGSERIALIZER_H
 #define BASSPLAY_2_JSONSONGSERIALIZER_H
 
-#include "ISongSerializer.h"
+#include "ISongSerializer.hpp"
 
 namespace Bassplay::Play::Serializer {
 

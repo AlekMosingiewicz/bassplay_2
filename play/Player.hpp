@@ -2,11 +2,11 @@
 // Created by aleksander on 30.05.22.
 //
 
-#ifndef BASSPLAY_2_PLAYER_H
-#define BASSPLAY_2_PLAYER_H
+#ifndef BASSPLAY_2_PLAYER_HPP
+#define BASSPLAY_2_PLAYER_HPP
 
-#include "Song.h"
-#include "collection/SongCollection.h"
+#include "Song.hpp"
+#include "collection/SongCollection.hpp"
 #include "../event/BassplayEvent.h"
 #include "../event/BassplayEventDispatcher.h"
 #include "../event/BassplayPlaybackEvent.h"
@@ -80,4 +80,4 @@ namespace Bassplay::Play {
     };
 } // Play
 
-#endif //BASSPLAY_2_PLAYER_H
+#endif //BASSPLAY_2_PLAYER_HPP

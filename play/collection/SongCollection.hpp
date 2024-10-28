@@ -2,12 +2,12 @@
 // Created by aleksander on 29.08.22.
 //
 
-#ifndef BASSPLAY_2_SONGCOLLECTION_H
-#define BASSPLAY_2_SONGCOLLECTION_H
+#ifndef BASSPLAY_2_SONGCOLLECTION_HPP
+#define BASSPLAY_2_SONGCOLLECTION_HPP
 
 #include "../serializer/ISerializable.h"
-#include "../Song.h"
-#include "../serializer/ISongCollectionSerializer.h"
+#include "../Song.hpp"
+#include "../serializer/ISongCollectionSerializer.hpp"
 #include <list>
 #include <unordered_map>
 #include <iterator>
@@ -39,4 +39,4 @@ namespace Bassplay::Play::Collection {
 
 } // Bassplay
 
-#endif //BASSPLAY_2_SONGCOLLECTION_H
+#endif //BASSPLAY_2_SONGCOLLECTION_HPP

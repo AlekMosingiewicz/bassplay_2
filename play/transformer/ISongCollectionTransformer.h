@@ -5,7 +5,7 @@
 #ifndef BASSPLAY_2_ISONGCOLLECTIONTRANSFORMER_H
 #define BASSPLAY_2_ISONGCOLLECTIONTRANSFORMER_H
 
-#include "../collection/SongCollection.h"
+#include "../collection/SongCollection.hpp"
 
 namespace Bassplay::Play::Transformer {
 

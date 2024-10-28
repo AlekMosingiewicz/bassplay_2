@@ -8,7 +8,7 @@
 
 
 #include <wx/wx.h>
-#include "../play/Player.h"
+#include "../play/Player.hpp"
 #include "SongInfoFrame.h"
 #include "DpiAwareFrame.h"
 

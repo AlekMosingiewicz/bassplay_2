@@ -6,7 +6,7 @@
 #define BASSPLAY_2_JSONSONGTRANSFORMER_HPP
 
 #include <string>
-#include "../Song.h"
+#include "../Song.hpp"
 #include "../../json/json.hpp"
 
 namespace Bassplay::Play::Transformer {

@@ -12,7 +12,7 @@
 
 #define CATCH_CONFIG_MAIN
 #include "../play/serializer/SerializableStringList.h"
-#include "../play/Song.h"
+#include "../play/Song.hpp"
 #include "../play/serializer/JsonSongSerializer.h"
 #include "../play/serializer/JsonSongCollectionSerializer.h"
 #include "../play/persistence/FileCollectionPersister.h"

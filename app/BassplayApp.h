@@ -12,10 +12,10 @@
 #include <unistd.h>
 #include <sys/types.h>
 #include <pwd.h>
-#include "../play/Player.h"
+#include "../play/Player.hpp"
 #include "../ui/PlayerFrame.h"
 #include "../thread/GuiThread.h"
-#include "../play/collection/SongCollection.h"
+#include "../play/collection/SongCollection.hpp"
 #include "../play/transformer/JsonSongCollectionTransformer.h"
 #include "../play/parser/JsonParser.h"
 #include "../play/serializer/JsonSongCollectionSerializer.h"

@@ -2,7 +2,7 @@
 // Created by aleksander on 30.05.22.
 //
 
-#include "Player.h"
+#include "Player.hpp"
 
 namespace Bassplay::Play {
     void CALLBACK on_playback_end(HSYNC hmusic, DWORD channel, DWORD data, void *user) {

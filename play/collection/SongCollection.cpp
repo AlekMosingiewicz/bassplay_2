@@ -2,7 +2,7 @@
 // Created by aleksander on 29.08.22.
 //
 
-#include "SongCollection.h"
+#include "SongCollection.hpp"
 
 namespace Bassplay::Play::Collection {
     std::list<Song*> SongCollection::GetSongs() const {

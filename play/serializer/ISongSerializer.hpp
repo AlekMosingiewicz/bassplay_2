@@ -2,11 +2,11 @@
 // Created by aleksander on 29.08.22.
 //
 
-#ifndef BASSPLAY_2_ISONGSERIALIZER_H
-#define BASSPLAY_2_ISONGSERIALIZER_H
+#ifndef BASSPLAY_2_ISONGSERIALIZER_HPP
+#define BASSPLAY_2_ISONGSERIALIZER_HPP
 
 #include <string>
-#include "../Song.h"
+#include "../Song.hpp"
 
 namespace Bassplay::Play {
 
@@ -19,4 +19,4 @@ namespace Bassplay::Play {
 
 } // Bassplay
 
-#endif //BASSPLAY_2_ISONGSERIALIZER_H
+#endif //BASSPLAY_2_ISONGSERIALIZER_HPP

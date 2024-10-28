@@ -5,7 +5,7 @@
 #ifndef BASSPLAY_2_HISTORY_HPP
 #define BASSPLAY_2_HISTORY_HPP
 
-#include "../collection/SongCollection.h"
+#include "../collection/SongCollection.hpp"
 #include "../../json/json.hpp"
 #include "../transformer/JsonSongTransformer.hpp"
 
