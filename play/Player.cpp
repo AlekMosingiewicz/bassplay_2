@@ -7,16 +7,16 @@
 namespace Bassplay::Play {
     void CALLBACK on_playback_end(HSYNC hmusic, DWORD channel, DWORD data, void *user) {
         auto player = static_cast<Player *>(user);
-        auto event = Bassplay::Event::BassplayPlaybackEvent(
-                Bassplay::Event::PlaybackEventType::playbackEnded);
-        Bassplay::Event::BassplayEventDispatcher::Instance().BroadcastEvent<Bassplay::Event::BassplayPlaybackEvent>(
+        auto event = BassplayPlaybackEvent(
+                PlaybackEventType::playbackEnded);
+       BassplayEventDispatcher::Instance().BroadcastEvent<BassplayPlaybackEvent>(
                 event);
         player->StopSong();
     }
 
     void Player::LoadSong(std::string &path) {
         if (m_songBeingPlayed != nullptr) {
-            BroadcastPlaybackEvent(Bassplay::Event::PlaybackEventType::playbackStopped);
+            BroadcastPlaybackEvent(PlaybackEventType::playbackStopped);
             m_songBeingPlayed->UnloadSong();
         }
         try {
@@ -34,12 +34,12 @@ namespace Bassplay::Play {
     void Player::PlaySong() {
         state = player_state_playing;
         PlayCurrentSong();
-        BroadcastPlaybackEvent(Bassplay::Event::PlaybackEventType::playbackStarted);
+        BroadcastPlaybackEvent(PlaybackEventType::playbackStarted);
     }
 
     void Player::PauseSong() {
         if (m_songBeingPlayed != nullptr) {
-            BroadcastPlaybackEvent(Bassplay::Event::PlaybackEventType::playbackStopped);
+            BroadcastPlaybackEvent(PlaybackEventType::playbackStopped);
             BASS_ChannelPause(m_songBeingPlayed->GetMusicHandle());
             state = player_state_paused;
         }
@@ -47,7 +47,7 @@ namespace Bassplay::Play {
 
     void Player::StopSong() {
         if (m_songBeingPlayed != nullptr) {
-            BroadcastPlaybackEvent(Bassplay::Event::PlaybackEventType::playbackStopped);
+            BroadcastPlaybackEvent(PlaybackEventType::playbackStopped);
             BASS_ChannelStop(m_songBeingPlayed->GetMusicHandle());
             state = player_state_stopped;
             m_songBeingPlayed->Rewind();
@@ -106,8 +106,8 @@ namespace Bassplay::Play {
     }
 
     void Player::BroadcastPlaybackEvent(Bassplay::Event::PlaybackEventType eventType) {
-        auto event = Bassplay::Event::BassplayPlaybackEvent(eventType);
-        Bassplay::Event::BassplayEventDispatcher::Instance().BroadcastEvent<Bassplay::Event::BassplayPlaybackEvent>(
+        auto event = BassplayPlaybackEvent(eventType);
+        BassplayEventDispatcher::Instance().BroadcastEvent<Bassplay::Event::BassplayPlaybackEvent>(
                 event);
     }
 

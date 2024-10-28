@@ -24,6 +24,12 @@ namespace Bassplay::Play::Collection {
         int m_limit = 0;
     public:
         SongCollection() = default;
+        ~SongCollection() {
+            for (auto &song : m_songs) {
+                delete song.second;
+            }
+            RemoveAllSongs();
+        }
         [[nodiscard]] std::list<Song*> GetSongs() const;
         void AddSong(Song* t_song);
         void RemoveSong(const std::string &name);

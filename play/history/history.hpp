@@ -18,6 +18,10 @@ namespace Bassplay::Play::History {
     class PlaybackHistory {
     public:
         PlaybackHistory() = default;
+        ~PlaybackHistory() {
+            delete m_collection;
+            delete m_lastSong;
+        }
         void SetCollection(SongCollection *collection) { m_collection = collection; }
         void SetLastSong(Song *lastSong) { m_lastSong = lastSong; }
         [[nodiscard]] SongCollection* GetCollection() const { return m_collection; }
