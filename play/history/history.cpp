@@ -14,15 +14,16 @@ namespace Bassplay::Play::History {
         auto *history = new PlaybackHistory();
         auto *collection = new SongCollection;
         for (auto &element: j["history"]) {
-            Song *song = new Song();
-            song->SetFilename(element["filename"].dump().c_str());
-            song->SetName(element["title"].dump().c_str());
-            song->SetPath(element["path"].dump().c_str());
-            collection->AddSong(song);
+            std::string songJson = element.dump();
+            collection->AddSong(JsonSongTransformer::TransformFromJson(songJson));
         }
-        auto *lastSong = new std::string(j["lastSong"].dump());
+
+        if (j.contains("lastSong")) {
+            std::string songJson = j["lastSong"].dump();
+            history->SetLastSong(JsonSongTransformer::TransformFromJson(songJson));
+        }
+
         history->SetCollection(collection);
-        history->SetLastSong(lastSong);
 
         return history;
     }

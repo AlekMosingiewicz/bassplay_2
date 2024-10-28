@@ -7,23 +7,26 @@
 
 #include "../collection/SongCollection.h"
 #include "../../json/json.hpp"
+#include "../transformer/JsonSongTransformer.hpp"
 
 namespace Bassplay::Play::History {
 
     using namespace Bassplay::Play::Collection;
+    using Bassplay::Play::Song;
+    using Bassplay::Play::Transformer::JsonSongTransformer;
 
     class PlaybackHistory {
     public:
         PlaybackHistory() = default;
         void SetCollection(SongCollection *collection) { m_collection = collection; }
-        void SetLastSong(std::string *lastSong) { m_lastSong = lastSong; }
+        void SetLastSong(Song *lastSong) { m_lastSong = lastSong; }
         [[nodiscard]] SongCollection* GetCollection() const { return m_collection; }
-        [[nodiscard]] std::string* GetLastSong() const { return m_lastSong; }
+        [[nodiscard]] Song* GetLastSong() const { return m_lastSong; }
         static PlaybackHistory* CreateFromJson(std::string &json);
 
     private:
-        SongCollection *m_collection;
-        std::string *m_lastSong;
+        SongCollection *m_collection = nullptr;
+        Song *m_lastSong = nullptr;
     };
 
 }
