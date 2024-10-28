@@ -52,7 +52,7 @@ namespace Bassplay::Play {
         ~Player();
         void LoadSong(std::string& path);
         void PlaySong();
-        void PauseSong();`
+        void PauseSong();
         void StopSong();
         void SetVolume(float volume) { mVolume = volume; BassUpdateVolume(); }
         [[nodiscard]] int GetState() const { return state; }
