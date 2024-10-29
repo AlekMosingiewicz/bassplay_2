@@ -5,7 +5,7 @@
 #ifndef BASSPLAY_2_IBASSPLAYEVENTHANDLER_H
 #define BASSPLAY_2_IBASSPLAYEVENTHANDLER_H
 
-#include "BassplayEvent.h"
+#include "BassplayEvent.hpp"
 
 namespace Bassplay::Event {
     class IBassplayEventHandler {

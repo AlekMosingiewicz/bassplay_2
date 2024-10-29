@@ -6,9 +6,9 @@
 #define BASSPLAY_2_GUITHREADPAUSELISTENER_H
 
 #include "../event/IBassplayEventHandler.h"
-#include "../event/BassplayEvent.h"
+#include "../event/BassplayEvent.hpp"
 #include "../event/BassplayPlaybackEvent.h"
-#include "../ui/PlayerFrame.h"
+#include "../ui/PlayerFrame.hpp"
 #include <wx/wx.h>
 
 namespace Bassplay::Listener {

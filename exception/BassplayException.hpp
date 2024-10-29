@@ -2,8 +2,8 @@
 // Created by aleksander on 09.06.22.
 //
 
-#ifndef BASSPLAY_2_BASSPLAYEXCEPTION_H
-#define BASSPLAY_2_BASSPLAYEXCEPTION_H
+#ifndef BASSPLAY_2_BASSPLAYEXCEPTION_HPP
+#define BASSPLAY_2_BASSPLAYEXCEPTION_HPP
 
 #include <exception>
 
@@ -19,4 +19,4 @@ namespace Bassplay {
 
 } // Bassplay
 
-#endif //BASSPLAY_2_BASSPLAYEXCEPTION_H
+#endif //BASSPLAY_2_BASSPLAYEXCEPTION_HPP

@@ -2,7 +2,7 @@
 // Created by aleksander on 18.06.22.
 //
 
-#include "GuiThread.h"
+#include "GuiThread.hpp"
 
 namespace Bassplay::Thread {
     wxThread::ExitCode GuiThread::Entry() {

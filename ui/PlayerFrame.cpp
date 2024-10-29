@@ -5,7 +5,7 @@
 #include <wx/wx.h>
 #include <wx/stdpaths.h>
 
-#include "PlayerFrame.h"
+#include "PlayerFrame.hpp"
 
 namespace Bassplay::Ui {
 

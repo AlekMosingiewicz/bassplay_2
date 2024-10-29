@@ -7,8 +7,8 @@
 
 #include "Song.hpp"
 #include "collection/SongCollection.hpp"
-#include "../event/BassplayEvent.h"
-#include "../event/BassplayEventDispatcher.h"
+#include "../event/BassplayEvent.hpp"
+#include "../event/BassplayEventDispatcher.hpp"
 #include "../event/BassplayPlaybackEvent.h"
 #include "history/history.hpp"
 

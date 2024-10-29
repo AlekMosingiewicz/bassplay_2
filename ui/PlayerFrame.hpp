@@ -3,14 +3,14 @@
 //
 #pragma once
 
-#ifndef BASSPLAY_2_PLAYERFRAME_H
-#define BASSPLAY_2_PLAYERFRAME_H
+#ifndef BASSPLAY_2_PLAYERFRAME_HPP
+#define BASSPLAY_2_PLAYERFRAME_HPP
 
 
 #include <wx/wx.h>
 #include "../play/Player.hpp"
-#include "SongInfoFrame.h"
-#include "DpiAwareFrame.h"
+#include "SongInfoFrame.hpp"
+#include "DpiAwareFrame.hpp"
 
 enum playerWidgets {
     playerWidgetsMinimum = 200,
@@ -97,4 +97,4 @@ namespace Bassplay::Ui {
 
 
 
-#endif //BASSPLAY_2_PLAYERFRAME_H
+#endif //BASSPLAY_2_PLAYERFRAME_HPP

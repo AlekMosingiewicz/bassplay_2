@@ -5,7 +5,7 @@
 #ifndef BASSPLAY_2_SONGCOLLECTION_HPP
 #define BASSPLAY_2_SONGCOLLECTION_HPP
 
-#include "../serializer/ISerializable.h"
+#include "../serializer/ISerializable.hpp"
 #include "../Song.hpp"
 #include <list>
 #include <unordered_map>

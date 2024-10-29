@@ -5,8 +5,8 @@
 #ifndef BASSPLAY_2_BASSPLAYPLAYBACKEVENT_H
 #define BASSPLAY_2_BASSPLAYPLAYBACKEVENT_H
 
-#include "BassplayEventType.h"
-#include "BassplayEvent.h"
+#include "BassplayEventType.hpp"
+#include "BassplayEvent.hpp"
 
 namespace Bassplay::Event {
 

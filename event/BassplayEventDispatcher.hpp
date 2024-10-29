@@ -2,14 +2,14 @@
 // Created by aleksander on 25.02.24.
 //
 
-#ifndef BASSPLAY_2_BASSPLAYEVENTDISPATCHER_H
-#define BASSPLAY_2_BASSPLAYEVENTDISPATCHER_H
+#ifndef BASSPLAY_2_BASSPLAYEVENTDISPATCHER_HPP
+#define BASSPLAY_2_BASSPLAYEVENTDISPATCHER_HPP
 
 #include <map>
 #include <string>
 #include <list>
 #include "IBassplayEventHandler.h"
-#include "BassplayEventType.h"
+#include "BassplayEventType.hpp"
 
 namespace Bassplay::Event {
 
@@ -47,4 +47,4 @@ namespace Bassplay::Event {
 
 }
 
-#endif //BASSPLAY_2_BASSPLAYEVENTDISPATCHER_H
+#endif //BASSPLAY_2_BASSPLAYEVENTDISPATCHER_HPP

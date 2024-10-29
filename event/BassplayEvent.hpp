@@ -2,10 +2,10 @@
 // Created by aleksander on 25.02.24.
 //
 
-#ifndef BASSPLAY_2_BASSPLAYEVENT_H
-#define BASSPLAY_2_BASSPLAYEVENT_H
+#ifndef BASSPLAY_2_BASSPLAYEVENT_HPP
+#define BASSPLAY_2_BASSPLAYEVENT_HPP
 
-#include "BassplayEventType.h"
+#include "BassplayEventType.hpp"
 
 namespace Bassplay::Event {
     class BassplayEvent {
@@ -17,4 +17,4 @@ namespace Bassplay::Event {
 
 
 
-#endif //BASSPLAY_2_BASSPLAYEVENT_H
+#endif //BASSPLAY_2_BASSPLAYEVENT_HPP

@@ -2,7 +2,7 @@
 project(Play)
 
 set(HEADER_FILES
-        serializer/ISerializable.h
+        serializer/ISerializable.hpp
         serializer/SerializableStringList.hpp
         serializer/ISongSerializer.hpp
         Player.hpp
@@ -10,7 +10,7 @@ set(HEADER_FILES
         collection/SongCollection.hpp
         serializer/ISongSerializer.hpp
         serializer/JsonSongSerializer.hpp
-        serializer/InvalidSerializerException.h
+        serializer/InvalidSerializerException.hpp
         history/history.hpp
         persistence/PlaybackHistoryPersister.cpp
         persistence/PlaybackHistoryPersister.hpp
@@ -25,7 +25,7 @@ set(SOURCE_FILES
         collection/SongCollection.cpp
         serializer/JsonSongSerializer.cpp
         serializer/InvalidSerializerException.cpp
-        serializer/InvalidSerializerException.h
+        serializer/InvalidSerializerException.hpp
         history/history.cpp
         transformer/JsonSongTransformer.cpp
         transformer/JsonSongTransformer.hpp

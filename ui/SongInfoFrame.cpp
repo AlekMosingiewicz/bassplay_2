@@ -2,7 +2,7 @@
 // Created by aleksander on 04.07.22.
 //
 
-#include "SongInfoFrame.h"
+#include "SongInfoFrame.hpp"
 
 namespace Bassplay::Ui {
     void SongInfoFrame::BuildInfoWindow() {

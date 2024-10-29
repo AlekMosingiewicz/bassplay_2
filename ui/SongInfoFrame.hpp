@@ -2,11 +2,11 @@
 // Created by aleksander on 04.07.22.
 //
 
-#ifndef BASSPLAY_2_SONGINFOFRAME_H
-#define BASSPLAY_2_SONGINFOFRAME_H
+#ifndef BASSPLAY_2_SONGINFOFRAME_HPP
+#define BASSPLAY_2_SONGINFOFRAME_HPP
 
 #include "../play/Song.hpp"
-#include "DpiAwareFrame.h"
+#include "DpiAwareFrame.hpp"
 #include <wx/wx.h>
 #include <wx/notebook.h>
 
@@ -43,4 +43,4 @@ namespace Bassplay::Ui {
 
 } // Bassplay
 
-#endif //BASSPLAY_2_SONGINFOFRAME_H
+#endif //BASSPLAY_2_SONGINFOFRAME_HPP

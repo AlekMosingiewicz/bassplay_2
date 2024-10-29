@@ -5,7 +5,7 @@
 #ifndef BASSPLAY_2_BASSPLAYAPP_HPP
 #define BASSPLAY_2_BASSPLAYAPP_HPP
 
-#include "../common/wx.h"
+#include "../common/wx.hpp"
 
 #include <vector>
 #include <fstream>
@@ -13,12 +13,12 @@
 #include <sys/types.h>
 #include <pwd.h>
 #include "../play/Player.hpp"
-#include "../ui/PlayerFrame.h"
-#include "../thread/GuiThread.h"
+#include "../ui/PlayerFrame.hpp"
+#include "../thread/GuiThread.hpp"
 #include "../play/collection/SongCollection.hpp"
 #include "../listener/GuiThreadPauseListener.h"
-#include "../event/BassplayEventDispatcher.h"
-#include "../event/BassplayEventType.h"
+#include "../event/BassplayEventDispatcher.hpp"
+#include "../event/BassplayEventType.hpp"
 #include "../play/persistence/PlaybackHistoryPersister.hpp"
 
 namespace Bassplay::App {

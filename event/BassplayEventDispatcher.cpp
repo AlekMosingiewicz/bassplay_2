@@ -2,7 +2,7 @@
 // Created by aleksander on 25.02.24.
 //
 
-#include "BassplayEventDispatcher.h"
+#include "BassplayEventDispatcher.hpp"
 
 namespace Bassplay::Event {
     BassplayEventDispatcher &BassplayEventDispatcher::Instance() {

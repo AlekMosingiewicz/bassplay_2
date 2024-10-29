@@ -2,11 +2,11 @@
 // Created by aleksander on 18.06.22.
 //
 
-#ifndef BASSPLAY_2_GUITHREAD_H
-#define BASSPLAY_2_GUITHREAD_H
+#ifndef BASSPLAY_2_GUITHREAD_HPP
+#define BASSPLAY_2_GUITHREAD_HPP
 
-#include "../common/wx.h"
-#include "../ui/PlayerFrame.h"
+#include "../common/wx.hpp"
+#include "../ui/PlayerFrame.hpp"
 
 namespace Bassplay::Thread {
     class GuiThread: public wxThread {
@@ -21,4 +21,4 @@ namespace Bassplay::Thread {
 
 
 
-#endif //BASSPLAY_2_GUITHREAD_H
+#endif //BASSPLAY_2_GUITHREAD_HPP

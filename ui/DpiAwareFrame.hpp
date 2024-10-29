@@ -2,8 +2,8 @@
 // Created by aleksander on 23.02.24.
 //
 
-#ifndef BASSPLAY_2_DPIAWAREFRAME_H
-#define BASSPLAY_2_DPIAWAREFRAME_H
+#ifndef BASSPLAY_2_DPIAWAREFRAME_HPP
+#define BASSPLAY_2_DPIAWAREFRAME_HPP
 
 #include <wx/wx.h>
 
@@ -39,4 +39,4 @@ namespace Bassplay::Ui {
 }
 
 
-#endif //BASSPLAY_2_DPIAWAREFRAME_H
+#endif //BASSPLAY_2_DPIAWAREFRAME_HPP

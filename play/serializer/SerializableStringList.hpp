@@ -5,7 +5,7 @@
 #ifndef BASSPLAY_2_SERIALIZABLESTRINGLIST_HPP
 #define BASSPLAY_2_SERIALIZABLESTRINGLIST_HPP
 
-#include "ISerializable.h"
+#include "ISerializable.hpp"
 #include <string>
 #include <vector>
 #include <list>

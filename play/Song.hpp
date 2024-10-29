@@ -8,7 +8,7 @@
 #include <bass/bass.h>
 #include <string>
 #include <vector>
-#include "../exception/BassplayException.h"
+#include "../exception/BassplayException.hpp"
 #include "serializer/SerializableStringList.hpp"
 
 namespace Bassplay::Play {

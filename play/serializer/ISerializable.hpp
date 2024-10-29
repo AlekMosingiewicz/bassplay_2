@@ -2,8 +2,8 @@
 // Created by aleksander on 22.07.22.
 //
 
-#ifndef BASSPLAY_2_ISERIALIZABLE_H
-#define BASSPLAY_2_ISERIALIZABLE_H
+#ifndef BASSPLAY_2_ISERIALIZABLE_HPP
+#define BASSPLAY_2_ISERIALIZABLE_HPP
 
 #include <string>
 
@@ -18,4 +18,4 @@ namespace Bassplay::Play::Serializer {
 
 } // Bassplay
 
-#endif //BASSPLAY_2_ISERIALIZABLE_H
+#endif //BASSPLAY_2_ISERIALIZABLE_HPP

@@ -8,33 +8,33 @@ add_subdirectory(play)
 
 add_executable(
         bassplay_2
-        common/wx.h
+        common/wx.hpp
         main.cpp
         app/BassplayApp.cpp
         app/BassplayApp.hpp
         ui/PlayerFrame.cpp
-        ui/PlayerFrame.h
-        exception/BassplayException.h
+        ui/PlayerFrame.hpp
+        exception/BassplayException.hpp
         thread/GuiThread.cpp
-        thread/GuiThread.h
-        ui/SongInfoFrame.cpp ui/SongInfoFrame.h
+        thread/GuiThread.hpp
+        ui/SongInfoFrame.cpp ui/SongInfoFrame.hpp
         ui/SongInfoFrame.cpp ui/SongInfoFrame.cpp
-        exception/BassplayException.h
-        common/wx.h
-        ui/DpiAwareFrame.h
-        event/BassplayEvent.h
-        event/BassplayEventType.h
+        exception/BassplayException.hpp
+        common/wx.hpp
+        ui/DpiAwareFrame.hpp
+        event/BassplayEvent.hpp
+        event/BassplayEventType.hpp
         event/IBassplayEventHandler.h
-        event/BassplayEventDispatcher.h event/BassplayEventDispatcher.cpp
+        event/BassplayEventDispatcher.hpp event/BassplayEventDispatcher.cpp
         event/BassplayPlaybackEvent.h
         listener/GuiThreadPauseListener.h listener/GuiThreadPauseListener.cpp
         json/json.hpp
 )
 
 # Add Bass library
-add_library(bass SHARED IMPORTED exception/BassplayException.h common/wx.h
+add_library(bass SHARED IMPORTED exception/BassplayException.hpp common/wx.hpp
         event/BassplayEventDispatcher.cpp
-        event/BassplayEventDispatcher.h
+        event/BassplayEventDispatcher.hpp
         event/IBassplayEventHandler.h
         listener/GuiThreadPauseListener.cpp
 )
