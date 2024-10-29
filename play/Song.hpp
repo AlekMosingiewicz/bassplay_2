@@ -9,7 +9,7 @@
 #include <string>
 #include <vector>
 #include "../exception/BassplayException.h"
-#include "serializer/SerializableStringList.h"
+#include "serializer/SerializableStringList.hpp"
 
 namespace Bassplay::Play {
 

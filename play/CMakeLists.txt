@@ -3,16 +3,13 @@ project(Play)
 
 set(HEADER_FILES
         serializer/ISerializable.h
-        serializer/SerializableStringList.h
+        serializer/SerializableStringList.hpp
         serializer/ISongSerializer.hpp
         Player.hpp
         Song.hpp
         collection/SongCollection.hpp
         serializer/ISongSerializer.hpp
-        serializer/JsonSongSerializer.h
-        serializer/ISongCollectionSerializer.hpp
-        serializer/JsonSongCollectionSerializer.h
-        serializer/AbstractSongCollectionSerializer.h
+        serializer/JsonSongSerializer.hpp
         serializer/InvalidSerializerException.h
         transformer/CollectionDataSource.h
         parser/JsonNode.h
@@ -29,7 +26,6 @@ set(SOURCE_FILES
         Song.cpp
         collection/SongCollection.cpp
         serializer/JsonSongSerializer.cpp
-        serializer/JsonSongCollectionSerializer.cpp
         serializer/InvalidSerializerException.cpp
         serializer/InvalidSerializerException.h
         transformer/CollectionDataSource.h

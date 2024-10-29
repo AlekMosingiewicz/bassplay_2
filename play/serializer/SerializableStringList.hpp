@@ -2,8 +2,8 @@
 // Created by aleksander on 24.07.22.
 //
 
-#ifndef BASSPLAY_2_SERIALIZABLESTRINGLIST_H
-#define BASSPLAY_2_SERIALIZABLESTRINGLIST_H
+#ifndef BASSPLAY_2_SERIALIZABLESTRINGLIST_HPP
+#define BASSPLAY_2_SERIALIZABLESTRINGLIST_HPP
 
 #include "ISerializable.h"
 #include <string>
@@ -26,4 +26,4 @@ namespace Bassplay::Play::Serializer {
 
 } // Bassplay
 
-#endif //BASSPLAY_2_SERIALIZABLESTRINGLIST_H
+#endif //BASSPLAY_2_SERIALIZABLESTRINGLIST_HPP

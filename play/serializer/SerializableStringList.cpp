@@ -2,7 +2,7 @@
 // Created by aleksander on 24.07.22.
 //
 
-#include "SerializableStringList.h"
+#include "SerializableStringList.hpp"
 
 namespace Bassplay::Play::Serializer {
 

@@ -7,14 +7,10 @@
 
 #include "../serializer/ISerializable.h"
 #include "../Song.hpp"
-#include "../serializer/ISongCollectionSerializer.hpp"
 #include <list>
 #include <unordered_map>
 #include <iterator>
 
-namespace Bassplay::Play::Serializer {
-    class ISongCollectionSerializer;
-}
 
 namespace Bassplay::Play::Collection {
 

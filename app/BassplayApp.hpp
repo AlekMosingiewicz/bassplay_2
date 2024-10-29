@@ -18,7 +18,6 @@
 #include "../play/collection/SongCollection.hpp"
 #include "../play/transformer/JsonSongCollectionTransformer.h"
 #include "../play/parser/JsonParser.h"
-#include "../play/serializer/JsonSongCollectionSerializer.h"
 #include "../listener/GuiThreadPauseListener.h"
 #include "../event/BassplayEventDispatcher.h"
 #include "../event/BassplayEventType.h"

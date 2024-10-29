@@ -2,8 +2,8 @@
 // Created by aleksander on 29.08.22.
 //
 
-#ifndef BASSPLAY_2_JSONSONGSERIALIZER_H
-#define BASSPLAY_2_JSONSONGSERIALIZER_H
+#ifndef BASSPLAY_2_JSONSONGSERIALIZER_HPP
+#define BASSPLAY_2_JSONSONGSERIALIZER_HPP
 
 #include "ISongSerializer.hpp"
 
@@ -16,4 +16,4 @@ namespace Bassplay::Play::Serializer {
 
 } // Bassplay
 
-#endif //BASSPLAY_2_JSONSONGSERIALIZER_H
+#endif //BASSPLAY_2_JSONSONGSERIALIZER_HPP

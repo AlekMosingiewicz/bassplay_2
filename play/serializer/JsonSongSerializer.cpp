@@ -2,7 +2,7 @@
 // Created by aleksander on 29.08.22.
 //
 
-#include "JsonSongSerializer.h"
+#include "JsonSongSerializer.hpp"
 
 namespace Bassplay::Play::Serializer {
     std::string JsonSongSerializer::Serialize(Bassplay::Play::Song *p_song) {
