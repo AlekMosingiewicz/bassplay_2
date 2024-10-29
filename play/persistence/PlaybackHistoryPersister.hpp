@@ -18,7 +18,7 @@ namespace Bassplay::Play::Persistence {
     private:
         std::ostream *m_ostream;
     public:
-        PlaybackHistoryPersister(std::ostream *ostream) : m_ostream(ostream) {};
+        explicit PlaybackHistoryPersister(std::ostream *ostream) : m_ostream(ostream) {};
         ~PlaybackHistoryPersister() = default;
 
         void persist(const PlaybackHistory *history);

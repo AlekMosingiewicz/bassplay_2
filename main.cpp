@@ -1,6 +1,6 @@
 #include <iostream>
 #define wxUSE_UNICODE_WCHAR 1
-#include "app/BassplayApp.h"
+#include "app/BassplayApp.hpp"
 #include "play/serializer/SerializableStringList.h"
 
 wxBEGIN_EVENT_TABLE(Bassplay::Ui::PlayerFrame, wxFrame)

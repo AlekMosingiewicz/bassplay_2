@@ -2,8 +2,8 @@
 // Created by aleksander on 09.06.22.
 //
 
-#ifndef BASSPLAY_2_BASSPLAYAPP_H
-#define BASSPLAY_2_BASSPLAYAPP_H
+#ifndef BASSPLAY_2_BASSPLAYAPP_HPP
+#define BASSPLAY_2_BASSPLAYAPP_HPP
 
 #include "../common/wx.h"
 
@@ -19,7 +19,6 @@
 #include "../play/transformer/JsonSongCollectionTransformer.h"
 #include "../play/parser/JsonParser.h"
 #include "../play/serializer/JsonSongCollectionSerializer.h"
-#include "../play/persistence/FileCollectionPersister.h"
 #include "../listener/GuiThreadPauseListener.h"
 #include "../event/BassplayEventDispatcher.h"
 #include "../event/BassplayEventType.h"
@@ -59,4 +58,4 @@ namespace Bassplay::App {
 
 
 
-#endif //BASSPLAY_2_BASSPLAYAPP_H
+#endif //BASSPLAY_2_BASSPLAYAPP_HPP

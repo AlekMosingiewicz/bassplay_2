@@ -25,7 +25,7 @@ namespace Bassplay::Play::History {
 
         if (j.contains("dir")) {
             std::string dir = j["dir"].dump();
-            std::string sanitizedDir = dir.substr(1, dir.size() - 2);
+            std::string sanitizedDir = StringTools::SanitizeString(dir);
             history->SetDir(new std::string(sanitizedDir));
         }
 

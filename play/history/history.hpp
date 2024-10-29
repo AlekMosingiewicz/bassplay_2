@@ -8,12 +8,14 @@
 #include "../collection/SongCollection.hpp"
 #include "../../json/json.hpp"
 #include "../transformer/JsonSongTransformer.hpp"
+#include "../tools/StringTools.hpp"
 
 namespace Bassplay::Play::History {
 
     using namespace Bassplay::Play::Collection;
     using Bassplay::Play::Song;
     using Bassplay::Play::Transformer::JsonSongTransformer;
+    using Bassplay::Play::Tools::StringTools;
 
     class PlaybackHistory {
     public:

@@ -2,7 +2,7 @@
 // Created by aleksander on 09.06.22.
 //
 
-#include "BassplayApp.h"
+#include "BassplayApp.hpp"
 
 namespace Bassplay::App {
     bool BassplayApp::OnInit() {

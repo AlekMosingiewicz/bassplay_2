@@ -22,16 +22,10 @@ namespace Bassplay::Play::Transformer {
             auto title = j["title"].dump();
             auto path = j["path"].dump();
 
-            song->SetFilename(SanitizeString(filename).c_str());
-            song->SetName(SanitizeString(title).c_str());
-            song->SetPath(SanitizeString(path).c_str());
+            song->SetFilename(StringTools::SanitizeString(filename).c_str());
+            song->SetName(StringTools::SanitizeString(title).c_str());
+            song->SetPath(StringTools::SanitizeString(path).c_str());
             return song;
         }
 
-        std::string JsonSongTransformer::SanitizeString(std::string &str) {
-            if (!str.empty() && str.front() == '\"' && str.back() == '\"') {
-                str = str.substr(1, str.size() - 2);
-            }
-            return str;
-        }
 }

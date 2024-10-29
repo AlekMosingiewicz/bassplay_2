@@ -8,14 +8,14 @@
 #include <string>
 #include "../Song.hpp"
 #include "../../json/json.hpp"
+#include "../tools/StringTools.hpp"
 
 namespace Bassplay::Play::Transformer {
 
     using json = nlohmann::json;
+    using StringTools = Bassplay::Play::Tools::StringTools;
 
     class JsonSongTransformer {
-    private:
-        [[nodiscard]] static std::string SanitizeString(std::string &str);
     public:
         JsonSongTransformer() = default;
         [[nodiscard]] static json TransformToJson(Song *song);
