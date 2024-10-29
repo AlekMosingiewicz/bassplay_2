@@ -2,7 +2,7 @@
 // Created by aleksander on 25.02.24.
 //
 
-#include "GuiThreadPauseListener.h"
+#include "GuiThreadPauseListener.hpp"
 
 namespace Bassplay::Listener {
     void GuiThreadPauseListener::Handle(Event::BassplayEvent &event) {

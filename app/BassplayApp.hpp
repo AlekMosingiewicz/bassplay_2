@@ -16,7 +16,7 @@
 #include "../ui/PlayerFrame.hpp"
 #include "../thread/GuiThread.hpp"
 #include "../play/collection/SongCollection.hpp"
-#include "../listener/GuiThreadPauseListener.h"
+#include "../listener/GuiThreadPauseListener.hpp"
 #include "../event/BassplayEventDispatcher.hpp"
 #include "../event/BassplayEventType.hpp"
 #include "../play/persistence/PlaybackHistoryPersister.hpp"

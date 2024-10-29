@@ -2,8 +2,8 @@
 // Created by aleksander on 25.02.24.
 //
 
-#ifndef BASSPLAY_2_GUITHREADPAUSELISTENER_H
-#define BASSPLAY_2_GUITHREADPAUSELISTENER_H
+#ifndef BASSPLAY_2_GUITHREADPAUSELISTENER_HPP
+#define BASSPLAY_2_GUITHREADPAUSELISTENER_HPP
 
 #include "../event/IBassplayEventHandler.h"
 #include "../event/BassplayEvent.hpp"
@@ -25,4 +25,4 @@ namespace Bassplay::Listener {
     };
 }
 
-#endif //BASSPLAY_2_GUITHREADPAUSELISTENER_H
+#endif //BASSPLAY_2_GUITHREADPAUSELISTENER_HPP

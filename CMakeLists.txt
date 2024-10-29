@@ -27,7 +27,7 @@ add_executable(
         event/IBassplayEventHandler.h
         event/BassplayEventDispatcher.hpp event/BassplayEventDispatcher.cpp
         event/BassplayPlaybackEvent.h
-        listener/GuiThreadPauseListener.h listener/GuiThreadPauseListener.cpp
+        listener/GuiThreadPauseListener.hpp listener/GuiThreadPauseListener.cpp
         json/json.hpp
 )
 
