@@ -12,7 +12,6 @@ set(HEADER_FILES
         serializer/JsonSongSerializer.hpp
         serializer/InvalidSerializerException.h
         transformer/CollectionDataSource.h
-        parser/JsonNode.h
         history/history.hpp
         persistence/PlaybackHistoryPersister.cpp
         persistence/PlaybackHistoryPersister.hpp
@@ -29,7 +28,7 @@ set(SOURCE_FILES
         serializer/InvalidSerializerException.cpp
         serializer/InvalidSerializerException.h
         transformer/CollectionDataSource.h
-        transformer/ISongCollectionTransformer.h transformer/JsonSongCollectionTransformer.cpp transformer/JsonSongCollectionTransformer.h parser/JsonParser.cpp parser/JsonParser.h parser/JsonNode.h
+        transformer/ISongCollectionTransformer.h
         history/history.cpp
         transformer/JsonSongTransformer.cpp
         transformer/JsonSongTransformer.hpp

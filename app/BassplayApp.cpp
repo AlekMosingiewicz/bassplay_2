@@ -74,7 +74,6 @@ namespace Bassplay::App {
         if (!wxFileExists(history_path) || m_player == nullptr) {
             return;
         }
-        Bassplay::Play::Parser::JsonParser parser;
         wxFile historyFile(history_path);
         wxString buffer;
         historyFile.ReadAll(&buffer);
