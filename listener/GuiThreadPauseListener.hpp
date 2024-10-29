@@ -5,9 +5,9 @@
 #ifndef BASSPLAY_2_GUITHREADPAUSELISTENER_HPP
 #define BASSPLAY_2_GUITHREADPAUSELISTENER_HPP
 
-#include "../event/IBassplayEventHandler.h"
+#include "../event/IBassplayEventHandler.hpp"
 #include "../event/BassplayEvent.hpp"
-#include "../event/BassplayPlaybackEvent.h"
+#include "../event/BassplayPlaybackEvent.hpp"
 #include "../ui/PlayerFrame.hpp"
 #include <wx/wx.h>
 

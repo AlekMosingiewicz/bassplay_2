@@ -2,8 +2,8 @@
 // Created by aleksander on 25.02.24.
 //
 
-#ifndef BASSPLAY_2_IBASSPLAYEVENTHANDLER_H
-#define BASSPLAY_2_IBASSPLAYEVENTHANDLER_H
+#ifndef BASSPLAY_2_IBASSPLAYEVENTHANDLER_HPP
+#define BASSPLAY_2_IBASSPLAYEVENTHANDLER_HPP
 
 #include "BassplayEvent.hpp"
 
@@ -13,4 +13,4 @@ namespace Bassplay::Event {
         virtual void Handle(BassplayEvent& event) {};
     };
 }
-#endif //BASSPLAY_2_IBASSPLAYEVENTHANDLER_H
+#endif //BASSPLAY_2_IBASSPLAYEVENTHANDLER_HPP

@@ -30,9 +30,7 @@ namespace Bassplay::Ui {
             return;
         wxString path = fileDialog.GetPath();
         std::string stdPath = std::string(path.mb_str());
-        m_playLabelMutex.Lock();
         OpenSong(stdPath);
-        m_playLabelMutex.Unlock();
     }
 
     void PlayerFrame::OpenSong(std::string &path) {
@@ -219,6 +217,7 @@ namespace Bassplay::Ui {
     }
 
     void PlayerFrame::UpdateGUI(bool withPlayLabelUpdate) {
+        wxMutexLocker lock(m_guiUpdateMutex);
         if (m_player->GetState() == Play::player_state_playing) {
             UpdateTimeLabel();
         }
@@ -235,6 +234,11 @@ namespace Bassplay::Ui {
     }
 
     void PlayerFrame::OnPlay(wxCommandEvent &event) {
+        if (m_player->GetSong() == nullptr && m_player->GetPlaybackHistory()->GetLastSong() != nullptr) {
+            std::string lastSongPath = m_player->GetPlaybackHistory()->GetLastSong()->GetPath();
+            m_player->LoadSong(lastSongPath);
+            ResetPositionSlider();
+        }
         m_player->PlaySong();
         UpdatePlayLabel();
     }
@@ -253,7 +257,6 @@ namespace Bassplay::Ui {
         UpdatePlayLabel();
         UpdateTimeLabel();
         ResetPositionSlider();
-
     }
 
     void PlayerFrame::UpdateTimeLabel() {

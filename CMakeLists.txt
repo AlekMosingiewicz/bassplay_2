@@ -24,9 +24,9 @@ add_executable(
         ui/DpiAwareFrame.hpp
         event/BassplayEvent.hpp
         event/BassplayEventType.hpp
-        event/IBassplayEventHandler.h
+        event/IBassplayEventHandler.hpp
         event/BassplayEventDispatcher.hpp event/BassplayEventDispatcher.cpp
-        event/BassplayPlaybackEvent.h
+        event/BassplayPlaybackEvent.hpp
         listener/GuiThreadPauseListener.hpp listener/GuiThreadPauseListener.cpp
         json/json.hpp
 )
@@ -35,7 +35,7 @@ add_executable(
 add_library(bass SHARED IMPORTED exception/BassplayException.hpp common/wx.hpp
         event/BassplayEventDispatcher.cpp
         event/BassplayEventDispatcher.hpp
-        event/IBassplayEventHandler.h
+        event/IBassplayEventHandler.hpp
         listener/GuiThreadPauseListener.cpp
 )
 set_property(TARGET bass PROPERTY IMPORTED_LOCATION "/usr/local/lib/bass/libbass.so")

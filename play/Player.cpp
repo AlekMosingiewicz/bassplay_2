@@ -62,10 +62,6 @@ namespace Bassplay::Play {
         if (m_songBeingPlayed != nullptr) {
             BASS_ChannelPlay(m_songBeingPlayed->GetMusicHandle(), replay);
             BASS_ChannelSetSync(m_songBeingPlayed->GetMusicHandle(), BASS_SYNC_END, 0, &on_playback_end, this);
-        } else if (m_history->GetLastSong() != nullptr) {
-            std::string lastSongPath = m_history->GetLastSong()->GetPath();
-            LoadSong(lastSongPath);
-            PlayCurrentSong();
         }
     }
 

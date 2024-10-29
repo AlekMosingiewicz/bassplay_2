@@ -2,8 +2,8 @@
 // Created by aleksander on 25.02.24.
 //
 
-#ifndef BASSPLAY_2_BASSPLAYPLAYBACKEVENT_H
-#define BASSPLAY_2_BASSPLAYPLAYBACKEVENT_H
+#ifndef BASSPLAY_2_BASSPLAYPLAYBACKEVENT_HPP
+#define BASSPLAY_2_BASSPLAYPLAYBACKEVENT_HPP
 
 #include "BassplayEventType.hpp"
 #include "BassplayEvent.hpp"
@@ -29,4 +29,4 @@ namespace Bassplay::Event {
 
 }
 
-#endif //BASSPLAY_2_BASSPLAYPLAYBACKEVENT_H
+#endif //BASSPLAY_2_BASSPLAYPLAYBACKEVENT_HPP

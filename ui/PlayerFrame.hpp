@@ -11,6 +11,7 @@
 #include "../play/Player.hpp"
 #include "SongInfoFrame.hpp"
 #include "DpiAwareFrame.hpp"
+#include "../play/Song.hpp"
 
 enum playerWidgets {
     playerWidgetsMinimum = 200,
@@ -28,6 +29,7 @@ enum playerWidgets {
 namespace Bassplay::Ui {
 
     class UiThread;
+    using namespace Bassplay::Play;
 
     class PlayerFrame: public DpiAwareFrame  {
     public:
@@ -56,7 +58,7 @@ namespace Bassplay::Ui {
         wxSlider* m_volumeSlider;
 
         //multithreading
-        wxMutex m_playLabelMutex;
+        wxMutex m_guiUpdateMutex;
 
         //helper variables
         bool mVolumeVisible = false;

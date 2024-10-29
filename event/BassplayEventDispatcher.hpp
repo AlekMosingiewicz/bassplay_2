@@ -8,7 +8,7 @@
 #include <map>
 #include <string>
 #include <list>
-#include "IBassplayEventHandler.h"
+#include "IBassplayEventHandler.hpp"
 #include "BassplayEventType.hpp"
 
 namespace Bassplay::Event {

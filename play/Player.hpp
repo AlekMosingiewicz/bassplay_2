@@ -9,7 +9,7 @@
 #include "collection/SongCollection.hpp"
 #include "../event/BassplayEvent.hpp"
 #include "../event/BassplayEventDispatcher.hpp"
-#include "../event/BassplayPlaybackEvent.h"
+#include "../event/BassplayPlaybackEvent.hpp"
 #include "history/history.hpp"
 
 namespace Bassplay::Play {
