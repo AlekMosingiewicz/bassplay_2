@@ -12,6 +12,8 @@
 #include "SongInfoFrame.hpp"
 #include "DpiAwareFrame.hpp"
 #include "../play/Song.hpp"
+#include "../event/BassplayPlaybackEvent.hpp"
+#include "../event/BassplayEventDispatcher.hpp"
 
 enum playerWidgets {
     playerWidgetsMinimum = 200,
@@ -30,6 +32,7 @@ namespace Bassplay::Ui {
 
     class UiThread;
     using namespace Bassplay::Play;
+    using namespace Bassplay::Event;
 
     class PlayerFrame: public DpiAwareFrame  {
     public:
@@ -85,12 +88,16 @@ namespace Bassplay::Ui {
         void OnPositionSliderDragged(wxScrollEvent& event);
         void OnVolumeSliderDragged(wxScrollEvent& event);
         void OnVolumeButtonPress(wxCommandEvent& event);
+
         //helper methods
         void UpdatePlayLabel();
         void UpdateTimeLabel();
         void ResetPositionSlider();
         void UpdatePositionSlider();
         void OpenSong(std::string& path);
+
+        //ui control
+        static void ForcePauseGUIUpdates();
 
         wxDECLARE_EVENT_TABLE();
     };

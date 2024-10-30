@@ -35,6 +35,7 @@ namespace Bassplay::Ui {
 
     void PlayerFrame::OpenSong(std::string &path) {
         try {
+            ForcePauseGUIUpdates();
             m_player->LoadSong(path);
             ResetPositionSlider();
             m_player->PlaySong();
@@ -217,7 +218,6 @@ namespace Bassplay::Ui {
     }
 
     void PlayerFrame::UpdateGUI(bool withPlayLabelUpdate) {
-        wxMutexLocker lock(m_guiUpdateMutex);
         if (m_player->GetState() == Play::player_state_playing) {
             UpdateTimeLabel();
         }
@@ -357,6 +357,11 @@ namespace Bassplay::Ui {
 
         this->Refresh();
         this->Update();
+    }
+
+    void PlayerFrame::ForcePauseGUIUpdates() {
+        BassplayPlaybackEvent event(PlaybackEventType::playbackStopped);
+        BassplayEventDispatcher::Instance().BroadcastEvent<BassplayPlaybackEvent>(event);
     }
 
 } // Bassplay
