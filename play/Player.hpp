@@ -45,8 +45,7 @@ namespace Bassplay::Play {
         static void BroadcastPlaybackEvent(Bassplay::Event::PlaybackEventType eventType);
     public:
         explicit Player(bool t_doreplay = false) : replay(t_doreplay), m_songBeingPlayed(nullptr), m_playlist(new Collection::SongCollection()) {
-            m_history_collection = new SongCollection();
-            m_history_collection->SetLimit(5);
+            m_history = new PlaybackHistory;
         };
         explicit Player(Song* t_song, bool t_doreplay = false) : m_songBeingPlayed(t_song), replay(t_doreplay) {}
         ~Player();
@@ -77,6 +76,7 @@ namespace Bassplay::Play {
         void JumpToPosition(double position);
         void CALLBACK OnPlaybackEnd(HSYNC hmusic, DWORD channel, DWORD data, void *user) {  state = player_state_stopped; };
         [[nodiscard]] std::string GetCurrentDirectory() const { return m_currentDirectory; }
+        [[nodiscard]] bool HasHistory() const { return m_history != nullptr; }
     };
 } // Play
 

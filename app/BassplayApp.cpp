@@ -78,6 +78,9 @@ namespace Bassplay::App {
         wxString buffer;
         historyFile.ReadAll(&buffer);
         std::string jsonString = buffer.ToStdString();
+        if (jsonString.empty()) {
+            return;
+        }
         auto playbackHistory = PlaybackHistory::CreateFromJson(jsonString);
         playbackHistory->GetCollection()->SetLimit(HISTORY_SIZE);
         m_player->SetPlaybackHistory(playbackHistory);

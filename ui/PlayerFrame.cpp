@@ -19,7 +19,7 @@ namespace Bassplay::Ui {
     }
 
     void PlayerFrame::OnOpen(wxCommandEvent &event) {
-        auto dir = m_player->GetCurrentDirectory().empty()
+        auto dir = m_player->HasHistory() && m_player->GetPlaybackHistory()->GetDir()
                 ? (*m_player->GetPlaybackHistory()->GetDir())
                 : m_player->GetCurrentDirectory();
 
@@ -118,6 +118,13 @@ namespace Bassplay::Ui {
             }
         }
 
+        if (!m_player->HasHistory()) {
+            return;
+        }
+
+        if (!m_player->GetPlaybackHistory()->HasCollection()) {
+            return;
+        }
         auto history = m_player->GetPlaybackHistory()->GetCollection();
         int i = 100;
         for (auto song: history->GetSongs()) {
