@@ -8,25 +8,26 @@
 #include "../serializer/ISerializable.hpp"
 #include "../Song.hpp"
 #include <list>
-#include <unordered_map>
 #include <iterator>
+#include <map>
 
 
 namespace Bassplay::Play::Collection {
 
     class SongCollection {
     protected:
-        std::unordered_map<std::string, Song*> m_songs;
+        std::map<std::string, Song*> m_songsByName;
+        std::list<Song*> m_songs;
         int m_limit = 0;
     public:
         SongCollection() = default;
         ~SongCollection() {
-            for (auto &song : m_songs) {
+            for (auto &song : m_songsByName) {
                 delete song.second;
             }
             RemoveAllSongs();
         }
-        [[nodiscard]] std::list<Song*> GetSongs() const;
+        [[nodiscard]] std::list<Song*> GetSongs() const { return m_songs; };
         void AddSong(Song* t_song);
         void RemoveSong(const std::string &name);
         void RemoveAllSongs();

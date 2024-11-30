@@ -33,6 +33,8 @@ set(SOURCE_FILES
         persistence/PlaybackHistoryPersister.cpp
         persistence/PlaybackHistoryPersister.hpp
         tools/StringTools.cpp
-        tools/StringTools.hpp)
+        tools/StringTools.hpp
+        transformer/JsonPlaylistTransformer.cpp
+        transformer/JsonPlaylistTransformer.hpp)
 
 add_library(Play_lib STATIC ${SOURCE_FILES} ${HEADER_FILES})

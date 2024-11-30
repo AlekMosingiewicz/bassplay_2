@@ -5,20 +5,12 @@
 #include "SongCollection.hpp"
 
 namespace Bassplay::Play::Collection {
-    std::list<Song*> SongCollection::GetSongs() const {
-        std::list<Song*> songs;
-
-        for (const auto &song : m_songs) {
-            songs.push_back(song.second);
-        }
-        return songs;
-    }
-
     void SongCollection::AddSong(Bassplay::Play::Song *t_song) {
-        if (m_limit > 0 && m_songs.size() + 1 > m_limit) {
+        if (m_limit > 0 && m_songsByName.size() + 1 > m_limit) {
             for (auto it = m_songs.begin(); it != m_songs.end(); it++) {
                 if (std::next(it) == m_songs.end()) {
-                    m_songs.erase(it);
+                    m_songs.pop_front();
+                    m_songsByName.erase((*it)->GetFilename());
                     break;
                 }
             }
@@ -27,18 +19,21 @@ namespace Bassplay::Play::Collection {
         if (name.empty()) {
             name = std::string(t_song->GetName());
         }
-        m_songs[name] = t_song;
+        m_songsByName[name] = t_song;
+        m_songs.insert(m_songs.end(), t_song);
     }
 
     void SongCollection::RemoveSong(const std::string &name) {
+        m_songsByName.erase(name);
         for (auto it = m_songs.begin(); it != m_songs.end(); it++) {
-            if (it->first == name) {
+            if ((*it)->GetFilename() == name) {
                 m_songs.erase(it);
+                break;
             }
         }
     }
 
     void SongCollection::RemoveAllSongs() {
-        m_songs.clear();
+        m_songsByName.clear();
     }
 } // Bassplay

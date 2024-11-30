@@ -16,6 +16,8 @@ namespace Bassplay::Play {
     public:
         explicit Playlist(std::string &name) : m_name(name), m_songs(new SongCollection()) {}
 
+        explicit Playlist(const char *name): m_name(name), m_songs(new SongCollection()) {}
+
         explicit Playlist(std::string &name, SongCollection *collection) : m_name(name), m_songs(collection) {}
 
         void SetCollection(SongCollection *collection) { m_songs = collection; }
@@ -29,10 +31,6 @@ namespace Bassplay::Play {
         void RemoveSong(const std::string &name) { m_songs->RemoveSong(name); }
 
         void RemoveAllSongs() { m_songs->RemoveAllSongs(); }
-
-        ~Playlist() {
-            delete m_songs;
-        }
 
     private:
         std::string m_name;
