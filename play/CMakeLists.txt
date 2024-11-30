@@ -16,6 +16,7 @@ set(HEADER_FILES
         persistence/PlaybackHistoryPersister.hpp
         tools/StringTools.cpp
         tools/StringTools.hpp
+        playlist/Playlist.hpp
 )
 
 set(SOURCE_FILES
