@@ -19,8 +19,10 @@ namespace Bassplay::Play::Collection {
         if (name.empty()) {
             name = std::string(t_song->GetName());
         }
+        if (m_songsByName.find(name) == m_songsByName.end()) {
+            m_songs.insert(m_songs.end(), t_song);
+        }
         m_songsByName[name] = t_song;
-        m_songs.insert(m_songs.end(), t_song);
     }
 
     void SongCollection::RemoveSong(const std::string &name) {

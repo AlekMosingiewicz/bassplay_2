@@ -34,8 +34,8 @@ namespace Bassplay::Play {
         int   state = player_state_stopped;
         float mVolume = 1;
         std::string m_currentDirectory;
-        SongCollection* m_playlist = nullptr;
-        SongCollection* m_history_collection = nullptr;
+        SongCollection *m_playlist = nullptr;
+        SongCollection *m_history_collection = nullptr;
         PlaybackHistory *m_history = nullptr;
 
         //methods
