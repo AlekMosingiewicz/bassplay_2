@@ -12,6 +12,7 @@
 #include <unistd.h>
 #include <sys/types.h>
 #include <pwd.h>
+#include <map>
 #include "../play/Player.hpp"
 #include "../ui/PlayerFrame.hpp"
 #include "../thread/GuiThread.hpp"
@@ -20,10 +21,12 @@
 #include "../event/BassplayEventDispatcher.hpp"
 #include "../event/BassplayEventType.hpp"
 #include "../play/persistence/PlaybackHistoryPersister.hpp"
+#include "../play/playlist/Playlist.hpp"
 
 namespace Bassplay::App {
 
     using namespace Bassplay::Play::History;
+    using namespace Bassplay::Play::Playlist;
     using Bassplay::Play::Persistence::PlaybackHistoryPersister;
 
     const int HISTORY_SIZE = 5;
@@ -37,7 +40,9 @@ namespace Bassplay::App {
         Play::Player* m_player = nullptr;
         Ui::PlayerFrame* m_playerFrame = nullptr;
         std::vector<wxThread*> m_threads;
+        std::map<std::string,
         wxCriticalSection m_pThreadCS;
+
 
         //methods
         void InitThreads();

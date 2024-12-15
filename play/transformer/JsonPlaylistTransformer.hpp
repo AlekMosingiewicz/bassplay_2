@@ -13,6 +13,7 @@
 namespace Bassplay::Play::Transformer {
 
     using json = nlohmann::json;
+    using Bassplay::Play::Playlist::Playlist;
 
     class JsonPlaylistTransformer {
     public:

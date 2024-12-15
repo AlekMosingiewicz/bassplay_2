@@ -8,7 +8,7 @@
 #include <string>
 #include "../collection/SongCollection.hpp"
 
-namespace Bassplay::Play {
+namespace Bassplay::Play::Playlist {
 
     using Bassplay::Play::Collection::SongCollection;
 
