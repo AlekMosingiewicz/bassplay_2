@@ -15,10 +15,13 @@
 #include "catch.hpp"
 #include "playlist/Playlist.hpp"
 #include "../play/transformer/JsonPlaylistTransformer.hpp"
+#include <list>
 
 
 using namespace Bassplay::Play::Serializer;
 using namespace Bassplay::Play::Transformer;
+using Bassplay::Play::Song;
+using std::list;
 
 TEST_CASE("String list is properly deserialized")
 {
@@ -69,4 +72,19 @@ TEST_CASE("Playlist is properly serialized to JSON")
     std::string json = JsonPlaylistTransformer::TransformToJson(&playlist).dump();
 
     CHECK(json == std::string("{\"name\":\"PlaylistName\",\"songs\":[{\"filename\":\"Song1\",\"path\":\"Path/To/Song1\",\"title\":\"SongName1\"},{\"filename\":\"Song2\",\"path\":\"Path/To/Song2\",\"title\":\"SongName2\"}]}"));
+}
+
+TEST_CASE("Playlist is properly deserialized from JSON")
+{
+    auto json = std::string(R"({"name":"PlaylistName","songs":[{"filename":"Song1","path":"Path/To/Song1","title":"SongName1"},{"filename":"Song2","path":"Path/To/Song2","title":"SongName2"}]})");
+    auto playlist = JsonPlaylistTransformer::TransformFromJson(json);
+
+    list<Song*> songs = playlist->GetCollection()->GetSongs();
+
+    CHECK(playlist->GetName() == std::string("PlaylistName"));
+    CHECK(songs.size() == 2);
+    CHECK(songs.front()->GetTitle() == std::string("SongName1"));
+    CHECK(songs.front()->GetPath() == std::string("Path/To/Song1"));
+    CHECK(songs.back()->GetTitle() == std::string("SongName2"));
+    CHECK(songs.back()->GetPath() == std::string("Path/To/Song2"));
 }
