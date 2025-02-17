@@ -16,8 +16,9 @@ set(HEADER_FILES
         persistence/PlaybackHistoryPersister.hpp
         tools/StringTools.cpp
         tools/StringTools.hpp
-        history/util.cpp
-        history/util.hpp
+        history/facade.cpp
+        history/facade.hpp
+        history/HistoryDirNotFoundException.hpp
 )
 
 set(SOURCE_FILES
@@ -35,7 +36,7 @@ set(SOURCE_FILES
         persistence/PlaybackHistoryPersister.hpp
         tools/StringTools.cpp
         tools/StringTools.hpp
-        history/util.cpp
-        history/util.hpp)
+        history/facade.cpp
+        history/facade.hpp)
 
 add_library(Play_lib STATIC ${SOURCE_FILES} ${HEADER_FILES})
