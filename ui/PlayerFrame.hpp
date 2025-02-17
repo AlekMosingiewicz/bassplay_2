@@ -14,6 +14,7 @@
 #include "../play/Song.hpp"
 #include "../event/BassplayPlaybackEvent.hpp"
 #include "../event/BassplayEventDispatcher.hpp"
+#include "../play/history/facade.hpp"
 
 enum playerWidgets {
     playerWidgetsMinimum = 200,
@@ -33,6 +34,7 @@ namespace Bassplay::Ui {
     class UiThread;
     using namespace Bassplay::Play;
     using namespace Bassplay::Event;
+    using Bassplay::Play::History::Facade;
 
     class PlayerFrame: public DpiAwareFrame  {
     public:
