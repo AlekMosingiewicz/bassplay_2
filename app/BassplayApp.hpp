@@ -20,6 +20,7 @@
 #include "../event/BassplayEventDispatcher.hpp"
 #include "../event/BassplayEventType.hpp"
 #include "../play/persistence/PlaybackHistoryPersister.hpp"
+#include "../play/history/util.hpp"
 
 namespace Bassplay::App {
 

@@ -70,19 +70,7 @@ namespace Bassplay::App {
     }
 
     void BassplayApp::InitHistory() {
-        auto history_path = GetAppDir() + "/history_stream.json";
-        if (!wxFileExists(history_path) || m_player == nullptr) {
-            return;
-        }
-        wxFile historyFile(history_path);
-        wxString buffer;
-        historyFile.ReadAll(&buffer);
-        std::string jsonString = buffer.ToStdString();
-        if (jsonString.empty()) {
-            return;
-        }
-        auto playbackHistory = PlaybackHistory::CreateFromJson(jsonString);
-        playbackHistory->GetCollection()->SetLimit(HISTORY_SIZE);
+        auto playbackHistory = Util::InitHistory();
         m_player->SetPlaybackHistory(playbackHistory);
     }
 

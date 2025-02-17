@@ -16,6 +16,8 @@ set(HEADER_FILES
         persistence/PlaybackHistoryPersister.hpp
         tools/StringTools.cpp
         tools/StringTools.hpp
+        history/util.cpp
+        history/util.hpp
 )
 
 set(SOURCE_FILES
@@ -32,6 +34,8 @@ set(SOURCE_FILES
         persistence/PlaybackHistoryPersister.cpp
         persistence/PlaybackHistoryPersister.hpp
         tools/StringTools.cpp
-        tools/StringTools.hpp)
+        tools/StringTools.hpp
+        history/util.cpp
+        history/util.hpp)
 
 add_library(Play_lib STATIC ${SOURCE_FILES} ${HEADER_FILES})
