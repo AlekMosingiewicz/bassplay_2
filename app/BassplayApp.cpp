@@ -70,19 +70,7 @@ namespace Bassplay::App {
     }
 
     void BassplayApp::InitHistory() {
-        auto history_path = GetAppDir() + "/history_stream.json";
-        if (!wxFileExists(history_path) || m_player == nullptr) {
-            return;
-        }
-        wxFile historyFile(history_path);
-        wxString buffer;
-        historyFile.ReadAll(&buffer);
-        std::string jsonString = buffer.ToStdString();
-        if (jsonString.empty()) {
-            return;
-        }
-        auto playbackHistory = PlaybackHistory::CreateFromJson(jsonString);
-        playbackHistory->GetCollection()->SetLimit(HISTORY_SIZE);
+        auto playbackHistory = Facade::InitHistory();
         m_player->SetPlaybackHistory(playbackHistory);
     }
 
@@ -97,20 +85,7 @@ namespace Bassplay::App {
         if (m_player == nullptr) {
             return;
         }
-        InitHistoryDir();
-        auto appDir = GetAppDir();
-        wxString wxHistoryPath = appDir + "/history_stream.json";
-        const char *history_path = wxHistoryPath.c_str();
-
-        std::fstream history_stream(history_path, std::ostream::out);
-        if (!history_stream.is_open()) {
-            wxLogError(wxString("Failed to open history file for writing"));
-            return;
-        }
-
-        PlaybackHistoryPersister persister(&history_stream);
-        persister.persist(m_player->GetPlaybackHistory());
-        history_stream.close();
+        Facade::SaveHistory(m_player->GetPlaybackHistory());
     }
 
     wxString BassplayApp::GetAppDir() {

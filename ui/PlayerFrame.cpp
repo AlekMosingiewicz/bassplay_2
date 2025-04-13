@@ -47,6 +47,8 @@ namespace Bassplay::Ui {
             }
             UpdateGUI(false);
             BuildHistory();
+            // just in case of crash, save history each time a song is opened
+            Facade::SaveHistory(m_player->GetPlaybackHistory());
         } catch (BassplayException &exception) {
             wxMessageBox(wxString::Format("Error code %d", exception.GetCode()),
                          "Error loading song!",
