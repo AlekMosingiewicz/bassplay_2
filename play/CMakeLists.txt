@@ -20,6 +20,7 @@ set(HEADER_FILES
         history/facade.hpp
         history/HistoryDirNotFoundException.hpp
         playlist/Playlist.hpp
+        persistence/BulkPlaylistsPersister.hpp
 )
 
 set(SOURCE_FILES
@@ -41,6 +42,7 @@ set(SOURCE_FILES
         transformer/JsonPlaylistTransformer.hpp
         tools/StringTools.hpp
         history/facade.cpp
-        history/facade.hpp)
+        history/facade.hpp
+        persistence/BulkPlaylistsPersister.cpp)
 
 add_library(Play_lib STATIC ${SOURCE_FILES} ${HEADER_FILES})

@@ -6,8 +6,6 @@
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wunknown-pragmas"
 #pragma GCC diagnostic ignored "-Wparentheses"
-// This one is necessary for the const return non-reference test
-#pragma GCC diagnostic ignored "-Wignored-qualifiers"
 #endif
 
 #define CATCH_CONFIG_MAIN
@@ -15,13 +13,17 @@
 #include "catch.hpp"
 #include "playlist/Playlist.hpp"
 #include "../play/transformer/JsonPlaylistTransformer.hpp"
+#include "../play/persistence/BulkPlaylistsPersister.hpp"
 #include <list>
+#include <fstream>
 
 
 using namespace Bassplay::Play::Serializer;
 using namespace Bassplay::Play::Transformer;
 using Bassplay::Play::Song;
+using Bassplay::Play::Persistence::BulkPlaylistsPersister;
 using std::list;
+using std::fstream;
 
 TEST_CASE("String list is properly deserialized")
 {
@@ -87,4 +89,65 @@ TEST_CASE("Playlist is properly deserialized from JSON")
     CHECK(songs.front()->GetPath() == std::string("Path/To/Song1"));
     CHECK(songs.back()->GetTitle() == std::string("SongName2"));
     CHECK(songs.back()->GetPath() == std::string("Path/To/Song2"));
+}
+
+TEST_CASE("Playlist is properly persisted and restored")
+{
+    auto playlist1 = Bassplay::Play::Playlist::Playlist("TestPlaylist1");
+    auto song1 = Bassplay::Play::Song();
+
+    auto song1name = std::string ("TestSong1");
+    auto song1path = std::string ("Path/To/TestSong1");
+
+    auto song2name = std::string ("TestSong2");
+    auto song2path = std::string ("Path/To/TestSong2");
+
+    auto song3name = std::string ("TestSong3");
+    auto song3path = std::string ("Path/To/TestSong3");
+
+    auto song4name = std::string ("TestSong4");
+    auto song4path = std::string ("Path/To/TestSong4");
+
+    auto expected_json = std::string(R"({"playlists":[{"name":"TestPlaylist1","songs":[{"filename":"TestSong1","path":"Path/To/TestSong1","title":"TestSong1"},{"filename":"TestSong2","path":"Path/To/TestSong2","title":"TestSong2"}]},{"name":"TestPlaylist2","songs":[{"filename":"TestSong3","path":"Path/To/TestSong3","title":"TestSong3"},{"filename":"TestSong4","path":"Path/To/TestSong4","title":"TestSong4"}]}]})");
+
+    song1.SetName(song1name);
+    song1.SetPath(song1path);
+    playlist1.AddSong(&song1);
+
+    auto song2 = Bassplay::Play::Song();
+    song2.SetName(song2name);
+    song2.SetPath(song2path);
+    playlist1.AddSong(&song2);
+
+    auto playlist2 = Bassplay::Play::Playlist::Playlist("TestPlaylist2");
+    auto song3 = Bassplay::Play::Song();
+    song3.SetName(song3name);
+    song3.SetPath(song3path);
+    playlist2.AddSong(&song3);
+
+    auto song4 = Bassplay::Play::Song();
+    song4.SetName(song4name);
+    song4.SetPath(song4path);
+    playlist2.AddSong(&song4);
+
+    auto playlists = list<Bassplay::Play::Playlist::Playlist*>();
+    playlists.push_back(&playlist1);
+    playlists.push_back(&playlist2);
+
+    auto destination_path = std::filesystem::current_path();
+    destination_path += "/test_playlists.json";
+
+    auto output_stream = fstream(destination_path.c_str(), std::ios::out);
+    auto bulk_persister = BulkPlaylistsPersister(&output_stream);
+    bulk_persister.persist(playlists);
+    output_stream.close();
+
+    auto input_stream = fstream(destination_path, std::ios::in);
+    if (!input_stream.is_open()) {
+        throw std::runtime_error("Failed to open file for reading: " + destination_path.string());
+    }
+    std::string json_content((std::istreambuf_iterator<char>(input_stream)), std::istreambuf_iterator<char>());
+    input_stream.close();
+    CHECK(json_content == expected_json);
+    std::filesystem::remove(destination_path);
 }
