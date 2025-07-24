@@ -1,11 +1,11 @@
 //
-// Created by aleksander on 28.06.25.
+// Created by aleksander on 28.06.25.https://www.youtube.com/watch?v=jQExvvCe5OM
 //
 
 #include "BulkPlaylistsPersister.hpp"
 
 namespace Bassplay::Play::Persistence {
-    void BulkPlaylistsPersister::persist(const std::list<Playlist*>& playlists) {
+    void BulkPlaylistsPersister::persist(const std::list<BassplayPlaylist*>& playlists) {
         nlohmann::json j;
         j["playlists"] = nlohmann::json::array();
 

@@ -11,7 +11,10 @@ namespace Bassplay::Play {
                 PlaybackEventType::playbackEnded);
        BassplayEventDispatcher::Instance().BroadcastEvent<BassplayPlaybackEvent>(
                 event);
-        player->StopSong();
+       player->StopSong();
+       if (player->GetPlaylist() != nullptr) {
+           player->PlayNextSong();
+       }
     }
 
     void Player::LoadSong(std::string &path) {
@@ -36,7 +39,7 @@ namespace Bassplay::Play {
     }
 
     void Player::PlaySong() {
-        state = player_state_playing;
+        m_state = player_state_playing;
         PlayCurrentSong();
         BroadcastPlaybackEvent(PlaybackEventType::playbackStarted);
     }
@@ -45,7 +48,18 @@ namespace Bassplay::Play {
         if (m_songBeingPlayed != nullptr) {
             BroadcastPlaybackEvent(PlaybackEventType::playbackStopped);
             BASS_ChannelPause(m_songBeingPlayed->GetMusicHandle());
-            state = player_state_paused;
+            m_state = player_state_paused;
+        }
+    }
+
+    void Player::PlayNextSong() {
+        if (m_playlist != nullptr && m_playlist->GetCollection() != nullptr) {
+            m_playlist->IncrementCurrentSongIndex();
+            m_songBeingPlayed = m_playlist->GetCurrentSong();
+            PlayCurrentSong();
+            BroadcastPlaybackEvent(PlaybackEventType::playbackStarted);
+        } else {
+            //TODO handle case when no playlist is set
         }
     }
 
@@ -53,14 +67,14 @@ namespace Bassplay::Play {
         if (m_songBeingPlayed != nullptr) {
             BroadcastPlaybackEvent(PlaybackEventType::playbackStopped);
             BASS_ChannelStop(m_songBeingPlayed->GetMusicHandle());
-            state = player_state_stopped;
+            m_state = player_state_stopped;
             m_songBeingPlayed->Rewind();
         }
     }
 
     void Player::PlayCurrentSong() {
         if (m_songBeingPlayed != nullptr) {
-            BASS_ChannelPlay(m_songBeingPlayed->GetMusicHandle(), replay);
+            BASS_ChannelPlay(m_songBeingPlayed->GetMusicHandle(), m_replay);
             BASS_ChannelSetSync(m_songBeingPlayed->GetMusicHandle(), BASS_SYNC_END, 0, &on_playback_end, this);
         }
     }

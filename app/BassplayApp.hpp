@@ -21,16 +21,20 @@
 #include "../event/BassplayEventDispatcher.hpp"
 #include "../event/BassplayEventType.hpp"
 #include "../play/persistence/PlaybackHistoryPersister.hpp"
-#include "../play/playlist/Playlist.hpp"
+#include "playlist/BassplayPlaylist.hpp"
 #include "../play/history/facade.hpp"
+#include "../play/playlist/factory/ManagerFactory.hpp"
 
 namespace Bassplay::App {
 
     using namespace Bassplay::Play::History;
     using namespace Bassplay::Play::Playlist;
     using Bassplay::Play::Persistence::PlaybackHistoryPersister;
+    using Bassplay::Play::Manager;
+    using Bassplay::Play::Playlist::Factory::ManagerFactory;
 
     const int HISTORY_SIZE = 5;
+    const std::string DEFAULT_PLAYLIST_FILENAME = "playlists.json";
 
     class BassplayApp : public wxApp {
     public:

@@ -6,12 +6,12 @@
 #define BASSPLAY_2_BULKPLAYLISTSPERSISTER_HPP
 
 #include <list>
-#include "../playlist/Playlist.hpp"
+#include "playlist/BassplayPlaylist.hpp"
 #include "../transformer/JsonPlaylistTransformer.hpp"
 
 namespace Bassplay::Play::Persistence {
 
-    using Bassplay::Play::Playlist::Playlist;
+    using Bassplay::Play::Playlist::BassplayPlaylist;
     using Bassplay::Play::Transformer::JsonPlaylistTransformer;
 
     class BulkPlaylistsPersister {
@@ -23,7 +23,7 @@ namespace Bassplay::Play::Persistence {
          * Persists the given playlist to the specified output stream.
          * @param playlist The playlist to persist.
          */
-        void persist(const std::list<Playlist*>& playlists);
+        void persist(const std::list<BassplayPlaylist*>& playlists);
     };
 }
 

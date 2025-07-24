@@ -19,8 +19,14 @@ set(HEADER_FILES
         history/facade.cpp
         history/facade.hpp
         history/HistoryDirNotFoundException.hpp
-        playlist/Playlist.hpp
+        playlist/BassplayPlaylist.hpp
         persistence/BulkPlaylistsPersister.hpp
+        playlist/Manager.hpp
+        provider/IPlaylistProvider.hpp
+        provider/StandardPlaylistProvider.cpp
+        provider/StandardPlaylistProvider.hpp
+        provider/factory/PlaylistProviderFactory.hpp
+        playlist/factory/ManagerFactory.hpp
 )
 
 set(SOURCE_FILES
@@ -43,6 +49,10 @@ set(SOURCE_FILES
         tools/StringTools.hpp
         history/facade.cpp
         history/facade.hpp
-        persistence/BulkPlaylistsPersister.cpp)
+        persistence/BulkPlaylistsPersister.cpp
+        playlist/Manager.hpp
+        provider/StandardPlaylistProvider.cpp
+        provider/StandardPlaylistProvider.hpp
+)
 
 add_library(Play_lib STATIC ${SOURCE_FILES} ${HEADER_FILES})

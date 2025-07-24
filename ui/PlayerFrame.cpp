@@ -72,11 +72,14 @@ namespace Bassplay::Ui {
         SetMenuBar(m_mainMenuBar);
         CreateStatusBar();
         SetStatusText("Bassplay 2.0");
+        this->Refresh();
+        this->Update();
     }
 
     void PlayerFrame::BuildFileMenu() {
         m_menuFile->Append(wxID_OPEN, wxEmptyString, wxString("Load music module"));
         m_menuFile->Append(wxID_INFO, wxEmptyString, wxString("Module info"));
+        m_menuFile->Append(CustomMenuItems::bpPLAYLISTS, wxString("Playlists"), wxString("Playlists"));
         m_menuFile->AppendSeparator();
         BuildHistory();
         m_menuFile->AppendSeparator();
@@ -98,6 +101,9 @@ namespace Bassplay::Ui {
                 return;
             case wxID_INFO:
                 OnInfo(event);
+                return;
+            case CustomMenuItems::bpPLAYLISTS:
+                OnPlaylists(event);
                 return;
         }
         auto history = m_player->GetPlaybackHistory()->GetCollection()->GetSongs();
@@ -216,14 +222,28 @@ namespace Bassplay::Ui {
     PlayerFrame::PlayerFrame(const wxString &title,
                              const wxPoint &pos,
                              const wxSize &size,
-                             Bassplay::Play::Player *musicPlayer) : DpiAwareFrame(NULL, wxID_ANY, title, pos,
+                             Bassplay::Play::Player *musicPlayer,
+                             Manager *manager) : DpiAwareFrame(NULL, wxID_ANY, title, pos,
                                                                                   wxDefaultSize,
                                                                                   wxDEFAULT_FRAME_STYLE ^
                                                                                   wxRESIZE_BORDER),
-                                                                    m_player(musicPlayer) {
+                                                                    m_player(musicPlayer), m_playlistManager(manager) {
         BuildMainMenu();
         BuildPlayerPanel();
         SetClientSize(this->CalculateRealSize(const_cast<wxSize &>(size)));
+
+    }
+
+    PlayerFrame::~PlayerFrame() {
+        if (m_playerPanel != nullptr) {
+            m_playerPanel->Destroy();
+        }
+        if (m_mainMenuBar != nullptr) {
+            m_mainMenuBar->Destroy();
+        }
+        if (m_songInfoFrame != nullptr) {
+            m_songInfoFrame->Destroy();
+        }
     }
 
     void PlayerFrame::UpdateGUI(bool withPlayLabelUpdate) {
@@ -316,6 +336,19 @@ namespace Bassplay::Ui {
             return;
         }
         ShowInfoFrame();
+    }
+
+    void PlayerFrame::OnPlaylists(wxCommandEvent &event) {
+        if (FindWindowById(playerPlaylistWindow, this) == nullptr) {
+            m_playlistFrame = nullptr;
+        }
+        if (m_playlistFrame != nullptr) {
+            m_playlistFrame->Hide();
+            m_playlistFrame->Destroy();
+        }
+        m_playlistFrame = new PlaylistFrame("Playlists", wxDefaultPosition, wxSize(50, 25),
+                                            m_playlistManager, m_player);
+        m_playlistFrame->Show();
     }
 
     void PlayerFrame::UpdatePlayLabel() {

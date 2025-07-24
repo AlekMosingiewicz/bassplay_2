@@ -38,4 +38,13 @@ namespace Bassplay::Play::Collection {
     void SongCollection::RemoveAllSongs() {
         m_songsByName.clear();
     }
+
+    Song *SongCollection::GetByIndex(int index) {
+        if (index < 0 || index >= m_songs.size()) {
+            return nullptr;
+        }
+        auto it = m_songs.begin();
+        std::advance(it, index);
+        return *it;
+    }
 } // Bassplay

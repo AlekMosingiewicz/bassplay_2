@@ -32,6 +32,10 @@ namespace Bassplay::Play::Collection {
         void RemoveSong(const std::string &name);
         void RemoveAllSongs();
         void SetLimit(int p_limit) { m_limit = p_limit; }
+        Song *GetByIndex(int index);
+        [[nodiscard]] int GetSize() const { return m_songs.size(); }
+        [[nodiscard]] int GetLimit() const { return m_limit; }
+        [[nodiscard]] bool IsEmpty() const { return m_songs.empty(); }
     };
 
 } // Bassplay

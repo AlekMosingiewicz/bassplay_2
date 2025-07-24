@@ -10,7 +10,13 @@ namespace Bassplay::App {
         m_player = new Play::Player(false);
         wxInitAllImageHandlers();
         InitHistory();
-        m_playerFrame = new Ui::PlayerFrame("Bassplay 2.0", wxPoint(50, 50), wxSize(23, 7), m_player);
+        auto playlistPath = std::string(GetAppDir() + "/" + DEFAULT_PLAYLIST_FILENAME);
+        m_playerFrame = new Ui::PlayerFrame(
+                "Bassplay 2.0",
+                wxPoint(50, 50),
+                wxSize(23, 7), m_player,
+                ManagerFactory::CreateFromPath(playlistPath)
+        );
         m_playerFrame->Show(true);
         InitThreads();
         return true;

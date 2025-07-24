@@ -11,7 +11,7 @@
 #define CATCH_CONFIG_MAIN
 #include "../play/serializer/JsonSongSerializer.hpp"
 #include "catch.hpp"
-#include "playlist/Playlist.hpp"
+#include "playlist/BassplayPlaylist.hpp"
 #include "../play/transformer/JsonPlaylistTransformer.hpp"
 #include "../play/persistence/BulkPlaylistsPersister.hpp"
 #include <list>
@@ -52,9 +52,9 @@ TEST_CASE("Song is properly serialized to JSON")
     CHECK(json == std::string("{\"filename\":\"Song\",\"title\":\"SongName\",\"path\":\"Path/To/Song\"}"));
 }
 
-TEST_CASE("Playlist is properly serialized to JSON")
+TEST_CASE("BassplayPlaylist is properly serialized to JSON")
 {
-    Bassplay::Play::Playlist::Playlist playlist("PlaylistName");
+    Bassplay::Play::Playlist::BassplayPlaylist playlist("PlaylistName");
     Bassplay::Play::Song song1;
     Bassplay::Play::Song song2;
 
@@ -76,7 +76,7 @@ TEST_CASE("Playlist is properly serialized to JSON")
     CHECK(json == std::string("{\"name\":\"PlaylistName\",\"songs\":[{\"filename\":\"Song1\",\"path\":\"Path/To/Song1\",\"title\":\"SongName1\"},{\"filename\":\"Song2\",\"path\":\"Path/To/Song2\",\"title\":\"SongName2\"}]}"));
 }
 
-TEST_CASE("Playlist is properly deserialized from JSON")
+TEST_CASE("BassplayPlaylist is properly deserialized from JSON")
 {
     auto json = std::string(R"({"name":"PlaylistName","songs":[{"filename":"Song1","path":"Path/To/Song1","title":"SongName1"},{"filename":"Song2","path":"Path/To/Song2","title":"SongName2"}]})");
     auto playlist = JsonPlaylistTransformer::TransformFromJson(json);
@@ -91,9 +91,9 @@ TEST_CASE("Playlist is properly deserialized from JSON")
     CHECK(songs.back()->GetPath() == std::string("Path/To/Song2"));
 }
 
-TEST_CASE("Playlist is properly persisted and restored")
+TEST_CASE("BassplayPlaylist is properly persisted")
 {
-    auto playlist1 = Bassplay::Play::Playlist::Playlist("TestPlaylist1");
+    auto playlist1 = Bassplay::Play::Playlist::BassplayPlaylist("TestPlaylist1");
     auto song1 = Bassplay::Play::Song();
 
     auto song1name = std::string ("TestSong1");
@@ -119,7 +119,7 @@ TEST_CASE("Playlist is properly persisted and restored")
     song2.SetPath(song2path);
     playlist1.AddSong(&song2);
 
-    auto playlist2 = Bassplay::Play::Playlist::Playlist("TestPlaylist2");
+    auto playlist2 = Bassplay::Play::Playlist::BassplayPlaylist("TestPlaylist2");
     auto song3 = Bassplay::Play::Song();
     song3.SetName(song3name);
     song3.SetPath(song3path);
@@ -130,7 +130,7 @@ TEST_CASE("Playlist is properly persisted and restored")
     song4.SetPath(song4path);
     playlist2.AddSong(&song4);
 
-    auto playlists = list<Bassplay::Play::Playlist::Playlist*>();
+    auto playlists = list<Bassplay::Play::Playlist::BassplayPlaylist*>();
     playlists.push_back(&playlist1);
     playlists.push_back(&playlist2);
 

@@ -5,7 +5,7 @@
 #ifndef BASSPLAY_2_JSONPLAYLISTTRANSFORMER_HPP
 #define BASSPLAY_2_JSONPLAYLISTTRANSFORMER_HPP
 
-#include "../playlist/Playlist.hpp"
+#include "playlist/BassplayPlaylist.hpp"
 #include "../../json/json.hpp"
 #include "JsonSongTransformer.hpp"
 #include <string>
@@ -13,15 +13,15 @@
 namespace Bassplay::Play::Transformer {
 
     using json = nlohmann::json;
-    using Bassplay::Play::Playlist::Playlist;
+    using Bassplay::Play::Playlist::BassplayPlaylist;
 
     class JsonPlaylistTransformer {
     public:
         JsonPlaylistTransformer() = default;
 
-        [[nodiscard]] static json TransformToJson(Playlist *playlist);
+        [[nodiscard]] static json TransformToJson(BassplayPlaylist *playlist);
 
-        [[nodiscard]] static Playlist *TransformFromJson(std::string &json);
+        [[nodiscard]] static BassplayPlaylist *TransformFromJson(std::string &json);
     };
 }
 

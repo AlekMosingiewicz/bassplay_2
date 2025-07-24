@@ -11,10 +11,13 @@
 #include "../play/Player.hpp"
 #include "SongInfoFrame.hpp"
 #include "DpiAwareFrame.hpp"
+#include "PlaylistFrame.hpp"
 #include "../play/Song.hpp"
 #include "../event/BassplayPlaybackEvent.hpp"
 #include "../event/BassplayEventDispatcher.hpp"
 #include "../play/history/facade.hpp"
+#include "../play/provider/factory/PlaylistProviderFactory.hpp"
+#include "../play/playlist/Manager.hpp"
 
 enum playerWidgets {
     playerWidgetsMinimum = 200,
@@ -24,9 +27,14 @@ enum playerWidgets {
     playerButtonControls,
     playerPositionSlider,
     playerVolumeSlider,
-    playerInfoWindow
+    playerInfoWindow,
+    playerPlaylistWindow,
 };
 
+enum CustomMenuItems {
+    bpCUSTOM_MENU_ITEMS_ID_MINIMUM = wxID_HIGHEST + 1,
+    bpPLAYLISTS
+};
 
 
 namespace Bassplay::Ui {
@@ -35,10 +43,19 @@ namespace Bassplay::Ui {
     using namespace Bassplay::Play;
     using namespace Bassplay::Event;
     using Bassplay::Play::History::Facade;
+    using Bassplay::Play::Provider::Factory::PlaylistProviderFactory;
+    using Bassplay::Play::Playlist::Manager;
 
     class PlayerFrame: public DpiAwareFrame  {
     public:
-        PlayerFrame(const wxString& title, const wxPoint& pos, const wxSize& size, Bassplay::Play::Player* musicPlayer);
+        PlayerFrame(
+                const wxString& title,
+                const wxPoint& pos,
+                const wxSize& size,
+                Bassplay::Play::Player* musicPlayer,
+                Manager* playlistManager = nullptr
+                );
+        ~PlayerFrame() override;
         void UpdateGUI(bool withPlayLabelUpdate = true);
         void StopAndReset();
         //info
@@ -47,6 +64,8 @@ namespace Bassplay::Ui {
     private:
         //dependencies
         Bassplay::Play::Player* m_player;
+        Manager* m_playlistManager = nullptr;
+
         //ui elements
         wxMenuBar* m_mainMenuBar;
         wxMenu* m_menuFile;
@@ -70,6 +89,8 @@ namespace Bassplay::Ui {
 
         //external frames
         SongInfoFrame* m_songInfoFrame = nullptr;
+        PlaylistFrame* m_playlistFrame = nullptr;
+
 
         //ui building
         void BuildMainMenu();
@@ -83,6 +104,7 @@ namespace Bassplay::Ui {
         void OnOpen(wxCommandEvent& event);
         void OnInfo(wxCommandEvent& event);
         void OnMenu(wxCommandEvent& event);
+        void OnPlaylists(wxCommandEvent& event);
         //play controls
         void OnPlay(wxCommandEvent& event);
         void OnPause(wxCommandEvent& event);

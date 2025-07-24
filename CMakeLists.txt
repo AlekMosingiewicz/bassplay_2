@@ -29,6 +29,8 @@ add_executable(
         event/BassplayPlaybackEvent.hpp
         listener/GuiThreadPauseListener.hpp listener/GuiThreadPauseListener.cpp
         json/json.hpp
+        ui/PlaylistFrame.cpp
+        ui/PlaylistFrame.hpp
 )
 
 # Add Bass library

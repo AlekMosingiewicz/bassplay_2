@@ -6,7 +6,7 @@
 
 namespace Bassplay::Play::Transformer {
 
-    json JsonPlaylistTransformer::TransformToJson(Playlist *playlist) {
+    json JsonPlaylistTransformer::TransformToJson(BassplayPlaylist *playlist) {
         json j;
         j["name"] = playlist->GetName();
         j["songs"] = json::array();
@@ -16,10 +16,10 @@ namespace Bassplay::Play::Transformer {
         return j;
     }
 
-    Playlist *JsonPlaylistTransformer::TransformFromJson(std::string &json) {
+    BassplayPlaylist *JsonPlaylistTransformer::TransformFromJson(std::string &json) {
         auto j = json::parse(json);
         std::string name = j["name"];
-        auto playlist = new Playlist(name);
+        auto playlist = new BassplayPlaylist(name);
         for (auto &song : j["songs"]) {
             std::string songStr = song.dump();
             playlist->AddSong(JsonSongTransformer::TransformFromJson(songStr));

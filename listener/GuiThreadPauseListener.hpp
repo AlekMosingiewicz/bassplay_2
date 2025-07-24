@@ -12,9 +12,10 @@
 #include <wx/wx.h>
 
 namespace Bassplay::Listener {
+    using Ui::PlayerFrame;
     class GuiThreadPauseListener : public Event::IBassplayEventHandler {
     public:
-        explicit GuiThreadPauseListener(wxThread *thread, Ui::PlayerFrame *playerFrame) : m_guiUpdateThread(thread),
+        explicit GuiThreadPauseListener(wxThread *thread, PlayerFrame *playerFrame) : m_guiUpdateThread(thread),
                                                                                           m_playerFrame(playerFrame) {}
 
         void Handle(Event::BassplayEvent &event) override;

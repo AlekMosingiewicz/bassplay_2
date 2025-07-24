@@ -4221,7 +4221,7 @@ namespace Generators {
             // 2) We are reading our own cache
 
             // In the first case, we need to poke the underlying generator.
-            // If it happily moves, we are left in that state, otherwise it is time to start reading from our cache
+            // If it happily moves, we are left in that m_state, otherwise it is time to start reading from our cache
             if (m_current_repeat == 0) {
                 const auto success = m_generator.next();
                 if (!success) {
@@ -4559,7 +4559,7 @@ namespace Catch {
             return static_cast<result_type>(-1);
         }
 
-        // Provide some default initial state for the default constructor
+        // Provide some default initial m_state for the default constructor
         SimplePcg32():SimplePcg32(0xed743cc4U) {}
 
         explicit SimplePcg32(result_type seed_);
@@ -4577,9 +4577,9 @@ namespace Catch {
         // In practice we do not use them, so we will skip them for now
 
         std::uint64_t m_state;
-        // This part of the state determines which "stream" of the numbers
+        // This part of the m_state determines which "stream" of the numbers
         // is chosen -- we take it as a constant for Catch2, so we only
-        // need to deal with seeding the main state.
+        // need to deal with seeding the main m_state.
         // Picked by reading 8 bytes from `/dev/random` :-)
         static const std::uint64_t s_inc = (0x13ed0cc53f939476ULL << 1ULL) | 1ULL;
     };
@@ -9237,7 +9237,7 @@ namespace detail {
         auto operator+( T const &other ) const -> Parser;
     };
 
-    // Common code and state for Args and Opts
+    // Common code and m_state for Args and Opts
     template<typename DerivedT>
     class ParserRefImpl : public ComposableParserImpl<DerivedT> {
     protected:
@@ -12249,7 +12249,7 @@ namespace {
         const uint32_t xorshifted = static_cast<uint32_t>(((m_state >> 18u) ^ m_state) >> 27u);
         const auto output = rotate_right(xorshifted, m_state >> 59u);
 
-        // advance state
+        // advance m_state
         m_state = m_state * 6364136223846793005ULL + s_inc;
 
         return output;
@@ -12803,7 +12803,7 @@ namespace Catch {
         if (result.getResultType() != ResultWas::Warning)
             m_messageScopes.clear();
 
-        // Reset working state
+        // Reset working m_state
         resetAssertionInfo();
         m_lastResult = result;
     }
@@ -13747,7 +13747,7 @@ namespace Catch {
     struct StringStreams {
         std::vector<std::unique_ptr<std::ostringstream>> m_streams;
         std::vector<std::size_t> m_unused;
-        std::ostringstream m_referenceStream; // Used for copy state/ flags from
+        std::ostringstream m_referenceStream; // Used for copy m_state/ flags from
 
         auto add() -> std::size_t {
             if( m_unused.empty() ) {
@@ -13762,7 +13762,7 @@ namespace Catch {
         }
 
         void release( std::size_t index ) {
-            m_streams[index]->copyfmt( m_referenceStream ); // Restore initial flags and other state
+            m_streams[index]->copyfmt( m_referenceStream ); // Restore initial flags and other m_state
             m_unused.push_back(index);
         }
     };
@@ -14468,10 +14468,10 @@ namespace TestCaseTracking {
             case NotStarted:
             case CompletedSuccessfully:
             case Failed:
-                CATCH_INTERNAL_ERROR( "Illogical state: " << m_runState );
+                CATCH_INTERNAL_ERROR( "Illogical m_state: " << m_runState );
 
             default:
-                CATCH_INTERNAL_ERROR( "Unknown state: " << m_runState );
+                CATCH_INTERNAL_ERROR( "Unknown m_state: " << m_runState );
         }
         moveToParent();
         m_ctx.completeCycle();
