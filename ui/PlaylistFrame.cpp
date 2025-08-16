@@ -15,19 +15,8 @@ namespace Bassplay::Ui {
         m_addToPlaylistButton = new wxButton(m_playlistPanel, wxID_ANY, "Add to Playlist");
 
         // Layout
-        m_sizer = new wxBoxSizer(wxHORIZONTAL);
-        m_sizer->Add(m_playlistListBox, 1, wxEXPAND | wxALL, 5);
-
-        m_buttonSizer = new wxBoxSizer(wxVERTICAL);
-        m_buttonSizer->Add(m_addToPlaylistButton, 0, wxEXPAND | wxALL, 5);
-        m_buttonSizer->Add(m_createButton, 0, wxEXPAND | wxALL, 5);
-        m_buttonSizer->Add(m_removeButton, 0, wxEXPAND | wxALL, 5);
-        m_buttonSizer->Add(m_playButton, 0, wxEXPAND | wxALL, 5);
-
-
-        m_sizer->Add(m_buttonSizer, 0, wxEXPAND | wxALL, 5);
-
-        m_playlistPanel->SetSizer(m_sizer);
+        BuildPlaylistPanel();
+        BuildSongsPanel();
 
         // Bind events
         m_createButton->Bind(wxEVT_BUTTON, &PlaylistFrame::OnCreatePlaylist, this);
@@ -41,40 +30,65 @@ namespace Bassplay::Ui {
         PopulatePlaylistListBox();
         m_sizer->Show(true);
         m_playlistPanel->Show(true);
+
+        m_playlistPanel->SetSizer(m_sizer);
+    }
+
+    void PlaylistFrame::BuildPlaylistPanel() {
+        m_sizer = new wxBoxSizer(wxHORIZONTAL);
+        m_sizer->Add(m_playlistListBox, 1, wxEXPAND | wxALL, 5);
+
+        m_playlistButtonSizer = new wxBoxSizer(wxVERTICAL);
+        m_playlistButtonSizer->Add(m_addToPlaylistButton, 0, wxEXPAND | wxALL, 5);
+        m_playlistButtonSizer->Add(m_createButton, 0, wxEXPAND | wxALL, 5);
+        m_playlistButtonSizer->Add(m_removeButton, 0, wxEXPAND | wxALL, 5);
+        m_playlistButtonSizer->Add(m_playButton, 0, wxEXPAND | wxALL, 5);
+        m_sizer->Add(m_playlistButtonSizer, 0, wxEXPAND | wxALL, 5);
+    }
+
+    void PlaylistFrame::BuildSongsPanel() {
+        m_songListBox = new wxListBox(m_playlistPanel, wxID_ANY);
+        m_songButtonSizer = new wxBoxSizer(wxVERTICAL);
+        m_songButtonSizer->Add(m_addToPlaylistButton, 0, wxEXPAND | wxALL, 5);
+        m_songButtonSizer->Add(m_removeButton, 0, wxEXPAND | wxALL, 5);
+        m_songButtonSizer->Add(m_playButton, 0, wxEXPAND | wxALL, 5);
+
+        m_sizer->Add(m_songListBox, 1, wxEXPAND | wxALL, 5);
+        m_sizer->Add(m_songButtonSizer, 0, wxEXPAND | wxALL, 5);
     }
 
     void PlaylistFrame::OnAddToPlaylist(wxCommandEvent &event) {
         // Logic to add a song to the playlist
-        wxFileDialog fileDialog(this, "Add song to playlist", "", "",
+        wxFileDialog fileDialog(this, "Add song to playlist",
+                                DirTool::GetSongDirectory(m_player),
+                                "",
                                 "Mod files (*.it,*.xm,*.mod,*.s3m,*.mo3,*.mptm)|*.it;*.IT;*.xm;*.XM;*.mod;*.MOD;*.s3m;*.S3M;*.mo3;*.mptm",
                                 wxFD_OPEN | wxFD_FILE_MUST_EXIST);
         if (fileDialog.ShowModal() == wxID_CANCEL)
             return;
         std::string path = fileDialog.GetPath().ToStdString();
         m_currentPlaylist->AddSong(new Play::Song(path));
-        m_playlistListBox->AppendString(fileDialog.GetFilename());
+        PopulateSongListBox();
     }
 
     void PlaylistFrame::OnRemoveFromPlaylist(wxCommandEvent &event) {
         int selection = m_playlistListBox->GetSelection();
         if (selection != wxNOT_FOUND) {
-            m_playlistListBox->Delete(selection);
             m_playlistManager->RemovePlaylist(m_currentPlaylist->GetName());
             m_indexedPlaylists.erase(selection);
-            delete(m_currentPlaylist);
-            m_currentPlaylist = nullptr;
+            PopulateSongListBox();
         }
     }
 
     void PlaylistFrame::OnPlaylistSelected(wxCommandEvent &event) {
         m_currentPlaylist = GetSelectedPlaylist();
-        PopulateSongListBox(m_currentPlaylist);
+        PopulateSongListBox();
     }
 
-    void PlaylistFrame::PopulateSongListBox(BassplayPlaylist *playlist) {
+    void PlaylistFrame::PopulateSongListBox() {
         m_songListBox->Clear();
-        if (playlist) {
-            for (const auto &song : playlist->GetCollection()->GetSongs()) {
+        if (m_currentPlaylist) {
+            for (const auto &song : m_currentPlaylist->GetCollection()->GetSongs()) {
                 m_songListBox->AppendString(song->GetName());
             }
         }
@@ -112,7 +126,7 @@ namespace Bassplay::Ui {
         } else {
             m_currentPlaylist = nullptr;
         }
-        return nullptr;
+        return m_currentPlaylist;
     }
 
     void PlaylistFrame::OnCreatePlaylist(wxCommandEvent &event) {

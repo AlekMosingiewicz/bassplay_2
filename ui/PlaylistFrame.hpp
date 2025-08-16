@@ -11,6 +11,7 @@
 #include "playlist/BassplayPlaylist.hpp"
 #include "../play/Player.hpp"
 #include "../play/Song.hpp"
+#include "../play/tools/DirTool.hpp"
 #include <map>
 
 namespace Bassplay::Ui {
@@ -18,21 +19,23 @@ namespace Bassplay::Ui {
     using Bassplay::Play::Playlist::BassplayPlaylist;
     using Bassplay::Play::Player;
     using Bassplay::Play::Song;
+    using Bassplay::Play::Tools::DirTool;
 
     class PlaylistFrame: public DpiAwareFrame {
     private:
         // UI elements
-        wxPanel *m_playlistPanel = nullptr;
+        wxPanel   *m_playlistPanel = nullptr;
         wxListBox *m_playlistListBox = nullptr;
         wxListBox *m_songListBox = nullptr;
-        wxButton *m_createButton = nullptr;
-        wxButton *m_removeButton = nullptr;
-        wxButton *m_playButton = nullptr;
-        wxButton *m_addToPlaylistButton = nullptr;
-        Manager *m_playlistManager = nullptr;
-        wxSizer *m_sizer = nullptr;
-        wxSizer *m_buttonSizer = nullptr;
-        Player *m_player = nullptr;
+        wxButton  *m_createButton = nullptr;
+        wxButton  *m_removeButton = nullptr;
+        wxButton  *m_playButton = nullptr;
+        wxButton  *m_addToPlaylistButton = nullptr;
+        Manager   *m_playlistManager = nullptr;
+        wxSizer   *m_sizer = nullptr;
+        wxSizer   *m_playlistButtonSizer = nullptr;
+        wxSizer   *m_songButtonSizer = nullptr;
+        Player    *m_player = nullptr;
 
 
         // Helper fields
@@ -42,12 +45,14 @@ namespace Bassplay::Ui {
 
         // Methods
         void BuildPlaylistWindow();
+        void BuildPlaylistPanel();
+        void BuildSongsPanel();
         void OnCreatePlaylist(wxCommandEvent &event);
         void OnAddToPlaylist(wxCommandEvent &event);
         void OnRemoveFromPlaylist(wxCommandEvent &event);
         void OnPlaylistSelected(wxCommandEvent &event);
         void PopulatePlaylistListBox();
-        void PopulateSongListBox(BassplayPlaylist *playlist);
+        void PopulateSongListBox();
         void OnSongSelected(wxCommandEvent &event);
         void OnPlayButtonClicked(wxCommandEvent &event);
         BassplayPlaylist *GetSelectedPlaylist();
@@ -69,7 +74,9 @@ namespace Bassplay::Ui {
             delete m_playlistManager;
             delete m_addToPlaylistButton;
             delete m_playlistManager;
-            delete m_buttonSizer;
+            delete m_playlistButtonSizer;
+            delete m_songListBox;
+            delete m_songButtonSizer;
         }
     };
 } // Bassplay
