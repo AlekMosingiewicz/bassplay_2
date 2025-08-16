@@ -16,6 +16,7 @@ set(HEADER_FILES
         persistence/PlaybackHistoryPersister.hpp
         tools/StringTools.cpp
         tools/StringTools.hpp
+        tools/DirTool.hpp
         history/facade.cpp
         history/facade.hpp
         history/HistoryDirNotFoundException.hpp

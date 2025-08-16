@@ -19,9 +19,7 @@ namespace Bassplay::Ui {
     }
 
     void PlayerFrame::OnOpen(wxCommandEvent &event) {
-        auto dir = m_player->HasHistory() && m_player->GetPlaybackHistory()->GetDir()
-                ? (*m_player->GetPlaybackHistory()->GetDir())
-                : m_player->GetCurrentDirectory();
+        auto dir = DirTool::GetSongDirectory(m_player);
 
         wxFileDialog fileDialog(this, "Open music file", dir, "",
                                 "Mod files (*.it,*.xm,*.mod,*.s3m,*.mo3,*.mptm)|*.it;*.IT;*.xm;*.XM;*.mod;*.MOD;*.s3m;*.S3M;*.mo3;*.mptm",
@@ -79,10 +77,10 @@ namespace Bassplay::Ui {
     void PlayerFrame::BuildFileMenu() {
         m_menuFile->Append(wxID_OPEN, wxEmptyString, wxString("Load music module"));
         m_menuFile->Append(wxID_INFO, wxEmptyString, wxString("Module info"));
+        m_menuFile->AppendSeparator();
         m_menuFile->Append(CustomMenuItems::bpPLAYLISTS, wxString("Playlists"), wxString("Playlists"));
         m_menuFile->AppendSeparator();
         BuildHistory();
-        m_menuFile->AppendSeparator();
         m_menuFile->Append(wxID_EXIT);
         Bind(wxEVT_MENU, &PlayerFrame::OnMenu, this);
     }
@@ -139,6 +137,7 @@ namespace Bassplay::Ui {
             auto id = i++;
             m_menuFile->Insert((i - 98), id, wxString(song->GetTitle()));
         }
+        m_menuFile->Insert(i-97, wxID_SEPARATOR);
         this->Refresh();
         this->Update();
     }

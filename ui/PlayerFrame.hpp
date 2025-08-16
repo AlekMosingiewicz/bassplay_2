@@ -18,6 +18,7 @@
 #include "../play/history/facade.hpp"
 #include "../play/provider/factory/PlaylistProviderFactory.hpp"
 #include "../play/playlist/Manager.hpp"
+#include "../play/tools/DirTool.hpp"
 
 enum playerWidgets {
     playerWidgetsMinimum = 200,
@@ -45,6 +46,7 @@ namespace Bassplay::Ui {
     using Bassplay::Play::History::Facade;
     using Bassplay::Play::Provider::Factory::PlaylistProviderFactory;
     using Bassplay::Play::Playlist::Manager;
+    using Bassplay::Play::Tools::DirTool;
 
     class PlayerFrame: public DpiAwareFrame  {
     public:
