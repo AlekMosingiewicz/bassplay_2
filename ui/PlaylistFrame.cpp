@@ -25,7 +25,6 @@ namespace Bassplay::Ui {
         m_addToPlaylistButton->Bind(wxEVT_BUTTON, &PlaylistFrame::OnAddToPlaylist, this);
         m_playButton->Bind(wxEVT_BUTTON, &PlaylistFrame::OnPlayButtonClicked, this);
 
-
         // Populate the playlist list box
         PopulatePlaylistListBox();
         m_sizer->Show(true);
@@ -68,6 +67,7 @@ namespace Bassplay::Ui {
             return;
         std::string path = fileDialog.GetPath().ToStdString();
         m_currentPlaylist->AddSong(new Play::Song(path));
+        m_currentPlaylist->ResetToBeginning();
         PopulateSongListBox();
     }
 
@@ -115,7 +115,7 @@ namespace Bassplay::Ui {
         if (m_player->GetPlaylist() == nullptr) {
             m_player->SetPlaylist(m_currentPlaylist);
         }
-        m_player->PlayNextSong();
+        m_player->PlayFromPlaylist();
     }
 
     BassplayPlaylist *PlaylistFrame::GetSelectedPlaylist() {
@@ -138,6 +138,8 @@ namespace Bassplay::Ui {
                 m_playlistManager->AddPlaylist(newPlaylist);
                 m_indexedPlaylists.insert({m_playlistListBox->GetCount(), newPlaylist});
                 m_playlistListBox->AppendString(playlistName);
+                m_playlistListBox->Select(m_indexedPlaylists.end()->first - 1);
+                m_currentPlaylist = newPlaylist;
             } else {
                 wxMessageBox("Playlist name cannot be empty.", "Error", wxOK | wxICON_ERROR);
             }

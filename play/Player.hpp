@@ -77,6 +77,7 @@ namespace Bassplay::Play {
         PlaybackHistory* GetPlaybackHistory() { return m_history; }
         void JumpToPosition(double position);
         void PlayNextSong();
+        void PlayFromPlaylist();
         void CALLBACK OnPlaybackEnd(HSYNC hmusic, DWORD channel, DWORD data, void *user) { m_state = player_state_stopped; };
         [[nodiscard]] std::string GetCurrentDirectory() const { return m_currentDirectory; }
         [[nodiscard]] bool HasHistory() const { return m_history != nullptr; }

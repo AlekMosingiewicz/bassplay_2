@@ -52,6 +52,21 @@ namespace Bassplay::Play {
         }
     }
 
+    void Player::PlayFromPlaylist() {
+        if (m_playlist != nullptr && m_playlist->GetCollection() != nullptr) {
+            m_songBeingPlayed = m_playlist->GetCurrentSong();
+            if (m_songBeingPlayed != nullptr) {
+                m_state = player_state_playing;
+                PlayCurrentSong();
+                BroadcastPlaybackEvent(PlaybackEventType::playbackStarted);
+            } else {
+                //TODO handle case when no song is set in the playlist
+            }
+        } else {
+            //TODO handle case when no playlist is set
+        }
+    }
+
     void Player::PlayNextSong() {
         if (m_playlist != nullptr && m_playlist->GetCollection() != nullptr) {
             m_playlist->IncrementCurrentSongIndex();

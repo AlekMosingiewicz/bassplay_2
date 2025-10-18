@@ -28,6 +28,10 @@ namespace Bassplay::Play::Playlist {
 
         void AddSong(Song *song) { m_songs->AddSong(song); }
 
+        void ResetToBeginning() {
+            m_currentSongIndex = 0;
+        }
+
         void RemoveSong(const std::string &name) { m_songs->RemoveSong(name); }
 
         void RemoveAllSongs() { m_songs->RemoveAllSongs(); }
