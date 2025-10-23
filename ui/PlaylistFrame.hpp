@@ -12,6 +12,8 @@
 #include "../play/Player.hpp"
 #include "../play/Song.hpp"
 #include "../play/tools/DirTool.hpp"
+#include "../event/BassplayEventDispatcher.hpp"
+#include "../event/BassplayEventType.hpp"
 #include <map>
 
 namespace Bassplay::Ui {
@@ -66,19 +68,15 @@ namespace Bassplay::Ui {
         }
         ~PlaylistFrame() override {
             delete m_playlistPanel;
-            delete m_playlistListBox;
-            delete m_createButton;
-            delete m_removeButton;
-            delete m_playButton;
-            delete m_sizer;
-            delete m_playlistManager;
-            delete m_addToPlaylistButton;
-            delete m_playlistManager;
-            delete m_playlistButtonSizer;
-            delete m_songListBox;
-            delete m_songButtonSizer;
+        }
+
+        void SetCurrentSongIndex(int index) {
+            if (m_songListBox != nullptr) {
+                m_songListBox->SetSelection(index);
+            }
         }
     };
+
 } // Bassplay
 
 

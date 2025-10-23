@@ -56,9 +56,7 @@ namespace Bassplay::Play {
         if (m_playlist != nullptr && m_playlist->GetCollection() != nullptr) {
             m_songBeingPlayed = m_playlist->GetCurrentSong();
             if (m_songBeingPlayed != nullptr) {
-                m_state = player_state_playing;
                 PlayCurrentSong();
-                BroadcastPlaybackEvent(PlaybackEventType::playbackStarted);
             } else {
                 //TODO handle case when no song is set in the playlist
             }
@@ -72,7 +70,6 @@ namespace Bassplay::Play {
             m_playlist->IncrementCurrentSongIndex();
             m_songBeingPlayed = m_playlist->GetCurrentSong();
             PlayCurrentSong();
-            BroadcastPlaybackEvent(PlaybackEventType::playbackStarted);
         } else {
             //TODO handle case when no playlist is set
         }
@@ -89,8 +86,12 @@ namespace Bassplay::Play {
 
     void Player::PlayCurrentSong() {
         if (m_songBeingPlayed != nullptr) {
+            m_state = player_state_playing;
             BASS_ChannelPlay(m_songBeingPlayed->GetMusicHandle(), m_replay);
             BASS_ChannelSetSync(m_songBeingPlayed->GetMusicHandle(), BASS_SYNC_END, 0, &on_playback_end, this);
+            m_songBeingPlayed->GetCurrentPlaybackTime() >= 1
+                ? BroadcastPlaybackEvent(PlaybackEventType::playbackResumed)
+                : BroadcastPlaybackEvent(PlaybackEventType::playbackStarted);
         }
     }
 

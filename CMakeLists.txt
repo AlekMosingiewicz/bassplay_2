@@ -28,6 +28,7 @@ add_executable(
         event/BassplayEventDispatcher.hpp event/BassplayEventDispatcher.cpp
         event/BassplayPlaybackEvent.hpp
         listener/GuiThreadPauseListener.hpp listener/GuiThreadPauseListener.cpp
+        listener/PlaylistListener.hpp listener/PlaylistListener.cpp
         json/json.hpp
         ui/PlaylistFrame.cpp
         ui/PlaylistFrame.hpp
@@ -39,6 +40,8 @@ add_library(bass SHARED IMPORTED exception/BassplayException.hpp common/wx.hpp
         event/BassplayEventDispatcher.hpp
         event/IBassplayEventHandler.hpp
         listener/GuiThreadPauseListener.cpp
+        listener/PlaylistListener.hpp
+        listener/PlaylistListener.cpp
 )
 set_property(TARGET bass PROPERTY IMPORTED_LOCATION "/usr/local/lib/bass/libbass.so")
 target_link_libraries(bassplay_2 bass Play_lib)

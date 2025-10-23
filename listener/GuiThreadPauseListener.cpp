@@ -10,7 +10,11 @@ namespace Bassplay::Listener {
                 dynamic_cast<Bassplay::Event::BassplayPlaybackEvent&>(event);
         if (playbackEvent.GetPlaybackEventType() == Event::playbackStopped && m_guiUpdateThread->IsRunning()) {
             m_guiUpdateThread->Pause();
-        } else if (playbackEvent.GetPlaybackEventType() == Event::playbackStarted && !m_guiUpdateThread->IsRunning()) {
+        } else if (playbackEvent.GetPlaybackEventType() == Event::playbackStarted) {
+            m_playerFrame->ResetPositionSlider();
+            m_playerFrame->UpdateGUI(true);
+            m_guiUpdateThread->Resume();
+        } else if (playbackEvent.GetPlaybackEventType() == Event::playbackResumed && !m_guiUpdateThread->IsRunning()) {
             m_guiUpdateThread->Resume();
         } else if (playbackEvent.GetPlaybackEventType() == Event::playbackEnded) {
             m_playerFrame->StopAndReset();

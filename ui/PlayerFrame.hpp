@@ -15,6 +15,7 @@
 #include "../play/Song.hpp"
 #include "../event/BassplayPlaybackEvent.hpp"
 #include "../event/BassplayEventDispatcher.hpp"
+#include "../event/BassplayEventType.hpp"
 #include "../play/history/facade.hpp"
 #include "../play/provider/factory/PlaylistProviderFactory.hpp"
 #include "../play/playlist/Manager.hpp"
@@ -60,6 +61,7 @@ namespace Bassplay::Ui {
         ~PlayerFrame() override;
         void UpdateGUI(bool withPlayLabelUpdate = true);
         void StopAndReset();
+        void ResetPositionSlider();
         //info
         void ShowInfoFrame();
 
@@ -118,7 +120,7 @@ namespace Bassplay::Ui {
         //helper methods
         void UpdatePlayLabel();
         void UpdateTimeLabel();
-        void ResetPositionSlider();
+
         void UpdatePositionSlider();
         void OpenSong(std::string& path);
 

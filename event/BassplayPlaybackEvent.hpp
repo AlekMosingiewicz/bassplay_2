@@ -12,6 +12,7 @@ namespace Bassplay::Event {
 
     enum PlaybackEventType {
         playbackStarted,
+        playbackResumed,
         playbackStopped,
         playbackEnded
     };

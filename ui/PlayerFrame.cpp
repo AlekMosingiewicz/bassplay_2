@@ -4,6 +4,7 @@
 
 #include <wx/wx.h>
 #include <wx/stdpaths.h>
+#include "../listener/PlaylistListener.hpp"
 
 #include "PlayerFrame.hpp"
 
@@ -347,6 +348,11 @@ namespace Bassplay::Ui {
         }
         m_playlistFrame = new PlaylistFrame("Playlists", wxDefaultPosition, wxSize(50, 25),
                                             m_playlistManager, m_player);
+
+        Bassplay::Event::BassplayEventDispatcher::Instance().RegisterHandler(
+                Bassplay::Event::playbackEvent,
+                new Bassplay::Listener::PlaylistListener(m_playlistFrame, m_player)
+                );
         m_playlistFrame->Show();
     }
 

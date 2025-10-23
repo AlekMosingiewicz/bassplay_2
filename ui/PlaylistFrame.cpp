@@ -114,6 +114,7 @@ namespace Bassplay::Ui {
     void PlaylistFrame::OnPlayButtonClicked(wxCommandEvent &event) {
         if (m_player->GetPlaylist() == nullptr) {
             m_player->SetPlaylist(m_currentPlaylist);
+            m_songListBox->SetSelection(0); // TODO make dynamic
         }
         m_player->PlayFromPlaylist();
     }
