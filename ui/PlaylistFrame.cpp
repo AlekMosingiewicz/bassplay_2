@@ -72,10 +72,10 @@ namespace Bassplay::Ui {
     }
 
     void PlaylistFrame::OnRemoveFromPlaylist(wxCommandEvent &event) {
-        int selection = m_playlistListBox->GetSelection();
+        int selection = m_songListBox->GetSelection();
         if (selection != wxNOT_FOUND) {
-            m_playlistManager->RemovePlaylist(m_currentPlaylist->GetName());
-            m_indexedPlaylists.erase(selection);
+            auto *song = m_currentPlaylist->GetCollection()->GetByIndex(selection);
+            m_currentPlaylist->GetCollection()->RemoveSong(song->GetFilename());
             PopulateSongListBox();
         }
     }
