@@ -20,6 +20,7 @@
 #include "../play/provider/factory/PlaylistProviderFactory.hpp"
 #include "../play/playlist/Manager.hpp"
 #include "../play/tools/DirTool.hpp"
+#include "../listener/PlaylistListener.hpp"
 
 enum playerWidgets {
     playerWidgetsMinimum = 200,
@@ -91,10 +92,11 @@ namespace Bassplay::Ui {
         //helper variables
         bool mVolumeVisible = false;
 
+        Bassplay::Listener::PlaylistListener playlistListener;
+
         //external frames
         SongInfoFrame* m_songInfoFrame = nullptr;
         PlaylistFrame* m_playlistFrame = nullptr;
-
 
         //ui building
         void BuildMainMenu();

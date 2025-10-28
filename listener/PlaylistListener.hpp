@@ -18,8 +18,11 @@ namespace Bassplay::Listener {
 
     class PlaylistListener: public IBassplayEventHandler {
     public:
+        PlaylistListener() = default;
         explicit PlaylistListener(PlaylistFrame *pFrame, Player *pPlayer): m_playlistFrame(pFrame), m_player(pPlayer) {}
 
+        void SetPlayer(Player *player) { m_player = player; }
+        void SetPlaylistFrame(PlaylistFrame *playlistFrame) { m_playlistFrame = playlistFrame; }
 
         void Handle(Event::BassplayEvent &event) override;
     private:
