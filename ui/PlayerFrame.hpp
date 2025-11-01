@@ -92,7 +92,9 @@ namespace Bassplay::Ui {
         //helper variables
         bool mVolumeVisible = false;
 
-        Bassplay::Listener::PlaylistListener playlistListener;
+        //playlist-related
+        Bassplay::Listener::PlaylistListener m_playlistListener;
+        bool m_playlistListenerRegistered = false;
 
         //external frames
         SongInfoFrame* m_songInfoFrame = nullptr;

@@ -339,7 +339,6 @@ namespace Bassplay::Ui {
     }
 
     void PlayerFrame::OnPlaylists(wxCommandEvent &event) {
-        static bool listenerRegistered = false;
         if (FindWindowById(playerPlaylistWindow, this) == nullptr) {
             m_playlistFrame = nullptr;
         }
@@ -350,12 +349,12 @@ namespace Bassplay::Ui {
         m_playlistFrame = new PlaylistFrame("Playlists", wxDefaultPosition, wxSize(50, 25),
                                             m_playlistManager, m_player);
 
-        playlistListener.SetPlayer(m_player);
-        playlistListener.SetPlaylistFrame(m_playlistFrame);
+        m_playlistListener.SetPlayer(m_player);
+        m_playlistListener.SetPlaylistFrame(m_playlistFrame);
 
-        if (!listenerRegistered) {
-            BassplayEventDispatcher::Instance().RegisterHandler(BassplayEventType::playbackEvent, &playlistListener);
-            listenerRegistered = true;
+        if (!m_playlistListenerRegistered) {
+            BassplayEventDispatcher::Instance().RegisterHandler(BassplayEventType::playbackEvent, &m_playlistListener);
+            m_playlistListenerRegistered = true;
         }
 
         m_playlistFrame->Show();
