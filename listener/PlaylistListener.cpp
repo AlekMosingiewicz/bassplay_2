@@ -12,6 +12,10 @@ namespace Bassplay::Listener {
         auto& playbackEvent =
                 dynamic_cast<Event::BassplayPlaybackEvent&>(event);
 
+        if (m_playlistFrame != nullptr && !m_playlistFrame->IsVisible()) {
+            return;
+        }
+
         if (m_player->GetPlaylist() == nullptr || m_playlistFrame == nullptr) {
             return;
         }

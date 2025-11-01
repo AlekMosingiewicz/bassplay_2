@@ -35,6 +35,8 @@ namespace Bassplay::Ui {
     void PlayerFrame::OpenSong(std::string &path) {
         try {
             ForcePauseGUIUpdates();
+            // if the song is opened from player frame, set playlist to null
+            m_player->SetPlaylist(nullptr);
             m_player->LoadSong(path);
             ResetPositionSlider();
             m_player->PlaySong();
@@ -268,6 +270,7 @@ namespace Bassplay::Ui {
             m_player->LoadSong(lastSongPath);
             ResetPositionSlider();
         }
+        m_player->SetPlaylist(nullptr);
         m_player->PlaySong();
         UpdatePlayLabel();
     }
