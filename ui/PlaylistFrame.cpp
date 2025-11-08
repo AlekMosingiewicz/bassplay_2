@@ -166,6 +166,7 @@ namespace Bassplay::Ui {
 
     void PlaylistFrame::OnCreatePlaylist(wxCommandEvent &event) {
         wxTextEntryDialog dialog(this, "Enter playlist name:", "Create Playlist");
+        bool succeededCreating = false;
         if (dialog.ShowModal() == wxID_OK) {
             std::string playlistName = dialog.GetValue().ToStdString();
             if (!playlistName.empty()) {
@@ -173,12 +174,15 @@ namespace Bassplay::Ui {
                 m_playlistManager->AddPlaylist(newPlaylist);
                 m_indexedPlaylists.insert({m_playlistListBox->GetCount(), newPlaylist});
                 m_playlistListBox->AppendString(playlistName);
-                m_playlistListBox->Select(m_indexedPlaylists.end()->first - 1);
                 m_currentPlaylist = newPlaylist;
+                succeededCreating = true;
             } else {
                 wxMessageBox("Playlist name cannot be empty.", "Error", wxOK | wxICON_ERROR);
             }
             PopulatePlaylistListBox();
+            if (succeededCreating) {
+                m_playlistListBox->Select(m_indexedPlaylists.end()->first - 1);
+            }
         }
     }
 
