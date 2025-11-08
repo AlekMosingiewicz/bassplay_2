@@ -10,9 +10,10 @@ namespace Bassplay::Ui {
         m_playlistPanel = new wxPanel(this);
         m_playlistListBox = new wxListBox(m_playlistPanel, wxID_ANY);
         m_createButton = new wxButton(m_playlistPanel, wxID_ANY, "Create");
-        m_removeButton = new wxButton(m_playlistPanel, wxID_ANY, "Remove");
+        m_removeButton = new wxButton(m_playlistPanel, wxID_ANY, "Remove from Playlist");
         m_playButton = new wxButton(m_playlistPanel, wxID_ANY, "Play");
         m_addToPlaylistButton = new wxButton(m_playlistPanel, wxID_ANY, "Add to Playlist");
+        m_removePlaylistButton = new wxButton(m_playlistPanel, wxID_ANY, "Remove");
 
         // Layout
         BuildPlaylistPanel();
@@ -24,9 +25,9 @@ namespace Bassplay::Ui {
         m_playlistListBox->Bind(wxEVT_COMMAND_LISTBOX_SELECTED , &PlaylistFrame::OnPlaylistSelected, this);
         m_addToPlaylistButton->Bind(wxEVT_BUTTON, &PlaylistFrame::OnAddToPlaylist, this);
         m_playButton->Bind(wxEVT_BUTTON, &PlaylistFrame::OnPlayButtonClicked, this);
+        m_removePlaylistButton->Bind(wxEVT_BUTTON, &PlaylistFrame::OnRemovePlaylist, this);
 
         // Populate the playlist list box
-        ++
         PopulatePlaylistListBox();
         m_sizer->Show(true);
         m_playlistPanel->Show(true);
@@ -41,6 +42,7 @@ namespace Bassplay::Ui {
         m_playlistButtonSizer = new wxBoxSizer(wxVERTICAL);
         m_playlistButtonSizer->Add(m_addToPlaylistButton, 0, wxEXPAND | wxALL, 5);
         m_playlistButtonSizer->Add(m_createButton, 0, wxEXPAND | wxALL, 5);
+        m_playlistButtonSizer->Add(m_removePlaylistButton, 0, wxEXPAND | wxALL, 5);
         m_playlistButtonSizer->Add(m_removeButton, 0, wxEXPAND | wxALL, 5);
         m_playlistButtonSizer->Add(m_playButton, 0, wxEXPAND | wxALL, 5);
         m_sizer->Add(m_playlistButtonSizer, 0, wxEXPAND | wxALL, 5);
@@ -112,6 +114,18 @@ namespace Bassplay::Ui {
                 m_player->SetPlaylist(m_currentPlaylist);
             }
             m_player->PlayFromPlaylist();
+        }
+    }
+
+    void PlaylistFrame::OnRemovePlaylist(wxCommandEvent &event) {
+        int selection = m_playlistListBox->GetSelection();
+        auto it = m_indexedPlaylists.find(selection);
+        if (it != m_indexedPlaylists.end()) {
+            m_playlistManager->RemovePlaylist(it->second->GetName());
+            m_indexedPlaylists.erase(it);
+            PopulatePlaylistListBox();
+            m_currentPlaylist = nullptr;
+            m_songListBox->Clear();
         }
     }
 

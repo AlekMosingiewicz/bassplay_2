@@ -31,6 +31,7 @@ namespace Bassplay::Ui {
         wxListBox *m_songListBox = nullptr;
         wxButton  *m_createButton = nullptr;
         wxButton  *m_removeButton = nullptr;
+        wxButton  *m_removePlaylistButton = nullptr;
         wxButton  *m_playButton = nullptr;
         wxButton  *m_addToPlaylistButton = nullptr;
         Manager   *m_playlistManager = nullptr;
@@ -49,15 +50,18 @@ namespace Bassplay::Ui {
         void BuildPlaylistWindow();
         void BuildPlaylistPanel();
         void BuildSongsPanel();
-        void OnCreatePlaylist(wxCommandEvent &event);
-        void OnAddToPlaylist(wxCommandEvent &event);
-        void OnRemoveFromPlaylist(wxCommandEvent &event);
         void OnPlaylistSelected(wxCommandEvent &event);
         void PopulatePlaylistListBox();
         void PopulateSongListBox();
+
+        // Event handlers
         void OnSongSelected(wxCommandEvent &event);
+        void OnAddToPlaylist(wxCommandEvent &event);
+        void OnRemoveFromPlaylist(wxCommandEvent &event);
+        void OnCreatePlaylist(wxCommandEvent &event);
         void OnSongDoubleClicked(wxCommandEvent &event);
         void OnPlayButtonClicked(wxCommandEvent &event);
+        void OnRemovePlaylist(wxCommandEvent &event);
         BassplayPlaylist *GetSelectedPlaylist();
     public:
         PlaylistFrame(const wxString &title, const wxPoint &pos, const wxSize &size,

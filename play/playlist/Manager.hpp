@@ -63,6 +63,9 @@ namespace Bassplay::Play::Playlist {
                 void RemovePlaylist(const std::string &name) {
                     auto it = m_playlists->find(name);
                     if (it != m_playlists->end()) {
+                        for (auto &song : it->second->GetCollection()->GetSongs()) {
+                            delete song; // Free memory of songs
+                        }
                         delete it->second; // Free memory
                         m_playlists->erase(it);
                     }
