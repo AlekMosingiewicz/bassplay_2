@@ -236,18 +236,6 @@ namespace Bassplay::Ui {
 
     }
 
-    PlayerFrame::~PlayerFrame() {
-        if (m_playerPanel != nullptr) {
-            m_playerPanel->Destroy();
-        }
-        if (m_mainMenuBar != nullptr) {
-            m_mainMenuBar->Destroy();
-        }
-        if (m_songInfoFrame != nullptr) {
-            m_songInfoFrame->Destroy();
-        }
-    }
-
     void PlayerFrame::UpdateGUI(bool withPlayLabelUpdate, bool withHistoryUpdate) {
         if (m_player->GetState() == Play::player_state_playing) {
             UpdateTimeLabel();

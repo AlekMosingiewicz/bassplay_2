@@ -59,7 +59,6 @@ namespace Bassplay::Ui {
                 Bassplay::Play::Player* musicPlayer,
                 Manager* playlistManager = nullptr
                 );
-        ~PlayerFrame() override;
         void UpdateGUI(bool withPlayLabelUpdate = true, bool withHistoryUpdate = false);
         void StopAndReset();
         void ResetPositionSlider();
