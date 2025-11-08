@@ -3,6 +3,7 @@
 //
 
 #include "PlaylistFrame.hpp"
+#include <wx/msgdlg.h>
 
 namespace Bassplay::Ui {
 
@@ -118,14 +119,21 @@ namespace Bassplay::Ui {
     }
 
     void PlaylistFrame::OnRemovePlaylist(wxCommandEvent &event) {
-        int selection = m_playlistListBox->GetSelection();
-        auto it = m_indexedPlaylists.find(selection);
-        if (it != m_indexedPlaylists.end()) {
-            m_playlistManager->RemovePlaylist(it->second->GetName());
-            m_indexedPlaylists.erase(it);
-            PopulatePlaylistListBox();
-            m_currentPlaylist = nullptr;
-            m_songListBox->Clear();
+        wxMessageDialog playlistRemoveConfigDialog(this,
+                                                   "Are you sure you want to remove the selected playlist?",
+                                                   "Confirm Removal",
+                                        wxYES_NO | wxNO_DEFAULT | wxICON_QUESTION);
+
+        if (playlistRemoveConfigDialog.ShowModal() == wxID_YES) {
+            int selection = m_playlistListBox->GetSelection();
+            auto it = m_indexedPlaylists.find(selection);
+            if (it != m_indexedPlaylists.end()) {
+                m_playlistManager->RemovePlaylist(it->second->GetName());
+                m_indexedPlaylists.erase(it);
+                PopulatePlaylistListBox();
+                m_currentPlaylist = nullptr;
+                m_songListBox->Clear();
+            }
         }
     }
 
