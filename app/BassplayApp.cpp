@@ -11,11 +11,12 @@ namespace Bassplay::App {
         wxInitAllImageHandlers();
         InitHistory();
         auto playlistPath = std::string(GetAppDir() + "/" + DEFAULT_PLAYLIST_FILENAME);
+        m_playlistManager = ManagerFactory::CreateFromPath(playlistPath);
         m_playerFrame = new Ui::PlayerFrame(
                 "Bassplay 2.0",
                 wxPoint(50, 50),
                 wxSize(23, 7), m_player,
-                ManagerFactory::CreateFromPath(playlistPath)
+                m_playlistManager
         );
         m_playerFrame->Show(true);
         InitThreads();
@@ -27,6 +28,10 @@ namespace Bassplay::App {
         BASS_Stop();
         StopThreads();
         SaveHistory();
+        if (m_playlistManager != nullptr) {
+            m_playlistManager->SavePlaylists();
+            delete m_playlistManager;
+        }
         delete m_player;
         return 0;
     }

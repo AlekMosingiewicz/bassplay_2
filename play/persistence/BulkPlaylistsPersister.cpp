@@ -13,5 +13,6 @@ namespace Bassplay::Play::Persistence {
             j["playlists"].push_back(Bassplay::Play::Transformer::JsonPlaylistTransformer::TransformToJson(playlist));
         }
         m_ostream->write(j.dump().c_str(),static_cast<std::streamsize>(j.dump().size()));
+        m_ostream->flush();
     }
 }

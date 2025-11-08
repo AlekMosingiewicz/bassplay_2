@@ -44,6 +44,7 @@ namespace Bassplay::App {
         //fields
         Play::Player* m_player = nullptr;
         Ui::PlayerFrame* m_playerFrame = nullptr;
+        Play::Playlist::Manager* m_playlistManager = nullptr;
         std::vector<wxThread*> m_threads;
         wxCriticalSection m_pThreadCS;
 

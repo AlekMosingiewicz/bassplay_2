@@ -9,6 +9,7 @@
 #include "BassplayPlaylist.hpp"
 #include "../persistence/BulkPlaylistsPersister.hpp"
 #include "../provider/IPlaylistProvider.hpp"
+#include <list>
 
 namespace Bassplay::Play::Playlist {
     using Bassplay::Play::Persistence::BulkPlaylistsPersister;
@@ -46,6 +47,16 @@ namespace Bassplay::Play::Playlist {
                     if (m_bulkPersister) {
                         m_bulkPersister->persist(playlists);
                     }
+                }
+
+                void SavePlaylists() {
+                    std::list<BassplayPlaylist*> playlists;
+                    if (m_bulkPersister) {
+                        for (auto &pair : (*m_playlists)) {
+                            playlists.push_back(pair.second);
+                        }
+                    }
+                    SavePlaylists(playlists);
                 }
 
                 BassplayPlaylist* GetPlaylist(const std::string &name) {
