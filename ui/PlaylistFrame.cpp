@@ -26,6 +26,7 @@ namespace Bassplay::Ui {
         m_playButton->Bind(wxEVT_BUTTON, &PlaylistFrame::OnPlayButtonClicked, this);
 
         // Populate the playlist list box
+        ++
         PopulatePlaylistListBox();
         m_sizer->Show(true);
         m_playlistPanel->Show(true);
@@ -93,12 +94,24 @@ namespace Bassplay::Ui {
             }
         }
         m_songListBox->Bind(wxEVT_COMMAND_LISTBOX_SELECTED, &PlaylistFrame::OnSongSelected, this);
+        m_songListBox->Bind(wxEVT_LISTBOX_DCLICK, &PlaylistFrame::OnSongDoubleClicked, this);
     }
 
     void PlaylistFrame::OnSongSelected(wxCommandEvent &event) {
         int selection = m_songListBox->GetSelection();
         if (selection != wxNOT_FOUND) {
             m_currentPlaylist->SetCurrentSongIndex(selection);
+        }
+    }
+
+    void PlaylistFrame::OnSongDoubleClicked(wxCommandEvent &event) {
+        int selection = m_songListBox->GetSelection();
+        if (selection != wxNOT_FOUND) {
+            m_currentPlaylist->SetCurrentSongIndex(selection);
+            if (m_player->GetPlaylist() == nullptr) {
+                m_player->SetPlaylist(m_currentPlaylist);
+            }
+            m_player->PlayFromPlaylist();
         }
     }
 

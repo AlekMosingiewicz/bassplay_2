@@ -56,6 +56,7 @@ namespace Bassplay::Ui {
         void PopulatePlaylistListBox();
         void PopulateSongListBox();
         void OnSongSelected(wxCommandEvent &event);
+        void OnSongDoubleClicked(wxCommandEvent &event);
         void OnPlayButtonClicked(wxCommandEvent &event);
         BassplayPlaylist *GetSelectedPlaylist();
     public:
