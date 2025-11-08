@@ -248,7 +248,7 @@ namespace Bassplay::Ui {
         }
     }
 
-    void PlayerFrame::UpdateGUI(bool withPlayLabelUpdate) {
+    void PlayerFrame::UpdateGUI(bool withPlayLabelUpdate, bool withHistoryUpdate) {
         if (m_player->GetState() == Play::player_state_playing) {
             UpdateTimeLabel();
         }
@@ -261,6 +261,9 @@ namespace Bassplay::Ui {
         if (withPlayLabelUpdate) {
             UpdatePlayLabel();
             UpdatePositionSlider();
+        }
+        if (withHistoryUpdate) {
+            BuildHistory();
         }
     }
 

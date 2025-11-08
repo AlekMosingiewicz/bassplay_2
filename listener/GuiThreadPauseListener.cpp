@@ -12,7 +12,7 @@ namespace Bassplay::Listener {
             m_guiUpdateThread->Pause();
         } else if (playbackEvent.GetPlaybackEventType() == Event::playbackStarted) {
             m_playerFrame->ResetPositionSlider();
-            m_playerFrame->UpdateGUI(true);
+            m_playerFrame->UpdateGUI(true, true);
             m_guiUpdateThread->Resume();
         } else if (playbackEvent.GetPlaybackEventType() == Event::playbackResumed && !m_guiUpdateThread->IsRunning()) {
             m_guiUpdateThread->Resume();

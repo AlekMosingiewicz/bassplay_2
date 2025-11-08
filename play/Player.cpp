@@ -21,6 +21,8 @@ namespace Bassplay::Play {
         if (m_songBeingPlayed != nullptr) {
             BroadcastPlaybackEvent(PlaybackEventType::playbackStopped);
             m_songBeingPlayed->UnloadSong();
+            delete m_songBeingPlayed;
+            m_songBeingPlayed = nullptr;
         }
         try {
             m_songBeingPlayed = new Song(path);
@@ -54,12 +56,9 @@ namespace Bassplay::Play {
 
     void Player::PlayFromPlaylist() {
         if (m_playlist != nullptr && m_playlist->GetCollection() != nullptr) {
-            m_songBeingPlayed = m_playlist->GetCurrentSong();
-            if (m_songBeingPlayed != nullptr) {
-                PlayCurrentSong();
-            } else {
-                //TODO handle case when no song is set in the playlist
-            }
+            auto path = m_playlist->GetCurrentSong()->GetPath();
+            LoadSong(path);
+            PlayCurrentSong();
         } else {
             //TODO handle case when no playlist is set
         }
@@ -89,6 +88,7 @@ namespace Bassplay::Play {
             m_state = player_state_playing;
             BASS_ChannelPlay(m_songBeingPlayed->GetMusicHandle(), m_replay);
             BASS_ChannelSetSync(m_songBeingPlayed->GetMusicHandle(), BASS_SYNC_END, 0, &on_playback_end, this);
+            GetPlaybackHistory()->GetCollection()->AddSong(m_songBeingPlayed);
             m_songBeingPlayed->GetCurrentPlaybackTime() >= 1
                 ? BroadcastPlaybackEvent(PlaybackEventType::playbackResumed)
                 : BroadcastPlaybackEvent(PlaybackEventType::playbackStarted);
