@@ -93,7 +93,7 @@ namespace Bassplay::Ui {
         m_songListBox->Clear();
         if (m_currentPlaylist) {
             for (const auto &song : m_currentPlaylist->GetCollection()->GetSongs()) {
-                m_songListBox->AppendString(song->GetName());
+                m_songListBox->AppendString(song->GetTitle());
             }
         }
         m_songListBox->Bind(wxEVT_COMMAND_LISTBOX_SELECTED, &PlaylistFrame::OnSongSelected, this);
