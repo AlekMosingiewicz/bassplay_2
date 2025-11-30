@@ -28,9 +28,7 @@ namespace Bassplay::Play::Playlist::Factory {
          */
         static Manager* CreateFromPath(const std::string &filePath) {
             auto provider = PlaylistProviderFactory::CreateFromPath(filePath);
-            auto persister = new BulkPlaylistsPersister(new std::fstream(filePath, std::ios::out | std::ios::trunc));
-
-            return new Manager(provider, persister);
+            return new Manager(provider, filePath);
         }
     };
 }

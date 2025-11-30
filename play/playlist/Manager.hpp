@@ -10,78 +10,81 @@
 #include "../persistence/BulkPlaylistsPersister.hpp"
 #include "../provider/IPlaylistProvider.hpp"
 #include <list>
+#include <string>
+#include <fstream>
 
 namespace Bassplay::Play::Playlist {
     using Bassplay::Play::Persistence::BulkPlaylistsPersister;
     using Bassplay::Play::Provider::IPlaylistProvider;
-            class Manager {
-            private:
-                std::map<std::string, BassplayPlaylist*> *m_playlists;
-                IPlaylistProvider *m_playlistProvider = nullptr;
-                BulkPlaylistsPersister *m_bulkPersister = nullptr;
-            public:
-                Manager() = default;
 
-                explicit Manager(IPlaylistProvider *playlistProvider) : m_playlistProvider(playlistProvider) {
-                    LoadPlaylists();
-                }
+    class Manager {
+    private:
+        std::map<std::string, BassplayPlaylist *> *m_playlists;
+        IPlaylistProvider *m_playlistProvider = nullptr;
+        std::string m_filePath;
+    public:
+        Manager() = default;
 
-                Manager(IPlaylistProvider *playlistProvider, BulkPlaylistsPersister *bulkPersister)
-                        : m_playlistProvider(playlistProvider), m_bulkPersister(bulkPersister) {
-                    LoadPlaylists();
-                }
+        explicit Manager(IPlaylistProvider *playlistProvider) : m_playlistProvider(playlistProvider) {
+            LoadPlaylists();
+        }
 
-                ~Manager() {
-                    for (auto &pair : (*m_playlists)) {
-                        delete pair.second;
-                    }
-                }
+        Manager(IPlaylistProvider *playlistProvider, std::string filePath)
+                : m_playlistProvider(playlistProvider), m_filePath(filePath) {
+            LoadPlaylists();
+        }
 
-                void LoadPlaylists() {
-                    if (m_playlistProvider) {
-                        m_playlists = m_playlistProvider->GetPlaylists();
-                    }
-                }
+        ~Manager() {
+            for (auto &pair: (*m_playlists)) {
+                delete pair.second;
+            }
+        }
 
-                void SavePlaylists(const std::list<BassplayPlaylist*> &playlists) {
-                    if (m_bulkPersister) {
-                        m_bulkPersister->persist(playlists);
-                    }
-                }
+        void LoadPlaylists() {
+            if (m_playlistProvider) {
+                m_playlists = m_playlistProvider->GetPlaylists();
+            }
+        }
 
-                void SavePlaylists() {
-                    std::list<BassplayPlaylist*> playlists;
-                    if (m_bulkPersister) {
-                        for (auto &pair : (*m_playlists)) {
-                            playlists.push_back(pair.second);
-                        }
-                    }
-                    SavePlaylists(playlists);
-                }
+        void SavePlaylists(const std::list<BassplayPlaylist *> &playlists) {
+            BulkPlaylistsPersister persister(new std::fstream(m_filePath, std::ios::out | std::ios::trunc));
+            persister.persist(playlists);
+        }
 
-                BassplayPlaylist* GetPlaylist(const std::string &name) {
-                    return (*m_playlists)[name];
-                }
+        void SavePlaylists() {
+            std::list<BassplayPlaylist *> playlists;
+            for (auto &pair: (*m_playlists)) {
+                playlists.push_back(pair.second);
+            }
+            SavePlaylists(playlists);
+        }
 
-                std::map<std::string, BassplayPlaylist*> *GetPlaylists() {
-                    return m_playlists;
-                }
+        BassplayPlaylist *GetPlaylist(const std::string &name) {
+            return (*m_playlists)[name];
+        }
 
-                void AddPlaylist(BassplayPlaylist *playlist) {
-                    (*m_playlists)[playlist->GetName()] = playlist;
-                }
+        std::map<std::string, BassplayPlaylist *> *GetPlaylists() {
+            if (m_playlists->empty()) {
+                LoadPlaylists();
+            }
+            return m_playlists;
+        }
 
-                void RemovePlaylist(const std::string &name) {
-                    auto it = m_playlists->find(name);
-                    if (it != m_playlists->end()) {
-                        for (auto &song : it->second->GetCollection()->GetSongs()) {
-                            delete song; // Free memory of songs
-                        }
-                        delete it->second; // Free memory
-                        m_playlists->erase(it);
-                    }
+        void AddPlaylist(BassplayPlaylist *playlist) {
+            (*m_playlists)[playlist->GetName()] = playlist;
+        }
+
+        void RemovePlaylist(const std::string &name) {
+            auto it = m_playlists->find(name);
+            if (it != m_playlists->end()) {
+                for (auto &song: it->second->GetCollection()->GetSongs()) {
+                    delete song; // Free memory of songs
                 }
-            };
+                delete it->second; // Free memory
+                m_playlists->erase(it);
+            }
+        }
+    };
 } // Bassplay
 
 #endif //BASSPLAY_2_MANAGER_HPP

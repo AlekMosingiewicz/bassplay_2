@@ -20,6 +20,7 @@ namespace Bassplay::Event {
         static BassplayEventDispatcher &Instance();
 
         void RegisterHandler(BassplayEventType type, IBassplayEventHandler *handler);
+        void UnregisterHandler(BassplayEventType type, IBassplayEventHandler *handler);
 
         template<class T>
         void BroadcastEvent(T &event) {

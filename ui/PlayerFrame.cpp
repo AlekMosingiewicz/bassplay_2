@@ -233,6 +233,7 @@ namespace Bassplay::Ui {
         BuildMainMenu();
         BuildPlayerPanel();
         SetClientSize(this->CalculateRealSize(const_cast<wxSize &>(size)));
+        m_playlistListener = new Bassplay::Listener::PlaylistListener();
 
     }
 
@@ -343,11 +344,11 @@ namespace Bassplay::Ui {
         m_playlistFrame = new PlaylistFrame("Playlists", wxDefaultPosition, wxSize(50, 25),
                                             m_playlistManager, m_player);
 
-        m_playlistListener.SetPlayer(m_player);
-        m_playlistListener.SetPlaylistFrame(m_playlistFrame);
+        m_playlistListener->SetPlayer(m_player);
+        m_playlistListener->SetPlaylistFrame(m_playlistFrame);
 
         if (!m_playlistListenerRegistered) {
-            BassplayEventDispatcher::Instance().RegisterHandler(BassplayEventType::playbackEvent, &m_playlistListener);
+            BassplayEventDispatcher::Instance().RegisterHandler(BassplayEventType::playbackEvent, m_playlistListener);
             m_playlistListenerRegistered = true;
         }
 
