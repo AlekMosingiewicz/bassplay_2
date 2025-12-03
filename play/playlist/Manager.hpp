@@ -47,7 +47,8 @@ namespace Bassplay::Play::Playlist {
         }
 
         void SavePlaylists(const std::list<BassplayPlaylist *> &playlists) {
-            BulkPlaylistsPersister persister(new std::fstream(m_filePath, std::ios::out | std::ios::trunc));
+            auto playlistPersistStream = std::fstream(m_filePath, std::ios::out | std::ios::trunc);
+            BulkPlaylistsPersister persister(&playlistPersistStream);
             persister.persist(playlists);
         }
 

@@ -80,6 +80,11 @@ namespace Bassplay::Ui {
                 m_songListBox->SetSelection(index);
             }
         }
+
+        void OnClose(wxCloseEvent &event) {
+            m_player->SetPlaylist(nullptr);
+            wxTopLevelWindowBase::Destroy();
+        }
     };
 
 } // Bassplay
