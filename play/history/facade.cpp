@@ -32,14 +32,14 @@ namespace Bassplay::Play::History {
         }
         auto history_path = GetAppDir() + "/history_stream.json";
         if (!std::filesystem::exists(history_path)) {
-            return {};
+            return new PlaybackHistory;
         }
         std::ifstream historyFile(history_path);
         std::string jsonString((std::istreambuf_iterator<char>(historyFile)),
                                std::istreambuf_iterator<char>());
 
         if (jsonString.empty()) {
-            return {};
+            return new PlaybackHistory;
         }
         auto playbackHistory = PlaybackHistory::CreateFromJson(jsonString);
         playbackHistory->GetCollection()->SetLimit(HISTORY_SIZE);

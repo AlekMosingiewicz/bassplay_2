@@ -12,7 +12,7 @@ namespace Bassplay::Listener {
         auto& playbackEvent =
                 dynamic_cast<Event::BassplayPlaybackEvent&>(event);
 
-        if (m_player->GetPlaylist() == nullptr || m_playlistFrame == nullptr) {
+        if (m_playlistFrame == nullptr || m_playlistFrame->IsHidden() || m_player->GetPlaylist() == nullptr) {
             return;
         }
         if (playbackEvent.GetPlaybackEventType() == Event::PlaybackEventType::playbackStarted) {

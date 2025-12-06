@@ -25,16 +25,15 @@ namespace Bassplay::Ui {
 
         DpiAwareFrame() { InitRatio(); };
 
-        ~DpiAwareFrame() override { delete m_Ratio; }
 
     protected:
-        wxSize *m_Ratio = nullptr;
+        wxSize m_Ratio;
 
         wxSize CalculateRealSize(wxSize &originalSize) {
-            return {m_Ratio->x * originalSize.x, m_Ratio->y * originalSize.y};
+            return {m_Ratio.x * originalSize.x, m_Ratio.y * originalSize.y};
         };
 
-        void InitRatio() { m_Ratio = new wxSize(GetTextExtent("M")); }
+        void InitRatio() { m_Ratio = wxSize(GetTextExtent("M")); }
     };
 }
 

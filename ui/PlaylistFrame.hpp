@@ -39,6 +39,7 @@ namespace Bassplay::Ui {
         wxSizer   *m_playlistButtonSizer = nullptr;
         wxSizer   *m_songButtonSizer = nullptr;
         Player    *m_player = nullptr;
+        bool       m_isHidden = false;
 
 
         // Helper fields
@@ -82,8 +83,11 @@ namespace Bassplay::Ui {
         }
 
         void OnClose(wxCloseEvent &event) {
-            m_player->SetPlaylist(nullptr);
-            wxTopLevelWindowBase::Destroy();
+            m_isHidden = true;
+        }
+
+        bool IsHidden() const {
+            return m_isHidden;
         }
     };
 
