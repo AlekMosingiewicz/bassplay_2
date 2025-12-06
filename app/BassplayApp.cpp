@@ -24,16 +24,23 @@ namespace Bassplay::App {
     }
 
     int BassplayApp::OnExit() {
-        BASS_Free();
-        BASS_Stop();
-        StopThreads();
-        SaveHistory();
-        if (m_playlistManager != nullptr) {
-            m_playlistManager->SavePlaylists();
-            delete m_playlistManager;
+        try {
+            BASS_Free();
+            BASS_Stop();
+            StopThreads();
+            SaveHistory();
+            if (m_playlistManager != nullptr) {
+                m_playlistManager->SavePlaylists();
+                delete m_playlistManager;
+            }
+            delete m_player;
+            return 0;
+
+        } catch (...) {
+            wxLog log;
+            log.LogText("Exception during application exit\n");
+            return -1;
         }
-        delete m_player;
-        return 0;
     }
 
     void BassplayApp::StopThread(wxThread *thread) {

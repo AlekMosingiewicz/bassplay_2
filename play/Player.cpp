@@ -151,8 +151,6 @@ namespace Bassplay::Play {
             delete m_songBeingPlayed;
             m_songBeingPlayed = nullptr;
         }
-        if (m_playlist != nullptr) delete m_playlist;
         delete m_history_collection;
-
     }
 } // Play
