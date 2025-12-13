@@ -245,7 +245,7 @@ namespace Bassplay::Ui {
             StopAndReset();
         }
         if (m_player->GetState() == Play::player_state_stopped || m_player->GetState() == Play::player_state_paused) {
-            m_volumeSlider->SetValue(m_player->GetVolume() * 100);
+            m_volumeSlider->SetValue(static_cast<int>(m_player->GetVolume()) * 100);
         }
         if (withPlayLabelUpdate) {
             UpdatePlayLabel();
@@ -296,7 +296,7 @@ namespace Bassplay::Ui {
 
     void PlayerFrame::UpdatePositionSlider() {
         if (m_player->HasSong() && m_player->GetState() == Play::player_state_playing) {
-            m_positionSlider->SetValue(m_player->GetPlaybackTimeInSeconds());
+            m_positionSlider->SetValue(static_cast<int>(m_player->GetPlaybackTimeInSeconds()));
         }
     }
 

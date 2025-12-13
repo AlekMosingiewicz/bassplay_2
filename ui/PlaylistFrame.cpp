@@ -56,7 +56,7 @@ namespace Bassplay::Ui {
         m_songButtonSizer->Add(m_removeButton, 0, wxEXPAND | wxALL, 5);
         m_songButtonSizer->Add(m_playButton, 0, wxEXPAND | wxALL, 5);
 
-        m_sizer->Add(m_songListBox, 1, wxEXPAND | wxALL, 5);
+        m_sizer->Add(m_songListBox, 3, wxEXPAND | wxALL, 5);
         m_sizer->Add(m_songButtonSizer, 0, wxEXPAND | wxALL, 5);
     }
 
