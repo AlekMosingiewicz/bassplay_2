@@ -12,15 +12,13 @@
 #include "SongInfoFrame.hpp"
 #include "DpiAwareFrame.hpp"
 #include "PlaylistFrame.hpp"
-#include "../play/Song.hpp"
-#include "../event/BassplayPlaybackEvent.hpp"
-#include "../event/BassplayEventDispatcher.hpp"
 #include "../event/BassplayEventType.hpp"
 #include "../play/history/facade.hpp"
 #include "../play/provider/factory/PlaylistProviderFactory.hpp"
 #include "../play/playlist/Manager.hpp"
 #include "../play/tools/DirTool.hpp"
 #include "../listener/PlaylistListener.hpp"
+#include "../ui/PlaylistChoiceDialog.hpp"
 
 enum playerWidgets {
     playerWidgetsMinimum = 200,
@@ -32,6 +30,7 @@ enum playerWidgets {
     playerVolumeSlider,
     playerInfoWindow,
     playerPlaylistWindow,
+    playerAddToPlaylistButton
 };
 
 enum CustomMenuItems {
@@ -45,10 +44,12 @@ namespace Bassplay::Ui {
     class UiThread;
     using namespace Bassplay::Play;
     using namespace Bassplay::Event;
-    using Bassplay::Play::History::Facade;
-    using Bassplay::Play::Provider::Factory::PlaylistProviderFactory;
-    using Bassplay::Play::Playlist::Manager;
-    using Bassplay::Play::Tools::DirTool;
+    using History::Facade;
+    using Provider::Factory::PlaylistProviderFactory;
+    using Playlist::Manager;
+    using Tools::DirTool;
+    using Ui::PlaylistChoiceDialog;
+
 
     class PlayerFrame: public DpiAwareFrame  {
     public:
@@ -84,6 +85,7 @@ namespace Bassplay::Ui {
         wxButton* mControlsButton;
         wxSlider* m_positionSlider;
         wxSlider* m_volumeSlider;
+        wxButton* m_addToPlaylistButton;
 
         //multithreading
         wxMutex m_guiUpdateMutex;
@@ -112,6 +114,7 @@ namespace Bassplay::Ui {
         void OnInfo(wxCommandEvent& event);
         void OnMenu(wxCommandEvent& event);
         void OnPlaylists(wxCommandEvent& event);
+        void OnAddToPlaylist(wxCommandEvent& event);
         //play controls
         void OnPlay(wxCommandEvent& event);
         void OnPause(wxCommandEvent& event);

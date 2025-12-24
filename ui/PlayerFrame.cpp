@@ -200,6 +200,8 @@ namespace Bassplay::Ui {
                 wxSize(45, 45)
         );
 
+        m_addToPlaylistButton = new wxButton(this, playerAddToPlaylistButton, "Add to Playlist", wxDefaultPosition, wxSize(120, 30));
+
         horizontalSizer->Add(m_playButton, 2, wxALL, 5);
         horizontalSizer->Add(m_pauseButton, 2, wxALL, 5);
         horizontalSizer->Add(m_stopButton, 2, wxALL, 5);
@@ -213,6 +215,8 @@ namespace Bassplay::Ui {
         verticalSizer->Add(horizontalSizer, 0, wxALIGN_CENTER_HORIZONTAL);
         verticalSizer->Add(mVolumeLabel, 3, wxALIGN_CENTER_HORIZONTAL | wxALIGN_CENTER_VERTICAL, 1);
         verticalSizer->Add(m_volumeSlider, 5, wxALIGN_CENTER_HORIZONTAL | wxALIGN_CENTER_VERTICAL, 1);
+
+        verticalSizer->Add(m_addToPlaylistButton, 0, wxALIGN_CENTER_HORIZONTAL | wxALIGN_CENTER_VERTICAL, 10);
 
         m_playerPanel->SetSizerAndFit(verticalSizer);
 
@@ -354,6 +358,11 @@ namespace Bassplay::Ui {
         m_playlistFrame->Show();
     }
 
+    void PlayerFrame::OnAddToPlaylist(wxCommandEvent &event) {
+        PlaylistChoiceDialog dialog(this, m_playlistManager, m_player->GetSong());
+        dialog.ShowModal();
+    }
+
     void PlayerFrame::UpdatePlayLabel() {
         if (m_player == nullptr || m_songNameLabel == nullptr) {
             //TODO Log error or handle this case
@@ -388,11 +397,11 @@ namespace Bassplay::Ui {
     void PlayerFrame::OnVolumeButtonPress(wxCommandEvent &event) {
         wxSize size = GetSize();
         if (mVolumeVisible) {
-            size.SetHeight(size.GetHeight() - (m_Ratio.y * 3));
+            size.SetHeight(size.GetHeight() - (m_Ratio.y * 5));
             mVolumeLabel->Hide();
             m_volumeSlider->Hide();
         } else {
-            size.SetHeight(size.GetHeight() + (m_Ratio.y * 3));
+            size.SetHeight(size.GetHeight() + (m_Ratio.y * 5));
             mVolumeLabel->Show(true);
             m_volumeSlider->Show(true);
         }

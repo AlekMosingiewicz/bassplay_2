@@ -32,6 +32,8 @@ add_executable(
         json/json.hpp
         ui/PlaylistFrame.cpp
         ui/PlaylistFrame.hpp
+        ui/PlaylistChoiceDialog.cpp
+        ui/PlaylistChoiceDialog.hpp
 )
 
 # Add Bass library
