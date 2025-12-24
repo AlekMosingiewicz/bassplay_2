@@ -44,6 +44,7 @@ namespace Bassplay::Ui {
         //event handling
         void OnCreatePlaylist(wxCommandEvent &event);
         void OnSelectPlaylist(wxCommandEvent &event);
+        void OnAddToPlaylist(wxCommandEvent &event);
     };
 }
 #endif //BASSPLAY_2_PLAYLISTCHOICEDIALOG_HPP

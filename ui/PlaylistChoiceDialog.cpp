@@ -20,7 +20,11 @@ namespace Bassplay::Ui {
         m_createPlaylistButton->Bind(wxEVT_BUTTON, &PlaylistChoiceDialog::OnCreatePlaylist, this);
         playlistListBox->Bind(wxEVT_COMMAND_LISTBOX_SELECTED, &PlaylistChoiceDialog::OnSelectPlaylist, this);
 
-        buttonSizer->Add(m_createPlaylistButton, 0, wxALL, 5);
+        m_addToPlaylistButton = new wxButton(this, wxID_ANY, "Add");
+        m_addToPlaylistButton->Bind(wxEVT_BUTTON, &PlaylistChoiceDialog::OnAddToPlaylist, this);
+
+        buttonSizer->Add(m_createPlaylistButton, 2, wxALL, 5);
+        buttonSizer->Add(m_addToPlaylistButton, 2, wxALL, 5);
 
         sizer->Add(buttonSizer, 0, wxALIGN_CENTER);
 
@@ -46,5 +50,13 @@ namespace Bassplay::Ui {
     void PlaylistChoiceDialog::OnSelectPlaylist(wxCommandEvent &event) {
         wxString selectedPlaylistName = event.GetString();
         m_selectedPlaylist = m_playlistManager->GetPlaylist(selectedPlaylistName.ToStdString());
+    }
+
+    void PlaylistChoiceDialog::OnAddToPlaylist(wxCommandEvent &event) {
+        if (m_selectedPlaylist != nullptr) {
+            m_selectedPlaylist->AddSong(m_songToAdd);
+            wxMessageBox("Song added to playlist: " + wxString(m_selectedPlaylist->GetName()), "Success", wxOK | wxICON_INFORMATION);
+            Close();
+        }
     }
 }
