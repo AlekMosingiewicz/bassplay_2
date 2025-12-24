@@ -359,6 +359,10 @@ namespace Bassplay::Ui {
     }
 
     void PlayerFrame::OnAddToPlaylist(wxCommandEvent &event) {
+        if (!m_player->HasSong()) {
+            wxMessageBox("No song loaded");
+            return;
+        }
         PlaylistChoiceDialog dialog(this, m_playlistManager, m_player->GetSong());
         dialog.ShowModal();
     }
