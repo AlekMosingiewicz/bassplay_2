@@ -12,6 +12,7 @@
 #include <list>
 #include <string>
 #include <fstream>
+#include <utility>
 
 namespace Bassplay::Play::Playlist {
     using Bassplay::Play::Persistence::BulkPlaylistsPersister;
@@ -30,7 +31,7 @@ namespace Bassplay::Play::Playlist {
         }
 
         Manager(IPlaylistProvider *playlistProvider, std::string filePath)
-                : m_playlistProvider(playlistProvider), m_filePath(filePath) {
+                : m_playlistProvider(playlistProvider), m_filePath(std::move(filePath)) {
             LoadPlaylists();
         }
 
