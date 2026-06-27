@@ -80,10 +80,10 @@ namespace Bassplay::Ui {
     void PlayerFrame::BuildFileMenu() {
         m_menuFile->Append(wxID_OPEN, wxEmptyString, wxString("Load music module"));
         m_menuFile->Append(wxID_INFO, wxEmptyString, wxString("Module info"));
-        m_menuFile->AppendSeparator();
         m_menuFile->Append(CustomMenuItems::bpPLAYLISTS, wxString("Playlists"), wxString("Playlists"));
         m_menuFile->AppendSeparator();
         BuildHistory();
+        m_menuFile->AppendSeparator();
         m_menuFile->Append(wxID_EXIT);
         Bind(wxEVT_MENU, &PlayerFrame::OnMenu, this);
     }
@@ -140,16 +140,10 @@ namespace Bassplay::Ui {
         int i = 100;
         for (auto song: history->GetSongs()) {
             auto id = i++;
-            m_menuFile->Insert((i - 98), id, wxString(song->GetTitle()));
+            m_menuFile->Insert((i - 97), id, wxString(song->GetTitle()));
         }
         this->Refresh();
         this->Update();
-
-        int separatorPosition = i - 97;
-
-        if (!m_menuFile->FindItem(i)) {
-            m_menuFile->InsertSeparator(separatorPosition);
-        }
     }
 
     void PlayerFrame::BuildPlayerPanel() {
