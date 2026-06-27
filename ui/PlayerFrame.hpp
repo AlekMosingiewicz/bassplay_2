@@ -106,7 +106,7 @@ namespace Bassplay::Ui {
         void BuildPlayerPanel();
         void BuildFileMenu();
         //history handling
-        void BuildHistory();
+        int  BuildHistory();
         //events
         void OnExit(wxCommandEvent& event);
         void OnAbout(wxCommandEvent& event);
