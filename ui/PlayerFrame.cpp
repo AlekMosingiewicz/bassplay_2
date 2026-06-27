@@ -83,8 +83,7 @@ namespace Bassplay::Ui {
         m_menuFile->AppendSeparator();
         m_menuFile->Append(CustomMenuItems::bpPLAYLISTS, wxString("Playlists"), wxString("Playlists"));
         m_menuFile->AppendSeparator();
-        auto i = BuildHistory();
-        m_menuFile->Insert(i-97, wxID_SEPARATOR);
+        BuildHistory();
         m_menuFile->Append(wxID_EXIT);
         Bind(wxEVT_MENU, &PlayerFrame::OnMenu, this);
     }
@@ -117,24 +116,26 @@ namespace Bassplay::Ui {
         OpenSong(path);
     }
 
-    int PlayerFrame::BuildHistory() {
+    void PlayerFrame::BuildHistory() {
         if (m_menuFile == nullptr) {
-            return 0;
+            return;
         }
 
-        for (auto j = 100; j < 200; j++) {
+        int j;
+        for (j = 0; j < 200; j++) {
             if (m_menuFile->FindItem(j) != nullptr) {
                 m_menuFile->Delete(j);
             }
         }
 
         if (!m_player->HasHistory()) {
-            return 0;
+            return;
         }
 
         if (!m_player->GetPlaybackHistory()->HasCollection()) {
-            return 0;
+            return;
         }
+
         auto history = m_player->GetPlaybackHistory()->GetCollection();
         int i = 100;
         for (auto song: history->GetSongs()) {
@@ -144,7 +145,11 @@ namespace Bassplay::Ui {
         this->Refresh();
         this->Update();
 
-        return i;
+        int separatorPosition = i - 97;
+
+        if (!m_menuFile->FindItem(i)) {
+            m_menuFile->InsertSeparator(separatorPosition);
+        }
     }
 
     void PlayerFrame::BuildPlayerPanel() {
