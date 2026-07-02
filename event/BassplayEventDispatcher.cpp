@@ -31,9 +31,9 @@ namespace Bassplay::Event {
         if (handlers.empty()) {
             return;
         }
-        for (auto it = handlers.begin(); it != handlers.end(); it++) {
-            delete *it;
-        }
+        // for (auto it = handlers.begin(); it != handlers.end(); it++) {
+        //     handlers.erase(it);
+        // }
     }
 
     BassplayEventDispatcher::~BassplayEventDispatcher() {

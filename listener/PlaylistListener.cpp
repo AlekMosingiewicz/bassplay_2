@@ -15,14 +15,14 @@ namespace Bassplay::Listener {
             
             HandlePlaybackEvent(playbackEvent);
             return;
-        } catch {}
+        } catch(std::bad_cast) {}
 
         try {
             auto& guiEvent = 
                     dynamic_cast<Event::BassplayGuiEvent&>(event);                    
             HandleGuiEvent(guiEvent);
             return;
-        } catch {}                
+        } catch(std::bad_cast) {}                
 
     }
 
