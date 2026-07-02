@@ -353,6 +353,7 @@ namespace Bassplay::Ui {
 
         if (!m_playlistListenerRegistered) {
             BassplayEventDispatcher::Instance().RegisterHandler(BassplayEventType::playbackEvent, m_playlistListener);
+            BassplayEventDispatcher::Instance().RegisterHandler(BassplayEventType::guiEvent, m_playlistListener);
             m_playlistListenerRegistered = true;
         }
 

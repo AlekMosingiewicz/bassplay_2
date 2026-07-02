@@ -7,8 +7,9 @@
 
 #include "../event/IBassplayEventHandler.hpp"
 #include "../ui/PlaylistFrame.hpp"
-#include "../event/BassplayPlaybackEvent.hpp"
+#include "../event/BassplayGuiEvent.hpp"
 #include "../play/Player.hpp"
+#include <typeinfo>
 
 namespace Bassplay::Listener {
 
@@ -26,6 +27,9 @@ namespace Bassplay::Listener {
 
         void Handle(Event::BassplayEvent &event) override;
     private:
+        void HandlePlaybackEvent(Event::BassplayPlaybackEvent &event);
+        void HandleGuiEvent(Event::BassplayGuiEvent &event);
+
         PlaylistFrame *m_playlistFrame;
         Player *m_player;
     };

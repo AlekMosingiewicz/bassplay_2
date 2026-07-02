@@ -14,6 +14,7 @@
 #include "../play/tools/DirTool.hpp"
 #include "../event/BassplayEventDispatcher.hpp"
 #include "../event/BassplayEventType.hpp"
+#include "../event/BassplayGuiEvent.hpp"
 #include <map>
 
 namespace Bassplay::Ui {
@@ -22,6 +23,9 @@ namespace Bassplay::Ui {
     using Bassplay::Play::Player;
     using Bassplay::Play::Song;
     using Bassplay::Play::Tools::DirTool;
+    using Bassplay::Event::BassplayEventDispatcher;
+    using Bassplay::Event::BassplayGuiEvent;
+    using namespace Bassplay::Event;
 
     class PlaylistFrame: public DpiAwareFrame {
     private:
@@ -73,6 +77,8 @@ namespace Bassplay::Ui {
             BuildPlaylistWindow();
         }
         ~PlaylistFrame() override {
+            BassplayGuiEvent event(Bassplay::Event::GuiEventType::playlistWindowClosed);
+            BassplayEventDispatcher::Instance().BroadcastEvent(event);
             delete m_playlistPanel;
         }
 
