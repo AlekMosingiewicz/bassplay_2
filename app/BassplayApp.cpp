@@ -33,6 +33,7 @@ namespace Bassplay::App {
                 m_playlistManager->SavePlaylists();
                 delete m_playlistManager;
             }
+            Bassplay::Event::BassplayEventDispatcher::Instance().ClearAllHandlers();
             delete m_player;
             return 0;
 

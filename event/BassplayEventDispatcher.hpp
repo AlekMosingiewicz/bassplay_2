@@ -11,27 +11,40 @@
 #include "IBassplayEventHandler.hpp"
 #include "BassplayEventType.hpp"
 
-namespace Bassplay::Event {
+namespace Bassplay::Event
+{
 
     typedef std::list<IBassplayEventHandler *> EventHandlerList;
 
-    class BassplayEventDispatcher {
+    class BassplayEventDispatcher
+    {
     public:
         static BassplayEventDispatcher &Instance();
 
         void RegisterHandler(BassplayEventType type, IBassplayEventHandler *handler);
 
-        template<class T>
-        void BroadcastEvent(T &event) {
+        template <class T>
+        void BroadcastEvent(T &event)
+        {
             BassplayEventType type = event.GetType();
-            if (!HasListenersForEvent(type)) {
+            if (!HasListenersForEvent(type))
+            {
                 return;
             }
             auto handlers = *m_EventHandlers[type];
-            for (auto *handler: handlers) {
+            for (auto *handler : handlers)
+            {
                 handler->Handle(event);
             }
         };
+        void ClearAllHandlers()
+        {
+            auto events = m_EventHandlers;
+            for (auto it = events.begin(); it != events.end(); it++)
+            {
+                ClearHandlersForEvent(it->first);
+            }
+        }
 
     private:
         BassplayEventDispatcher() = default;
@@ -41,10 +54,8 @@ namespace Bassplay::Event {
         bool HasListenersForEvent(BassplayEventType type);
 
         void ClearHandlersForEvent(BassplayEventType type);
-
-        ~BassplayEventDispatcher();
     };
 
 }
 
-#endif //BASSPLAY_2_BASSPLAYEVENTDISPATCHER_HPP
+#endif // BASSPLAY_2_BASSPLAYEVENTDISPATCHER_HPP

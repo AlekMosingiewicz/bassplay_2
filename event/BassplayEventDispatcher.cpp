@@ -28,18 +28,6 @@ namespace Bassplay::Event {
             return;
         }
         auto handlers = *m_EventHandlers[type];
-        if (handlers.empty()) {
-            return;
-        }
-        // for (auto it = handlers.begin(); it != handlers.end(); it++) {
-        //     handlers.erase(it);
-        // }
-    }
-
-    BassplayEventDispatcher::~BassplayEventDispatcher() {
-        auto events = m_EventHandlers;
-        for (auto it = events.begin(); it != events.end(); it++) {
-            ClearHandlersForEvent(it->first);
-        }
+        handlers.clear();
     }
 }
