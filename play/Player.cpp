@@ -112,7 +112,7 @@ namespace Bassplay::Play {
 
     double Player::GetPlaybackTimeInSeconds() {
         if (m_songBeingPlayed != nullptr) {
-            return m_songBeingPlayed->GetCurrentPlaybackTime();
+            return m_songBeingPlayed->GetCurrentPlaybackTime() > 0 ? m_songBeingPlayed->GetCurrentPlaybackTime() : 0;
         }
         return 0;
     }

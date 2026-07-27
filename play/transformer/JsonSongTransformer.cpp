@@ -15,16 +15,16 @@ namespace Bassplay::Play::Transformer {
         }
 
         Song* JsonSongTransformer::TransformFromJson(std::string &json) {
-            auto j = json::parse(json);
-            auto *song = new Song();
+            auto j = json::parse(json);        
 
             auto filename = j["filename"].dump();
             auto title = j["title"].dump();
             auto path = j["path"].dump();
 
+            auto *song = new Song(StringTools::SanitizeString(path).c_str());
+
             song->SetFilename(StringTools::SanitizeString(filename).c_str());
             song->SetName(StringTools::SanitizeString(title).c_str());
-            song->SetPath(StringTools::SanitizeString(path).c_str());
             return song;
         }
 

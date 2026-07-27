@@ -35,6 +35,8 @@ namespace Bassplay::Play {
     public:
         explicit Song(HMUSIC t_music) : mHmusic(t_music) { Init(mHmusic); };
         explicit Song(std::string &t_path);
+        explicit Song(const char *path);
+        
         Song() = default;
 
         ~Song() {
@@ -60,6 +62,7 @@ namespace Bassplay::Play {
         void SetPath(const char* path) { m_path = std::string (path); }
         void SetFilename(const char* filename) { m_filename = std::string(filename); }
         void SetFilename(std::string &filename) { m_filename = filename; }
+        void InitFromPath(std::string &path);
         float GetVolume();
         void SetVolume(float volume);
 

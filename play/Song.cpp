@@ -8,13 +8,12 @@
 
 namespace Bassplay::Play {
     Song::Song(std::string &t_path) : m_path(t_path) {
-        mHmusic = BASS_MusicLoad(false, t_path.c_str(), 0, 0, BASS_MUSIC_PRESCAN, 0);
-        if (mHmusic != 0) {
-            Init(mHmusic);
-            SetFilename();
-        } else {
-            throw BassplayException(BASS_ErrorGetCode());
-        }
+        InitFromPath(t_path);
+    }
+
+    Song::Song(const char *path): m_path(std::string(path)) {
+        std::string t_path(path);
+        InitFromPath(t_path);
     }
 
     double Song::GetLength() const {
@@ -28,6 +27,16 @@ namespace Bassplay::Play {
         while ((original_sample = BASS_ChannelGetTags(mHmusic, BASS_TAG_MUSIC_SAMPLE + idx)) != nullptr) {
             m_samples.add(std::string(original_sample));
             ++idx;
+        }
+    }
+
+    void Song::InitFromPath(std::string &t_path) {
+        mHmusic = BASS_MusicLoad(false, t_path.c_str(), 0, 0, BASS_MUSIC_PRESCAN, 0);
+        if (mHmusic != 0) {
+            Init(mHmusic);
+            SetFilename();
+        } else {
+            throw BassplayException(BASS_ErrorGetCode());
         }
     }
 
