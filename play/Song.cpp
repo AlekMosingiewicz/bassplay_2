@@ -16,7 +16,8 @@ namespace Bassplay::Play {
         InitFromPath(t_path);
     }
 
-    double Song::GetLength() const {
+    double Song::GetLength() {
+        LazyInit();
         QWORD length = BASS_ChannelGetLength(mHmusic, BASS_POS_BYTE);
         return BASS_ChannelBytes2Seconds(mHmusic, length);
     }
@@ -77,6 +78,12 @@ namespace Bassplay::Play {
         }
     }
 
+    void Song::LazyInit() {
+        if (mHmusic == 0) {
+            InitFromPath(m_path);
+        }
+    }
+
     void Song::Init(HMUSIC hmusic) {
         m_info = new BASS_CHANNELINFO();
         BASS_ChannelGetInfo(mHmusic, m_info);
@@ -97,7 +104,7 @@ namespace Bassplay::Play {
         BASS_ChannelSetAttribute(mHmusic, BASS_ATTRIB_VOL, volume);
     }
 
-    std::string Song::GetHumanReadablePlaybackTime() const {
+    std::string Song::GetHumanReadablePlaybackTime() {
         double lengthInSecs = GetLength();
 
         int mins = (int) lengthInSecs / 60;

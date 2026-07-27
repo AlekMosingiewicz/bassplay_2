@@ -36,16 +36,16 @@ namespace Bassplay::Play {
         explicit Song(HMUSIC t_music) : mHmusic(t_music) { Init(mHmusic); };
         explicit Song(std::string &t_path);
         explicit Song(const char *path);
-        
+
         Song() = default;
 
         ~Song() {
             CleanupBaseData();
         }
 
-        [[nodiscard]] double GetLength() const;
+        [[nodiscard]] double GetLength();
 
-        [[nodiscard]] std::string GetName() const { return BASS_ChannelGetTags(mHmusic, BASS_TAG_MUSIC_NAME); };
+        [[nodiscard]] std::string GetName() { return BASS_ChannelGetTags(mHmusic, BASS_TAG_MUSIC_NAME); };
 
         std::string GetTitle() { return !(m_name.empty()) ? m_name : m_filename; }
         std::string GetFilename() { return m_filename; }
@@ -53,7 +53,7 @@ namespace Bassplay::Play {
         std::string GetPath() { return m_path; }
         std::string GetHumanReadableSamples() { return m_samples.serialize(); };
         std::string GetHumanReadableInstruments() { return m_instruments.serialize(); };
-        [[nodiscard]] std::string GetHumanReadablePlaybackTime() const;
+        [[nodiscard]] std::string GetHumanReadablePlaybackTime();
 
         void SetName(std::string &p_name) { m_name = p_name; }
         void SetPath(std::string &p_path) { m_path = p_path; SetFilename(); }
@@ -62,6 +62,7 @@ namespace Bassplay::Play {
         void SetPath(const char* path) { m_path = std::string (path); }
         void SetFilename(const char* filename) { m_filename = std::string(filename); }
         void SetFilename(std::string &filename) { m_filename = filename; }
+        void LazyInit();
         void InitFromPath(std::string &path);
         float GetVolume();
         void SetVolume(float volume);
@@ -76,11 +77,12 @@ namespace Bassplay::Play {
                                                              BASS_MUSIC_POSRESET);
         }
 
-        [[nodiscard]] double GetCurrentPlaybackTime() const {
+        [[nodiscard]] double GetCurrentPlaybackTime() {
+            LazyInit();
             return BASS_ChannelBytes2Seconds(mHmusic, BASS_ChannelGetPosition(mHmusic, BASS_POS_BYTE));
         }
 
-        [[nodiscard]] HMUSIC GetMusicHandle() const { return mHmusic; }
+        [[nodiscard]] HMUSIC GetMusicHandle() { LazyInit(); return mHmusic; }
     };
 } // Play
 

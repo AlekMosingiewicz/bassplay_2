@@ -21,10 +21,11 @@ namespace Bassplay::Play::Transformer {
             auto title = j["title"].dump();
             auto path = j["path"].dump();
 
-            auto *song = new Song(StringTools::SanitizeString(path).c_str());
+            auto *song = new Song();
 
             song->SetFilename(StringTools::SanitizeString(filename).c_str());
             song->SetName(StringTools::SanitizeString(title).c_str());
+            song->SetPath(StringTools::SanitizeString(path).c_str());
             return song;
         }
 
