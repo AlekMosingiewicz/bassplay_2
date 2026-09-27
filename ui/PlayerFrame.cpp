@@ -397,7 +397,13 @@ namespace Bassplay::Ui {
             titleLabel = "No song loaded";
         }
 
-        m_songNameLabel->SetLabel(wxString(stateLabel + ": " + titleLabel));
+        auto oldLabel = m_songNameLabel->GetLabel();
+        auto newLabel = wxString(stateLabel + ": " + titleLabel);
+
+        if (oldLabel != newLabel) {
+            m_songNameLabel->SetLabel(wxString(newLabel));
+        }
+    
     }
 
     void PlayerFrame::OnVolumeButtonPress(wxCommandEvent &event) {
