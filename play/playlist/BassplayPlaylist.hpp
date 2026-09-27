@@ -7,6 +7,7 @@
 
 #include <string>
 #include "../collection/SongCollection.hpp"
+#include <memory>
 
 namespace Bassplay::Play::Playlist {
 
@@ -14,15 +15,15 @@ namespace Bassplay::Play::Playlist {
 
     class BassplayPlaylist {
     public:
-        explicit BassplayPlaylist(std::string &name) : m_name(name), m_songs(new SongCollection()) {}
+        explicit BassplayPlaylist(std::string &name) : m_name(name), m_songs(std::make_shared<SongCollection>()) {}
 
-        explicit BassplayPlaylist(const char *name): m_name(name), m_songs(new SongCollection()) {}
+        explicit BassplayPlaylist(const char *name): m_name(name), m_songs(std::make_shared<SongCollection>()) {}
 
         explicit BassplayPlaylist(std::string &name, SongCollection *collection) : m_name(name), m_songs(collection) {}
 
-        void SetCollection(SongCollection *collection) { m_songs = collection; }
+        void SetCollection(std::shared_ptr<SongCollection> collection) { m_songs = collection; }
 
-        [[nodiscard]] SongCollection *GetCollection() const { return m_songs; }
+        [[nodiscard]] std::shared_ptr<SongCollection> GetCollection() const { return m_songs; }
 
         [[nodiscard]] std::string GetName() const { return m_name; }
 
@@ -80,7 +81,7 @@ namespace Bassplay::Play::Playlist {
 
     private:
         std::string m_name;
-        SongCollection *m_songs;
+        std::shared_ptr<SongCollection> m_songs;
         int m_currentSongIndex = 0;
     };
 

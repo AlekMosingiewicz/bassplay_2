@@ -63,7 +63,6 @@ namespace Bassplay::Play {
         [[nodiscard]] BassplayPlaylist* GetPlaylist() { return m_playlist; };
         [[nodiscard]] SongCollection* GetHistoryCollection() { return m_history_collection; };
         void SetPlaylist(BassplayPlaylist* p_songCollection) {
-            if (m_playlist != nullptr) delete m_playlist;
             m_playlist = p_songCollection;
         }
         void SetHistory(SongCollection* p_history) {
