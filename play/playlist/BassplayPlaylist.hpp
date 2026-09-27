@@ -26,7 +26,7 @@ namespace Bassplay::Play::Playlist {
 
         [[nodiscard]] std::string GetName() const { return m_name; }
 
-        void AddSong(Song *song) { m_songs->AddSong(song); }
+        void AddSong(std::shared_ptr<Song> song) { m_songs->AddSong(song); }
 
         void ResetToBeginning() {
             m_currentSongIndex = 0;
@@ -72,7 +72,7 @@ namespace Bassplay::Play::Playlist {
 
         [[nodiscard]] bool IsEmpty() const { return m_songs->IsEmpty(); }
 
-        [[nodiscard]] Song *GetCurrentSong() const {
+        [[nodiscard]] std::shared_ptr<Song> GetCurrentSong() const {
             return m_songs->GetByIndex(m_currentSongIndex);
         }
 

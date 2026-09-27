@@ -16,6 +16,7 @@
 #include "../play/persistence/BulkPlaylistsPersister.hpp"
 #include <list>
 #include <fstream>
+#include <memory>
 
 
 using namespace Bassplay::Play::Serializer;
@@ -68,8 +69,8 @@ TEST_CASE("BassplayPlaylist is properly serialized to JSON")
     song2.SetName(songName2);
     song2.SetPath(songPath2);
 
-    playlist.AddSong(&song1);
-    playlist.AddSong(&song2);
+    playlist.AddSong(std::make_shared<Song>(song1));
+    playlist.AddSong(std::make_shared<Song>(song2));
 
     std::string json = JsonPlaylistTransformer::TransformToJson(&playlist).dump();
 
@@ -81,7 +82,7 @@ TEST_CASE("BassplayPlaylist is properly deserialized from JSON")
     auto json = std::string(R"({"name":"PlaylistName","songs":[{"filename":"Song1","path":"Path/To/Song1","title":"SongName1"},{"filename":"Song2","path":"Path/To/Song2","title":"SongName2"}]})");
     auto playlist = JsonPlaylistTransformer::TransformFromJson(json);
 
-    list<Song*> songs = playlist->GetCollection()->GetSongs();
+    list<std::shared_ptr<Song>> songs = playlist->GetCollection()->GetSongs();
 
     CHECK(playlist->GetName() == std::string("PlaylistName"));
     CHECK(songs.size() == 2);
@@ -112,23 +113,23 @@ TEST_CASE("BassplayPlaylist is properly persisted")
 
     song1.SetName(song1name);
     song1.SetPath(song1path);
-    playlist1.AddSong(&song1);
+    playlist1.AddSong(std::make_shared<Song>(song1));
 
     auto song2 = Bassplay::Play::Song();
     song2.SetName(song2name);
     song2.SetPath(song2path);
-    playlist1.AddSong(&song2);
+    playlist1.AddSong(std::make_shared<Song>(song2));
 
     auto playlist2 = Bassplay::Play::Playlist::BassplayPlaylist("TestPlaylist2");
     auto song3 = Bassplay::Play::Song();
     song3.SetName(song3name);
     song3.SetPath(song3path);
-    playlist2.AddSong(&song3);
+    playlist2.AddSong(std::make_shared<Song>(song3));
 
     auto song4 = Bassplay::Play::Song();
     song4.SetName(song4name);
     song4.SetPath(song4path);
-    playlist2.AddSong(&song4);
+    playlist2.AddSong(std::make_shared<Song>(song4));
 
     auto playlists = list<Bassplay::Play::Playlist::BassplayPlaylist*>();
     playlists.push_back(&playlist1);

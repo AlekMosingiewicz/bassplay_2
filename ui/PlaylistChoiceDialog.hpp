@@ -8,6 +8,7 @@
 #include <wx/wx.h>
 #include "../play/playlist/Manager.hpp"
 #include "../play/Song.hpp"
+#include <memory>
 
 namespace Bassplay::Ui {
     using Play::Playlist::Manager;
@@ -18,7 +19,7 @@ namespace Bassplay::Ui {
     public:
         PlaylistChoiceDialog(wxWindow *parent,
                              Manager *playlistManager,
-                             Song *songToAdd,
+                             std::shared_ptr<Song> songToAdd,
                              const wxString &title = wxString("Select Playlist"),
                              const wxPoint &pos = wxDefaultPosition,
                              const wxSize &size = wxDefaultSize,
@@ -30,7 +31,7 @@ namespace Bassplay::Ui {
 
     private:
         // data elements
-        Song *m_songToAdd = nullptr;
+        std::shared_ptr<Song> m_songToAdd;
         BassplayPlaylist *m_selectedPlaylist = nullptr;
 
         // gui elements

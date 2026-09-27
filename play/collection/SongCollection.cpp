@@ -4,9 +4,9 @@
 #include "SongCollection.hpp"
 
 namespace Bassplay::Play::Collection {
-    void SongCollection::AddSong(Bassplay::Play::Song *t_song) {
+    void SongCollection::AddSong(std::shared_ptr<Song> t_song) {
     if (m_limit > 0 && m_songsByName.size() + 1 > m_limit && !m_songs.empty()) {
-            Song* oldest = m_songs.front();
+            Song* oldest = m_songs.front().get();
             m_songsByName.erase(oldest->GetFilename());
             m_songs.pop_front();
         }
@@ -23,7 +23,7 @@ namespace Bassplay::Play::Collection {
     void SongCollection::RemoveSong(const std::string &name) {
         m_songsByName.erase(name);
         for (auto it = m_songs.begin(); it != m_songs.end(); it++) {
-            if ((*it)->GetFilename() == name) {
+            if ((it->get())->GetFilename() == name) {
                 m_songs.erase(it);
                 break;
             }
@@ -34,7 +34,7 @@ namespace Bassplay::Play::Collection {
         m_songsByName.clear();
     }
 
-    Song *SongCollection::GetByIndex(int index) {
+    std::shared_ptr<Song> SongCollection::GetByIndex(int index) {
         if (index < 0 || index >= m_songs.size()) {
             return nullptr;
         }

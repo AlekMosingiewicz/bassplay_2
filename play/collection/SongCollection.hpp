@@ -10,29 +10,25 @@
 #include <list>
 #include <iterator>
 #include <map>
+#include <memory>
 
 
 namespace Bassplay::Play::Collection {
 
     class SongCollection {
     protected:
-        std::map<std::string, Song*> m_songsByName;
-        std::list<Song*> m_songs;
+        std::map<std::string, std::shared_ptr<Song>> m_songsByName;
+        std::list<std::shared_ptr<Song>> m_songs;
         int m_limit = 0;
     public:
         SongCollection() = default;
-        ~SongCollection() {
-            for (auto &song : m_songsByName) {
-                delete song.second;
-            }
-            RemoveAllSongs();
-        }
-        [[nodiscard]] std::list<Song*> GetSongs() const { return m_songs; };
-        void AddSong(Song* t_song);
+        ~SongCollection() {}
+        [[nodiscard]] std::list<std::shared_ptr<Song>> GetSongs() const { return m_songs; };
+        void AddSong(std::shared_ptr<Song> t_song);
         void RemoveSong(const std::string &name);
         void RemoveAllSongs();
         void SetLimit(int p_limit) { m_limit = p_limit; }
-        Song *GetByIndex(int index);
+        std::shared_ptr<Song> GetByIndex(int index);
         [[nodiscard]] int GetSize() const { return m_songs.size(); }
         [[nodiscard]] int GetLimit() const { return m_limit; }
         [[nodiscard]] bool IsEmpty() const { return m_songs.empty(); }

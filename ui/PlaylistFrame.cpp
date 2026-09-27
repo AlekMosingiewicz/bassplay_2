@@ -70,7 +70,7 @@ namespace Bassplay::Ui {
         if (fileDialog.ShowModal() == wxID_CANCEL)
             return;
         std::string path = fileDialog.GetPath().ToStdString();
-        m_currentPlaylist->AddSong(new Play::Song(path));
+        m_currentPlaylist->AddSong(std::make_shared<Song>(path));
         m_currentPlaylist->ResetToBeginning();
         PopulateSongListBox();
     }
@@ -78,7 +78,7 @@ namespace Bassplay::Ui {
     void PlaylistFrame::OnRemoveFromPlaylist(wxCommandEvent &event) {
         int selection = m_songListBox->GetSelection();
         if (selection != wxNOT_FOUND) {
-            auto *song = m_currentPlaylist->GetCollection()->GetByIndex(selection);
+            auto song = m_currentPlaylist->GetCollection()->GetByIndex(selection);
             m_currentPlaylist->GetCollection()->RemoveSong(song->GetFilename());
             PopulateSongListBox();
         }

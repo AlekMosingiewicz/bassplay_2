@@ -9,6 +9,7 @@
 #include "../Song.hpp"
 #include "../../json/json.hpp"
 #include "../tools/StringTools.hpp"
+#include <memory>
 
 namespace Bassplay::Play::Transformer {
 
@@ -18,8 +19,8 @@ namespace Bassplay::Play::Transformer {
     class JsonSongTransformer {
     public:
         JsonSongTransformer() = default;
-        [[nodiscard]] static json TransformToJson(Song *song);
-        [[nodiscard]] static Song* TransformFromJson(std::string &json);
+        [[nodiscard]] static json TransformToJson(std::shared_ptr<Song> song);
+        [[nodiscard]] static std::shared_ptr<Song> TransformFromJson(std::string &json);
     };
 }
 #endif //BASSPLAY_2_JSONSONGTRANSFORMER_HPP

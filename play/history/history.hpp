@@ -9,6 +9,7 @@
 #include "../../json/json.hpp"
 #include "../transformer/JsonSongTransformer.hpp"
 #include "../tools/StringTools.hpp"
+#include <memory>
 
 namespace Bassplay::Play::History {
 
@@ -22,21 +23,20 @@ namespace Bassplay::Play::History {
         PlaybackHistory() { m_collection = new SongCollection; };
         ~PlaybackHistory() {
             delete m_collection;
-            delete m_lastSong;
             delete m_dir;
         }
         void SetCollection(SongCollection *collection) { m_collection = collection; }
-        void SetLastSong(Song *lastSong) { m_lastSong = lastSong; }
+        void SetLastSong(std::shared_ptr<Song> lastSong) { m_lastSong = lastSong; }
         void SetDir(std::string *dir) { m_dir = dir; }
         [[nodiscard]] std::string* GetDir() const { return m_dir; }
         [[nodiscard]] bool HasCollection() const { return m_collection != nullptr; }
         [[nodiscard]] SongCollection* GetCollection() const { return m_collection != nullptr ? m_collection : nullptr; }
-        [[nodiscard]] Song* GetLastSong() const { return m_lastSong; }
+        [[nodiscard]] std::shared_ptr<Song> GetLastSong() const { return m_lastSong; }
         static PlaybackHistory* CreateFromJson(std::string &json);
 
     private:
         SongCollection *m_collection = nullptr;
-        Song *m_lastSong = nullptr;
+        std::shared_ptr<Song> m_lastSong;
         std::string *m_dir = nullptr;
     };
 

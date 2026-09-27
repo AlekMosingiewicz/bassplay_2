@@ -54,7 +54,7 @@ namespace Bassplay::Ui {
         SetMainInfoPage();
     }
 
-    void SongInfoFrame::SetSong(Play::Song *t_song) {
+    void SongInfoFrame::SetSong(std::shared_ptr<Play::Song> t_song) {
         m_song = t_song;
         SetInfoPages();
     }

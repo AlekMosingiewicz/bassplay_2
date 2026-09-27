@@ -6,7 +6,7 @@
 
 namespace Bassplay::Play::Transformer {
 
-        json JsonSongTransformer::TransformToJson(Song *song) {
+        json JsonSongTransformer::TransformToJson(std::shared_ptr<Song> song) {
             json j;
             j["filename"] = song->GetFilename();
             j["title"] = song->GetTitle();
@@ -14,14 +14,14 @@ namespace Bassplay::Play::Transformer {
             return j;
         }
 
-        Song* JsonSongTransformer::TransformFromJson(std::string &json) {
-            auto j = json::parse(json);        
+        std::shared_ptr<Song> JsonSongTransformer::TransformFromJson(std::string &json) {
+            auto j = json::parse(json);
 
             auto filename = j["filename"].dump();
             auto title = j["title"].dump();
             auto path = j["path"].dump();
 
-            auto *song = new Song();
+            auto song = std::make_shared<Song>();
 
             song->SetFilename(StringTools::SanitizeString(filename).c_str());
             song->SetName(StringTools::SanitizeString(title).c_str());

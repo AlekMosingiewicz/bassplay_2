@@ -23,7 +23,7 @@ namespace Bassplay::Play {
             m_songBeingPlayed->UnloadSong();
         }
         try {
-            m_songBeingPlayed = new Song(path);
+            m_songBeingPlayed = std::make_shared<Song>(path);
             SetCurrentDirectory(path);
             if (m_history != nullptr && m_history->GetCollection() != nullptr) {
                 m_history->GetCollection()->AddSong(m_songBeingPlayed);
@@ -146,7 +146,6 @@ namespace Bassplay::Play {
    Player::~Player() {
         if (m_songBeingPlayed != nullptr) {
             m_songBeingPlayed->UnloadSong();
-            delete m_songBeingPlayed;
             m_songBeingPlayed = nullptr;
         }
         delete m_history_collection;

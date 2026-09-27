@@ -12,6 +12,7 @@
 #include "../event/BassplayPlaybackEvent.hpp"
 #include "history/history.hpp"
 #include "../play/playlist/Manager.hpp"
+#include <memory>
 
 namespace Bassplay::Play {
 
@@ -31,7 +32,7 @@ namespace Bassplay::Play {
     class Player {
     private:
         //fields
-        Song* m_songBeingPlayed = nullptr;
+        std::shared_ptr<Song> m_songBeingPlayed = nullptr;
         bool  m_replay;
         int   m_state = player_state_stopped;
         float mVolume = 1;
@@ -58,7 +59,7 @@ namespace Bassplay::Play {
         void SetVolume(float volume) { mVolume = volume; BassUpdateVolume(); }
         [[nodiscard]] int GetState() const { return m_state; }
         [[nodiscard]] bool HasSong() const { return m_songBeingPlayed != nullptr; }
-        [[nodiscard]] Song* GetSong() const { return m_songBeingPlayed; }
+        [[nodiscard]] std::shared_ptr<Song> GetSong() const { return m_songBeingPlayed; }
         [[nodiscard]] BassplayPlaylist* GetPlaylist() { return m_playlist; };
         [[nodiscard]] SongCollection* GetHistoryCollection() { return m_history_collection; };
         void SetPlaylist(BassplayPlaylist* p_songCollection) {
