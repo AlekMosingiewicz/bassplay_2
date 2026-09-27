@@ -1,19 +1,14 @@
 //
 // Created by aleksander on 29.08.22.
 //
-
 #include "SongCollection.hpp"
 
 namespace Bassplay::Play::Collection {
     void SongCollection::AddSong(Bassplay::Play::Song *t_song) {
-        if (m_limit > 0 && m_songsByName.size() + 1 > m_limit) {
-            for (auto it = m_songs.begin(); it != m_songs.end(); it++) {
-                if (std::next(it) == m_songs.end()) {
-                    m_songs.pop_front();
-                    m_songsByName.erase((*it)->GetFilename());
-                    break;
-                }
-            }
+    if (m_limit > 0 && m_songsByName.size() + 1 > m_limit && !m_songs.empty()) {
+            Song* oldest = m_songs.front();
+            m_songsByName.erase(oldest->GetFilename());
+            m_songs.pop_front();
         }
         std::string name = t_song->GetFilename();
         if (name.empty()) {

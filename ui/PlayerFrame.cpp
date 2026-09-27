@@ -401,7 +401,7 @@ namespace Bassplay::Ui {
         auto newLabel = wxString(stateLabel + ": " + titleLabel);
 
         if (oldLabel != newLabel) {
-            m_songNameLabel->SetLabel(wxString(newLabel));
+            m_songNameLabel->SetLabel(newLabel);
         }
     
     }

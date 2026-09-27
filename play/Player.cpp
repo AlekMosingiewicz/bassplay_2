@@ -21,8 +21,6 @@ namespace Bassplay::Play {
         if (m_songBeingPlayed != nullptr) {
             BroadcastPlaybackEvent(PlaybackEventType::playbackStopped);
             m_songBeingPlayed->UnloadSong();
-            delete m_songBeingPlayed;
-            m_songBeingPlayed = nullptr;
         }
         try {
             m_songBeingPlayed = new Song(path);
